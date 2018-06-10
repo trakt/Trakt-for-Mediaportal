@@ -1389,6 +1389,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Percentage", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Votes", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.CommentCount", string.Empty);
         }
 
         internal static void SetMovieProperties(TraktMovieSummary movie)
@@ -1418,6 +1419,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Rating.ToPercentage());
             SetProperty("#Trakt.Movie.Ratings.Votes", movie.Votes);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Rating >= 6) ? "love" : "hate");
+            SetProperty("#Trakt.Movie.CommentCount", movie.CommentCount);
         }
 
         internal static void ClearSeasonProperties()
@@ -1511,6 +1513,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.BannerImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.CommentCount", string.Empty);
         }
 
         internal static void SetShowProperties(TraktShowSummary show)
@@ -1555,6 +1558,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Rating.ToPercentage());
             SetProperty("#Trakt.Show.Ratings.Votes", show.Votes);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Rating > 6) ? "love" : "hate");
+            SetProperty("#Trakt.Show.CommentCount", show.CommentCount);
             //if (show.Images != null)
             //{
             //    SetProperty("#Trakt.Show.FanartImageFilename", show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
@@ -1590,6 +1594,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Episode.Ratings.Percentage", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.CommentCount", string.Empty);
         }
 
         internal static void SetEpisodeProperties(TraktShowSummary show, TraktEpisodeSummary episode)
@@ -1622,6 +1627,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Rating.ToPercentage());
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Votes);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Rating >= 6) ? "love" : "hate");
+            SetProperty("#Trakt.Episode.CommentCount", episode.CommentCount);
             //if (episode.Images != null)
             //{
             //    SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
