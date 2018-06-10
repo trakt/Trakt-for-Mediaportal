@@ -9,6 +9,7 @@ using MediaPortal.Common.SystemCommunication;
 using MediaPortal.UI.Presentation.Players;
 using NSubstitute;
 using Tests.TestData.Handler;
+using TraktApiSharp.Authentication;
 using TraktPluginMP2;
 using TraktPluginMP2.Handlers;
 using TraktPluginMP2.Services;
@@ -29,8 +30,7 @@ namespace Tests
       mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableScrobble = false,
-        UserAuthorized = false
+        IsScrobbleEnabled = false
       };
       ITraktSettingsChangeWatcher settingsChangeWatcher = Substitute.For<ITraktSettingsChangeWatcher>();
       settingsChangeWatcher.TraktSettings.Returns(settings);
@@ -47,7 +47,7 @@ namespace Tests
       TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
-      settings.EnableScrobble = true;
+      settings.IsScrobbleEnabled = true;
       settingsChangeWatcher.TraktSettingsChanged += Raise.Event();
 
       // Assert
@@ -62,8 +62,7 @@ namespace Tests
       mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableScrobble = false,
-        UserAuthorized = false
+        IsScrobbleEnabled = false
       };
       ITraktSettingsChangeWatcher settingsChangeWatcher = Substitute.For<ITraktSettingsChangeWatcher>();
       settingsChangeWatcher.TraktSettings.Returns(settings);
@@ -79,7 +78,7 @@ namespace Tests
       TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
-      settings.EnableScrobble = true;
+      settings.IsScrobbleEnabled = true;
       userMessageHandler.UserChangedProxy += Raise.Event();
 
       // Assert

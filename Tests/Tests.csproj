@@ -92,12 +92,8 @@
     <Compile Include="TestData\Handler\StartScrobbleSeriesTestData.cs" />
     <Compile Include="TestData\Handler\StopScrobbleMovieTestData.cs" />
     <Compile Include="TestData\Handler\StopScrobbleSeriesTestData.cs" />
-    <Compile Include="TestData\Setup\AuthorizeUserDoNotThrowEceptionTestData.cs" />
-    <Compile Include="TestData\Setup\AuthorizeUserThrowsExceptionTestData.cs" />
     <Compile Include="TestData\Setup\CollectedEpisodesTestData.cs" />
     <Compile Include="TestData\Setup\CollectedMoviesTestData.cs" />
-    <Compile Include="TestData\Setup\InitializeThrowsExceptionTestData.cs" />
-    <Compile Include="TestData\Setup\InitializeDoNotThrowExceptionTestData.cs" />
     <Compile Include="TestData\Setup\MockedDatabaseEpisode.cs" />
     <Compile Include="TestData\Setup\MockedDatabaseMovie.cs" />
     <Compile Include="TestData\Setup\TraktUnWatchedEpisodesTestData.cs" />

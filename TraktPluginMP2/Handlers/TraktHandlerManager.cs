@@ -59,10 +59,10 @@ namespace TraktPluginMP2.Handlers
     private void ConfigureHandler()
     {
       string authorizationFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
-      bool isUserAuthorized = _fileOperations.FileExists(authorizationFilePath); //_mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.UserAuthorized;
-      bool isScrobbleEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.EnableScrobble;
+      bool isUserAuthorized = _fileOperations.FileExists(authorizationFilePath);
+      bool isScrobbleEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.IsScrobbleEnabled;
 
-      if (isUserAuthorized && isScrobbleEnabled)
+        if (isUserAuthorized && isScrobbleEnabled)
       {
         SubscribeToMessages();
         IsActive = true;
@@ -165,8 +165,8 @@ namespace TraktPluginMP2.Handlers
       _traktShow = ExtractTraktShow(episodeMediaItem);
 
       ValidateAuthorization();
-
-      TraktEpisodeScrobblePostResponse postEpisodeResponse = _traktClient.StartScrobbleEpisode(_traktEpisode, _traktShow, GetCurrentProgress(pmc));
+      float progress = GetCurrentProgress(pmc);
+      TraktEpisodeScrobblePostResponse postEpisodeResponse = _traktClient.StartScrobbleEpisode(_traktEpisode, _traktShow, progress);
 
       ScrobbleTitle = postEpisodeResponse.Episode.Title;
       _duration = pmc.Duration;
@@ -307,11 +307,6 @@ namespace TraktPluginMP2.Handlers
           IsScrobbleStared = false;
           IsScrobbleStopped = true;
           _traktMovie = null;
-        }
-        else
-        {
-          // throw new Exception();
-          _mediaPortalServices.GetLogger().Warn("not possible to post scrobble post");
         }
       }
       catch (Exception ex)

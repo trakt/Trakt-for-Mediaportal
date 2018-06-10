@@ -73,10 +73,10 @@
   <!-- Contents of '/Plugins/Trakt' section -->
   <Register Location="/Configuration/Settings/Plugins/Trakt">
     <CustomConfigSetting
-      Id="EnableScrobble"
-      Text="[Settings.Plugins.Trakt.EnableScrobble]"
-      HelpText="[Settings.Plugins.Trakt.TraktSetup.Help]"
-      ClassName="TraktPluginMP2.Settings.EnableScrobble"/>
+      Id="IsScrobbleEnabled"
+      Text="[Settings.Plugins.Trakt.IsScrobbleEnabled]"
+      HelpText="[Settings.Plugins.Trakt.IsScrobbleEnabled.Help]"
+      ClassName="TraktPluginMP2.Settings.IsScrobbleEnabled"/>
 
   </Register>
   

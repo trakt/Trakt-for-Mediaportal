@@ -19,15 +19,26 @@ namespace TraktPluginMP2.Models
 
     #region Public properties - Bindable Data
 
-    public AbstractProperty IsEnabledProperty
+    public AbstractProperty IsScrobbleEnabledProperty
     {
-      get { return _manager.IsEnabledProperty; }
+      get { return _manager.IsScrobbleEnabledProperty; }
     }
 
-    public bool IsEnabled
+    public bool IsScrobbleEnabled
     {
-      get { return _manager.IsEnabled; }
-      set { _manager.IsEnabled = value; }
+      get { return _manager.IsScrobbleEnabled; }
+      set { _manager.IsScrobbleEnabled = value; }
+    }
+
+    public AbstractProperty IsUserAuthorizedProperty
+    {
+      get { return _manager.IsUserAuthorizedProperty; }
+    }
+
+    public bool IsUserAuthorized
+    {
+      get { return _manager.IsUserAuthorized; }
+      set { _manager.IsUserAuthorized = value; }
     }
 
     public AbstractProperty TestStatusProperty

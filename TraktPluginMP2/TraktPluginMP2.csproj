@@ -68,7 +68,7 @@
     <Compile Include="Services\IUserMessageHandler.cs" />
     <Compile Include="Services\TraktSettingsChangeWatcher.cs" />
     <Compile Include="Services\UserMessageHandlerProxy.cs" />
-    <Compile Include="Settings\EnableScrobble.cs" />
+    <Compile Include="Settings\IsScrobbleEnabled.cs" />
     <Compile Include="TraktSyncEpisodesResult.cs" />
     <Compile Include="TraktSyncMoviesResult.cs" />
     <Compile Include="Utilities\EnumerableExtensions.cs" />

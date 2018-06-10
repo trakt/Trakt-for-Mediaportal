@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="Trakt.Enable">Enable scrobble</string>
-  <string name="Trakt.Close">Close</string>
-  <string name="Trakt.UsernamePasswordGroup">Connect with Trakt</string>
-  <string name="Trakt.Username">Username</string>
-  <string name="Trakt.PinUrl">Go to http://trakt.tv/pin/6601 or scan the QR code</string>
-  <string name="Trakt.PinCode">Enter below the received pincode and press 'Authorize'</string>
+  
+  <string name="Trakt.PinAndQrCodeGroup">Connect with Trakt</string>
+  
+  <string name="Trakt.Description.Line1">Go to http://trakt.tv/pin/6601 or scan the QR code</string>
+  <string name="Trakt.Description.Line2">Enter below the received pincode and press 'Authorize'</string>
+  
   <string name="Trakt.Authorize">Authorize</string>
   <string name="Trakt.Sync">Sync with trakt</string>
+  <string name="Trakt.Close">Close</string>
+  
   <string name="Trakt.SyncMovies">Synchronizing movies...</string>
   <string name="Trakt.SyncSeries">Synchronizing series...</string>
   <string name="Trakt.SyncFinished">Synchronization complete!</string>
-  <string name="Trakt.MediaLibraryNotConnected">Server is currently not connected, could not synchronize!</string>
+  <string name="Trakt.MediaLibraryNotConnected">Server is currently not connected. Synchronize with Trakt is not possible</string>
 
+  <string name="Trakt.NotAuthorized">MediaPortal2 is not yet authorized to sync with Trakt</string>
   <string name="Trakt.AlreadyAuthorized">Trakt is already authorized</string>
   <string name="Trakt.AuthorizationSucceed">Trakt authorization succeed</string>
   <string name="Trakt.AuthorizationFailed">Trakt authorization failed</string>
-  <string name="Trakt.InvalidRefreshToken">Trakt refresh token is invalid</string>
-  <string name="Trakt.RefreshTokenIsEmptyOrContainsSpaces">Trakt refresh token is empty or contains spaces</string>
-  <string name="Trakt.InvalidAuthorizationCode">Trakt authorization code is invalid</string>
-  <string name="Trakt.AuthorizationCodeIsEmptyOrContainsSpaces">Trakt authorization code is empty or contains spaces</string>
-  <string name="Trakt.NotAuthorized">MediaPortal2 is not yet authorized to sync with Trakt</string>
 
-  <string name="Settings.Plugins.Trakt">Trakt.tv</string>
+  <string name="Settings.Plugins.Trakt">Trakt</string>
+  <string name="Settings.Plugins.Trakt.IsScrobbleEnabled">Enable scrobble</string>
+  <string name="Settings.Plugins.Trakt.IsScrobbleEnabled.Help">Enables scrobble to Trakt</string>
   <string name="Settings.Plugins.Trakt.TraktSetup">Authorization and syncing</string>
-  <string name="Settings.Plugins.Trakt.TraktSetup.Help">Configure account details for Trakt.tv service</string>
+  <string name="Settings.Plugins.Trakt.TraktSetup.Help">Authorize trakt and synchronize your library with trakt</string>
 </resources>

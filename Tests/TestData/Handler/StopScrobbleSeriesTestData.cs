@@ -19,8 +19,7 @@ namespace Tests.TestData.Handler
       {
         new TraktPluginSettings
         {
-          EnableScrobble = true,
-          UserAuthorized = true
+          IsScrobbleEnabled = true
         },
         new MockedDatabaseEpisode("289590", 2, new List<int> {6}, 1).Episode,
         GetMockedTraktClientWithValidAuthorization(),

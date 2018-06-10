@@ -187,7 +187,7 @@ namespace TraktPluginMP2.Services
       TraktMovieScrobblePostResponse result = null;
       try
       {
-        result = Task.Run(() => base.Scrobble.StartMovieAsync(movie, progress, appVersion, appBuildDate)).Result;
+        result = Task.Run(() => base.Scrobble.StopMovieAsync(movie, progress, appVersion, appBuildDate)).Result;
       }
       catch (AggregateException aggregateException)
       {

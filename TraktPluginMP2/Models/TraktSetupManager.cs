@@ -38,7 +38,8 @@ namespace TraktPluginMP2.Models
     private readonly ITraktCache _traktCache;
     private readonly IFileOperations _fileOperations;
 
-    private readonly AbstractProperty _isEnabledProperty = new WProperty(typeof(bool), false);
+    private readonly AbstractProperty _isScrobbleEnabledProperty = new WProperty(typeof(bool), false);
+    private readonly AbstractProperty _isUserAuthorizedProperty = new WProperty(typeof(bool), false);
     private readonly AbstractProperty _testStatusProperty = new WProperty(typeof(string), string.Empty);
     private readonly AbstractProperty _pinCodeProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _isSynchronizingProperty = new WProperty(typeof(bool), false);
@@ -51,15 +52,26 @@ namespace TraktPluginMP2.Models
       _fileOperations = fileOperations;
     }
 
-    public AbstractProperty IsEnabledProperty
+    public AbstractProperty IsScrobbleEnabledProperty
     {
-      get { return _isEnabledProperty; }
+      get { return _isScrobbleEnabledProperty; }
     }
 
-    public bool IsEnabled
+    public bool IsScrobbleEnabled
     {
-      get { return (bool)_isEnabledProperty.GetValue(); }
-      set { _isEnabledProperty.SetValue(value); }
+      get { return (bool)_isScrobbleEnabledProperty.GetValue(); }
+      set { _isScrobbleEnabledProperty.SetValue(value); }
+    }
+
+    public AbstractProperty IsUserAuthorizedProperty
+    {
+      get { return _isUserAuthorizedProperty; }
+    }
+
+    public bool IsUserAuthorized
+    {
+      get { return (bool)_isUserAuthorizedProperty.GetValue(); }
+      set { _isUserAuthorizedProperty.SetValue(value); }
     }
 
     public AbstractProperty TestStatusProperty
@@ -105,7 +117,7 @@ namespace TraktPluginMP2.Models
       if (!savedAuthFileExists)
       {
         TestStatus = "[Trakt.NotAuthorized]";
-        // set sync button to false
+        IsUserAuthorized = false;
       }
       else
       {
@@ -114,14 +126,12 @@ namespace TraktPluginMP2.Models
         if (savedAuthFile.IsRefreshPossible)
         {
           TestStatus = "[Trakt.AlreadyAuthorized]";
-          
-          // set sync button to true
+          IsUserAuthorized = true;
         }
         else
         {
           TestStatus = "[Trakt.SavedAuthIsNotValid]";
-          
-          // set sync button to false
+          IsUserAuthorized = false;
         }
       }
     }
@@ -145,11 +155,13 @@ namespace TraktPluginMP2.Models
         SaveLastSyncActivities(traktSyncLastActivities, traktUserHomePath);
 
         TestStatus = "[Trakt.AuthorizationSucceed]";
+        IsUserAuthorized = true;
       }
       catch (Exception ex)
       {
         TestStatus = "[Trakt.AuthorizationFailed]";
         _mediaPortalServices.GetLogger().Error(ex);
+        IsUserAuthorized = false;
       }
     }
 
@@ -166,7 +178,9 @@ namespace TraktPluginMP2.Models
             SyncMovies();
             SyncSeries();
             IsSynchronizing = false;
+            TestStatus = "[Trakt.SyncFinished]";
           },ThreadPriority.BelowNormal);
+          
         }
         catch (Exception ex)
         {
@@ -408,7 +422,6 @@ namespace TraktPluginMP2.Models
       {
         _mediaPortalServices.GetLogger().Info("Trakt: found {0} episodes watched in library", localWatchedEpisodes.Count);
       }
-
 
       #endregion
 

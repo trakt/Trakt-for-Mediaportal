@@ -18,8 +18,7 @@ namespace Tests.TestData.Handler
       {
         new TraktPluginSettings
         {
-          EnableScrobble = true,
-          UserAuthorized = true
+          IsScrobbleEnabled = true
         },
         new MockedDatabaseMovie("tt12345", "67890", "Movie1", 2012, 0).Movie,
         GetMockedTraktClientWithValidAuthorization(),
