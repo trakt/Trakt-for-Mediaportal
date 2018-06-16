@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace TraktAPI.DataStructures
 {
@@ -23,5 +19,13 @@ namespace TraktAPI.DataStructures
 
         [DataMember(Name = "allow_comments")]
         public bool AllowComments { get; set; }
+
+        [DataMember(Name = "sort_by")]
+        public bool SortBy { get; set; }
+
+        [DataMember(Name = "sort_how")]
+        public bool SortHow { get; set; }
+
+
     }
 }
