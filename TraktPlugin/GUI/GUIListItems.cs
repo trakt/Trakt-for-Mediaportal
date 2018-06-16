@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MediaPortal.GUI.Library;
+using MediaPortal.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MediaPortal.GUI.Library;
-using MediaPortal.Util;
-using TraktPlugin.Cache;
-using TraktPlugin.TmdbAPI.DataStructures;
 using TraktAPI.DataStructures;
 using TraktAPI.Enums;
 using TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI

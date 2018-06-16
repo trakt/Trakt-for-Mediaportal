@@ -509,12 +509,64 @@ namespace TraktAPI
 
             return RemoveHiddenItems(section, seasons);
         }
-        
+
         #endregion
 
         #endregion
 
         #region Lists
+
+        public static TraktListsTrending GetTrendingLists(int page = 1, int maxItems = 100)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.TrendingLists, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktListsTrending
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),                    
+                    Lists = response.FromJSONArray<TraktListTrending>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
+        }
+
+        public static TraktListsPopular GetPopularLists(int page = 1, int maxItems = 100)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.PopularLists, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktListsPopular
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
+                    Lists = response.FromJSONArray<TraktListPopular>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
+        }
 
         public static IEnumerable<TraktListDetail> GetUserLists(string username = "me")
         {

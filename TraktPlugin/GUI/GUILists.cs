@@ -1,11 +1,10 @@
-﻿using System;
+﻿using MediaPortal.GUI.Library;
+using MediaPortal.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using MediaPortal.GUI.Library;
-using MediaPortal.Util;
 using TraktAPI.DataStructures;
-using TraktAPI.Extensions;
 using TraktPlugin.TraktHandlers;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -43,6 +42,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         bool StopDownload { get; set; }
+        bool ReturningFromListItems { get; set; }
         static int PreviousSelectedIndex { get; set; }
         IEnumerable<TraktListDetail> Lists { get; set; }
 
@@ -51,6 +51,7 @@ namespace TraktPlugin.GUI
         #region Public Properties
 
         public static string CurrentUser { get; set; }
+        public static TraktListType ListType { get; set; }
 
         #endregion
 
@@ -82,7 +83,7 @@ namespace TraktPlugin.GUI
             // Init Properties
             InitProperties();
 
-            // Load Lists for user
+            // Load Lists basis type
             LoadLists();
         }
 
@@ -109,12 +110,31 @@ namespace TraktPlugin.GUI
                         GUIListItem selectedItem = this.Facade.SelectedListItem;
                         if (selectedItem == null) return;
 
-                        var selectedList = selectedItem.TVTag as TraktListDetail;
-                        if (selectedList == null) return;
+                        TraktListDetail selectedList = null;
+                        string username = CurrentUser;
+
+                        if (selectedItem.TVTag is TraktListDetail)
+                        {
+                            selectedList = selectedItem.TVTag as TraktListDetail;
+                        }
+                        else if (selectedItem.TVTag is TraktListTrending)
+                        {
+                            var trending = selectedItem.TVTag as TraktListTrending;
+                            selectedList = trending.List;
+                            username = trending.List.User.Username;
+                        }
+                        else if (selectedItem.TVTag is TraktListPopular)
+                        {
+                            var popular = selectedItem.TVTag as TraktListPopular;
+                            selectedList = popular.List;
+                            username = popular.List.User.Username;
+                        }
 
                         // Load current selected list
                         GUIListItems.CurrentList = selectedList;
-                        GUIListItems.CurrentUser = CurrentUser;
+                        GUIListItems.CurrentUser = username;
+                        ReturningFromListItems = true;
+
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                     }
                     break;
@@ -130,8 +150,10 @@ namespace TraktPlugin.GUI
             switch (action.wID)
             {
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
-                    // restore current user
+                    // restore current user and list type
                     CurrentUser = TraktSettings.Username;
+                    ListType = TraktListType.User;
+                    ReturningFromListItems = false;
                     base.OnAction(action);
                     break;
                 default:
@@ -147,8 +169,25 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedList = selectedItem.TVTag as TraktListDetail;
-            if (selectedItem == null) return;
+            TraktListDetail selectedList = null;
+            string username = CurrentUser;
+
+            if (selectedItem.TVTag is TraktListDetail)
+            {
+                selectedList = selectedItem.TVTag as TraktListDetail;
+            }
+            else if (selectedItem.TVTag is TraktListTrending)
+            {
+                var trending = selectedItem.TVTag as TraktListTrending;
+                selectedList = trending.List;
+                username = trending.List.User.Username;
+            }
+            else if (selectedItem.TVTag is TraktListPopular)
+            {
+                var popular = selectedItem.TVTag as TraktListPopular;
+                selectedList = popular.List;
+                username = popular.List.User.Username;
+            }
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -159,7 +198,7 @@ namespace TraktPlugin.GUI
             GUIListItem listItem = null;
 
             // only allow add/delete/update if viewing your own lists
-            if (CurrentUser == TraktSettings.Username)
+            if (username == TraktSettings.Username)
             {
                 listItem = new GUIListItem(Translation.CreateList);
                 dlg.Add(listItem);
@@ -250,17 +289,17 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Like):
-                    GUICommon.LikeList(selectedList, CurrentUser);
+                    GUICommon.LikeList(selectedList, username);
                     selectedList.Likes++;
-                    PublishListProperties(selectedList);
+                    PublishListProperties(selectedList, username);
                     break;
 
                 case ((int)ContextMenuItem.Unlike):
-                    GUICommon.UnLikeList(selectedList, CurrentUser);
+                    GUICommon.UnLikeList(selectedList, username);
                     if (selectedList.Likes > 0)
                     {
                         selectedList.Likes--;
-                        PublishListProperties(selectedList);
+                        PublishListProperties(selectedList, username);
                     }
                     break;
 
@@ -478,19 +517,84 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktLists.GetListsForUser(CurrentUser);
+                switch (ListType)
+                {
+                    case TraktListType.Trending:
+                        return TraktLists.GetTrendingLists();
+                    case TraktListType.Popular:
+                        return TraktLists.GetPopularLists();
+                    default:
+                        return TraktLists.GetListsForUser(CurrentUser);
+                }
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    Lists = result as IEnumerable<TraktListDetail>;
-                    SendListsToFacade(Lists);
+                    switch (ListType)
+                    {
+                        case TraktListType.Trending:
+                            SendTrendingListsToFacade(result as IEnumerable<TraktListTrending>);
+                            break;
+                        case TraktListType.Popular:
+                            SendPopularListsToFacade(result as IEnumerable<TraktListPopular>);
+                            break;
+                        default:
+                            Lists = result as IEnumerable<TraktListDetail>;
+                            SendUserListsToFacade(Lists);
+                            break;
+                    }
                 }
             }, Translation.GettingLists, true);
         }
 
-        private void SendListsToFacade(IEnumerable<TraktListDetail> lists)
+        private void SendTrendingListsToFacade(IEnumerable<TraktListTrending> lists)
+        {
+            // clear facade
+            GUIControl.ClearControl(GetID, Facade.GetID);
+
+            if (lists == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+            
+            int itemId = 0;
+
+            // Add each list
+            foreach (var trending in lists)
+            {
+                var item = new GUIListItem(trending.List.Name);
+
+                item.Label2 = string.Format("{0} {1}", trending.List.ItemCount, trending.List.ItemCount != 1 ? Translation.Items : Translation.Item);
+                item.TVTag = trending;
+                item.ItemId = Int32.MaxValue - itemId;
+                item.PinImage = TraktLists.GetPrivacyLevelIcon(trending.List.Privacy);
+                item.IconImage = "defaultFolder.png";
+                item.IconImageBig = "defaultFolderBig.png";
+                item.ThumbnailImage = "defaultFolderBig.png";
+                item.OnItemSelected += OnItemSelected;
+                Utils.SetDefaultIcons(item);
+                Facade.Add(item);
+                itemId++;
+            }
+
+            // Set Facade Layout
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
+            GUIControl.FocusControl(GetID, Facade.GetID);
+
+            if (PreviousSelectedIndex >= lists.Count())
+                Facade.SelectIndex(PreviousSelectedIndex - 1);
+            else
+                Facade.SelectIndex(PreviousSelectedIndex);
+
+            // set facade properties
+            GUIUtils.SetProperty("#itemcount", lists.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", lists.Count().ToString(), lists.Count() > 1 ? Translation.Lists : Translation.List));
+        }
+
+        private void SendPopularListsToFacade(IEnumerable<TraktListPopular> lists)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -502,7 +606,54 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            if (lists.Count() == 0 && TraktSettings.Username != CurrentUser)
+            int itemId = 0;
+
+            // Add each list
+            foreach (var popular in lists)
+            {
+                var item = new GUIListItem(popular.List.Name);
+
+                item.Label2 = string.Format("{0} {1}", popular.List.ItemCount, popular.List.ItemCount != 1 ? Translation.Items : Translation.Item);
+                item.TVTag = popular;
+                item.ItemId = Int32.MaxValue - itemId;
+                item.PinImage = TraktLists.GetPrivacyLevelIcon(popular.List.Privacy);
+                item.IconImage = "defaultFolder.png";
+                item.IconImageBig = "defaultFolderBig.png";
+                item.ThumbnailImage = "defaultFolderBig.png";
+                item.OnItemSelected += OnItemSelected;
+                Utils.SetDefaultIcons(item);
+                Facade.Add(item);
+                itemId++;
+            }
+
+            // Set Facade Layout
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
+            GUIControl.FocusControl(GetID, Facade.GetID);
+
+            if (PreviousSelectedIndex >= lists.Count())
+                Facade.SelectIndex(PreviousSelectedIndex - 1);
+            else
+                Facade.SelectIndex(PreviousSelectedIndex);
+
+            // set facade properties
+            GUIUtils.SetProperty("#itemcount", lists.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", lists.Count().ToString(), lists.Count() > 1 ? Translation.Lists : Translation.List));
+        }
+
+        private void SendUserListsToFacade(IEnumerable<TraktListDetail> lists)
+        {
+            // clear facade
+            GUIControl.ClearControl(GetID, Facade.GetID);
+
+            if (lists == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
+            // check if the user has any lists (not the currently logged in user)
+            if (ListType == TraktListType.User && lists.Count() == 0 && TraktSettings.Username != CurrentUser)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoUserLists, CurrentUser));
                 CurrentUser = TraktSettings.Username;
@@ -510,7 +661,9 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            if (lists.Count() == 0)
+            // check if the currently logged in user has any lists
+            // if none, prompt to create one
+            if (ListType == TraktListType.User && lists.Count() == 0)
             {
                 if (!GUIUtils.ShowYesNoDialog(Translation.Lists, Translation.NoListsFound, true))
                 {
@@ -564,23 +717,55 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            // check if skin is using hyperlinkParameter
+            if (!string.IsNullOrEmpty(_loadParameter))
+            {
+                if (_loadParameter.ToLowerInvariant() == "trending")
+                    ListType = TraktListType.Trending;
+                if (_loadParameter.ToLowerInvariant() == "popular")
+                    ListType = TraktListType.Popular;
+            }
+            else if (!ReturningFromListItems)
+            {
+                // default to user lists
+                ListType = TraktListType.User;
+            }
+
             // set current user to logged in user if not set
             if (string.IsNullOrEmpty(CurrentUser))
                 CurrentUser = TraktSettings.Username;
-            
+
+            GUICommon.SetProperty("#Trakt.Lists.ListType", ListType.ToString());
             GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
         }
 
-        private void PublishListProperties(TraktListDetail list)
+        private void PublishListProperties(TraktListDetail list, string username)
         {
             if (list == null) return;                
-            GUICommon.SetListProperties(list, CurrentUser);
+            GUICommon.SetListProperties(list, username);
         }
 
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
-            var list = item.TVTag as TraktListDetail;
-            PublishListProperties(list);
+            TraktListDetail list = null;
+            string username = CurrentUser;
+            if (item.TVTag is TraktListDetail)
+            {
+                list = item.TVTag as TraktListDetail;
+            }
+            else if (item.TVTag is TraktListTrending)
+            {
+                var trending = item.TVTag as TraktListTrending;
+                list = trending.List;
+                username = trending.List.User.Username;
+            }
+            else if (item.TVTag is TraktListPopular)
+            {
+                var popular = item.TVTag as TraktListPopular;
+                list = popular.List;
+                username = popular.List.User.Username;
+            }
+            PublishListProperties(list, username);
         }
 
         #endregion

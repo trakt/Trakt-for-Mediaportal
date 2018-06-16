@@ -734,6 +734,7 @@ namespace TraktPlugin.GUI
         public static string PinCodeMessageIncorrect = "Pin Incorrect";
         public static string Popular = "Popular";
         public static string Popularity = "Popularity";
+        public static string PopularLists = "Popular Lists";
         public static string PopularShows = "Popular Shows";
         public static string PopularMovies = "Popular Movies";
         public static string PostProductionSupervisor = "Post Production Supervisor";
@@ -981,6 +982,7 @@ namespace TraktPlugin.GUI
         public static string TransportationCoCaptain = "Transportation Co-Captain";
         public static string TransportationCoordinator = "Transportation Coordinator";
         public static string Trending = "Trending";
+        public static string TrendingLists = "Trending Lists";
         public static string TrendingShows = "Trending Shows";
         public static string TrendingMovies = "Trending Movies";
         public static string TrendingShowsAndMovies = "Trending TV Shows and Movies";

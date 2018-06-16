@@ -60,6 +60,9 @@ namespace TraktAPI
         public const string UserHiddenItemAdd = "https://api.trakt.tv/users/hidden/{0}";
         public const string UserHiddenItemRemove = "https://api.trakt.tv/users/hidden/{0}/remove";
 
+        public const string TrendingLists = "https://api.trakt.tv/lists/trending?page={0}&limit={1}";
+        public const string PopularLists = "https://api.trakt.tv/lists/popular?page={0}&limit={1}";
+
         public const string RecommendedMovies = "https://api.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "https://api.trakt.tv/recommendations/shows?extended=full";
 

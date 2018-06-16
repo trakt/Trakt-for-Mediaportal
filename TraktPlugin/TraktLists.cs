@@ -12,8 +12,12 @@ namespace TraktPlugin
         #region Variables
 
         static DateTime LastRequest = new DateTime();
+        static DateTime LastTrendingRequest = new DateTime();
+        static DateTime LastPopularRequest = new DateTime();
         static Dictionary<string, IEnumerable<TraktListDetail>> UserLists = new Dictionary<string, IEnumerable<TraktListDetail>>();
         static Dictionary<string, IEnumerable<TraktListItem>> UserListItems = new Dictionary<string, IEnumerable<TraktListItem>>();
+        static IEnumerable<TraktListTrending> TrendingLists = null;
+        static IEnumerable<TraktListPopular> PopularLists = null;
 
         #endregion
 
@@ -22,6 +26,40 @@ namespace TraktPlugin
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Get all lists with the most likes and comments over the last 7 days.
+        /// </summary>
+        public static IEnumerable<TraktListTrending> GetTrendingLists(int page = 1, int maxItems = 100)
+        {
+            if (LastTrendingRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            {
+                // get trending lists
+                var trendingLists = TraktAPI.TraktAPI.GetTrendingLists(page, maxItems);
+                if (trendingLists == null) return null;
+
+                TrendingLists = trendingLists.Lists;
+                LastTrendingRequest = DateTime.UtcNow;
+            }
+            return TrendingLists;
+        }
+
+        /// <summary>
+        /// Get the most popular lists. Popularity is calculated using total number of likes and comments.
+        /// </summary>
+        public static IEnumerable<TraktListPopular> GetPopularLists(int page = 1, int maxItems = 100)
+        {
+            if (LastPopularRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            {
+                // get trending lists
+                var popularLists = TraktAPI.TraktAPI.GetPopularLists(page, maxItems);
+                if (popularLists == null) return null;
+
+                PopularLists = popularLists.Lists;
+                LastPopularRequest = DateTime.UtcNow;
+            }
+            return PopularLists;
+        }
 
         /// <summary>
         /// Get custom lists created by a user
