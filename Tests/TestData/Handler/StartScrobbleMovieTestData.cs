@@ -5,6 +5,7 @@ using Tests.TestData.Setup;
 using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
+using TraktPluginMP2.Notifications;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Settings;
 
@@ -14,15 +15,17 @@ namespace Tests.TestData.Handler
   {
     public IEnumerator<object[]> GetEnumerator()
     {
+      const string title = "Movie1";
       yield return new object[]
       {
         new TraktPluginSettings
         {
-          IsScrobbleEnabled = true
+          IsScrobbleEnabled = true,
+          ShowScrobbleStartedNotifications = true
         },
-        new MockedDatabaseMovie("tt12345", "67890", "Movie1", 2012, 0).Movie,
+        new MockedDatabaseMovie("tt12345", "67890", title, 2012, 0).Movie,
         GetMockedTraktClientWithValidAuthorization(),
-        "Movie1"
+        new TraktScrobbleStartedNotification(title, true)
       };
     }
 

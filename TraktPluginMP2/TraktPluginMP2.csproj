@@ -62,12 +62,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileName.cs" />
+    <Compile Include="Models\ITraktNotificationModel.cs" />
+    <Compile Include="Models\TraktNotificationModel.cs" />
+    <Compile Include="Notifications\ITraktNotification.cs" />
+    <Compile Include="Notifications\TraktScrobbleStoppedNotification.cs" />
+    <Compile Include="Notifications\TraktScrobbleNotificationBase.cs" />
+    <Compile Include="Notifications\TraktScrobbleStartedNotification.cs" />
     <Compile Include="Services\FileOperations.cs" />
     <Compile Include="Services\IFileOperations.cs" />
     <Compile Include="Services\ITraktSettingsChangeWatcher.cs" />
     <Compile Include="Services\IUserMessageHandler.cs" />
     <Compile Include="Services\TraktSettingsChangeWatcher.cs" />
     <Compile Include="Services\UserMessageHandlerProxy.cs" />
+    <Compile Include="Settings\Configuration\ScrobbleStartedNotificationSetting.cs" />
+    <Compile Include="Settings\Configuration\ScrobbleStoppedNotificationSetting.cs" />
     <Compile Include="Settings\IsScrobbleEnabled.cs" />
     <Compile Include="TraktSyncEpisodesResult.cs" />
     <Compile Include="TraktSyncMoviesResult.cs" />
@@ -83,12 +91,12 @@
     <Compile Include="Handlers\TraktHandler.cs" />
     <Compile Include="Services\TraktClientProxy.cs" />
     <Compile Include="Settings\TraktPluginSettings.cs" />
-    <Compile Include="Settings\TraktSettingsConfiguration.cs" />
+    <Compile Include="Settings\Configuration\TraktSettingsConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handlers\TraktHandlerContainer.cs" />
     <Compile Include="Handlers\TraktHandlerManager.cs" />
-    <Compile Include="Models\TraktSetupContainer.cs" />
-    <Compile Include="Models\TraktSetupManager.cs" />
+    <Compile Include="Models\TraktSetupModelContainer.cs" />
+    <Compile Include="Models\TraktSetupModelManager.cs" />
     <Compile Include="Structures\Episode.cs" />
     <Compile Include="Structures\EpisodeCollected.cs" />
     <Compile Include="Structures\EpisodeWatched.cs" />
@@ -107,6 +115,18 @@
     </Content>
     <Content Include="Skin\default\Images\qr.png" />
     <Content Include="Skin\default\screens\dialogTraktSetup.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\default\screens\TraktNotificationBare.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\default\screens\TraktNotificationScrobble.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\default\superlayers\TraktScrobbleStartedNotification.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\default\superlayers\TraktScrobbleStoppedNotification.xaml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Skin\default\themes\default\styles\TraktConsts.xaml">

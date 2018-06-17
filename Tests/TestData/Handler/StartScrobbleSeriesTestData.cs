@@ -6,6 +6,7 @@ using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
+using TraktPluginMP2.Notifications;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Settings;
 
@@ -15,15 +16,17 @@ namespace Tests.TestData.Handler
   {
     public IEnumerator<object[]> GetEnumerator()
     {
+      const string title = "Title_1";
       yield return new object[]
       {
         new TraktPluginSettings
         {
-          IsScrobbleEnabled = true
+          IsScrobbleEnabled = true,
+          ShowScrobbleStartedNotifications = true
         },
         new MockedDatabaseEpisode("289590", 2, new List<int> {6}, 1).Episode,
         GetMockedTraktClientWithValidAuthorization(),
-        "Title_1"
+        new TraktScrobbleStartedNotification(title, true)
       };
     }
 

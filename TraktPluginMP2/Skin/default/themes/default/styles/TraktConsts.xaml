@@ -10,4 +10,7 @@
   <ResourceWrapper x:Key="QRWidth1080" Resource="460" />
   <ResourceWrapper x:Key="QRHeight1080" Resource="460" />
 
+  <ResourceWrapper x:Key="TraktNotificationWidth" Resource="800"/>
+  <ResourceWrapper x:Key="TraktNotificationPanelMargin" Resource="10"/>
+
 </ResourceDictionary>

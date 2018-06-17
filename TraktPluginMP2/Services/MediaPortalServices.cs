@@ -13,6 +13,7 @@ using MediaPortal.UiComponents.Media.MediaItemActions;
 using MediaPortal.UI.Presentation.Players;
 using MediaPortal.UI.ServerCommunication;
 using MediaPortal.UI.Services.Players;
+using TraktPluginMP2.Models;
 using TraktPluginMP2.Settings;
 
 namespace TraktPluginMP2.Services
@@ -122,6 +123,11 @@ namespace TraktPluginMP2.Services
       }
 
       return result;
+    }
+
+    public ITraktNotificationModel GetTraktNotificationModel()
+    {
+      return new TraktNotificationModel();
     }
   }
 }

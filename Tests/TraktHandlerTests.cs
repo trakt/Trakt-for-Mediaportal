@@ -9,9 +9,9 @@ using MediaPortal.Common.SystemCommunication;
 using MediaPortal.UI.Presentation.Players;
 using NSubstitute;
 using Tests.TestData.Handler;
-using TraktApiSharp.Authentication;
 using TraktPluginMP2;
 using TraktPluginMP2.Handlers;
+using TraktPluginMP2.Notifications;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Settings;
 using Xunit;
@@ -89,7 +89,7 @@ namespace Tests
     [Theory]
     [ClassData(typeof(StartScrobbleMovieTestData))]
     [ClassData(typeof(StartScrobbleSeriesTestData))]
-    public void StartScrobble(TraktPluginSettings settings, MediaItem mediaItem, ITraktClient traktClient, string expectedTitle)
+    public void StartScrobble(TraktPluginSettings settings, MediaItem mediaItem, ITraktClient traktClient, ITraktNotification notification)
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
@@ -103,22 +103,25 @@ namespace Tests
       fileOperations.FileExists(Path.Combine(DataPath, FileName.Authorization.Value)).Returns(true);
 
       TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
+      TraktScrobbleStartedNotification expectedNotification = (TraktScrobbleStartedNotification)notification;
 
       // Act
-      // start player
+      // start the player
       messageQueue.MessageReceivedProxy += Raise.Event<MessageReceivedHandler>(new AsynchronousMessageQueue(new object(), new[] { "PlayerManager" }),
         GetSystemMessageForMessageType(PlayerManagerMessaging.MessageType.PlayerStarted));
 
       // Assert
-      Assert.True(traktHandler.IsScrobbleStared);
-      Assert.Null(traktHandler.IsScrobbleStopped);
-      Assert.Equal(expectedTitle, traktHandler.ScrobbleTitle);
+      mediaPortalServices.GetTraktNotificationModel().Received()
+        .ShowNotification(Arg.Is<TraktScrobbleStartedNotification>(x => x.IsSuccess == expectedNotification.IsSuccess && 
+                                                                        x.Title == expectedNotification.Title && 
+                                                                        x.SuperLayerScreenName == expectedNotification.SuperLayerScreenName), 
+                                                                        Arg.Any<TimeSpan>());
     }
 
     [Theory]
     [ClassData(typeof(StopScrobbleMovieTestData))]
     [ClassData(typeof(StopScrobbleSeriesTestData))]
-    public void StopScrobble(TraktPluginSettings settings, MediaItem mediaItem, ITraktClient traktClient, string expectedTitle)
+    public void StopScrobble(TraktPluginSettings settings, MediaItem mediaItem, ITraktClient traktClient, ITraktNotification notification)
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
@@ -132,6 +135,7 @@ namespace Tests
       fileOperations.FileExists(Path.Combine(DataPath, FileName.Authorization.Value)).Returns(true);
 
       TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
+      TraktScrobbleStoppedNotification expectedNotification = (TraktScrobbleStoppedNotification)notification;
 
       // Act
       // start player
@@ -143,9 +147,11 @@ namespace Tests
         GetSystemMessageForMessageType(PlayerManagerMessaging.MessageType.PlayerStopped));
 
       // Assert
-      Assert.False(traktHandler.IsScrobbleStared);
-      Assert.True(traktHandler.IsScrobbleStopped);
-      Assert.Equal(expectedTitle, traktHandler.ScrobbleTitle);
+      mediaPortalServices.GetTraktNotificationModel().Received()
+        .ShowNotification(Arg.Is<TraktScrobbleStoppedNotification>(x => x.IsSuccess == expectedNotification.IsSuccess &&
+                                                                        x.Title == expectedNotification.Title &&
+                                                                        x.SuperLayerScreenName == expectedNotification.SuperLayerScreenName),
+                                                                        Arg.Any<TimeSpan>());
     }
 
     private void SetSettings(IMediaPortalServices mediaPortalServices, TraktPluginSettings settings)

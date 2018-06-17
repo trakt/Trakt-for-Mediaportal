@@ -22,7 +22,21 @@
 
   <string name="Settings.Plugins.Trakt">Trakt</string>
   <string name="Settings.Plugins.Trakt.IsScrobbleEnabled">Enable scrobble</string>
+
+  <string name="Settings.Plugins.Trakt.ScrobbleStartNotifications">Scrobble start notifications</string>
+  <string name="Settings.Plugins.Trakt.ScrobbleStartNotifications.Help">Configure scrobble start notifications</string>
+  <string name="Settings.Plugins.Trakt.ScrobbleStopNotifications">Scrobble stop notifications</string>
+  <string name="Settings.Plugins.Trakt.ScrobbleStopNotifications.Help">Configure scrobble stop notifications</string>
+  
+  <string name="Settings.Plugins.Trakt.ShowScrobbleNotificationAlways">Always show notification</string>
+  <string name="Settings.Plugins.Trakt.ShowScrobbleNotificationOnFailure">Show only on failure</string>
+  <string name="Settings.Plugins.Trakt.DisableScrobbleNotifications">Disable notifications</string>  
+  
   <string name="Settings.Plugins.Trakt.IsScrobbleEnabled.Help">Enables scrobble to Trakt</string>
   <string name="Settings.Plugins.Trakt.TraktSetup">Authorization and syncing</string>
   <string name="Settings.Plugins.Trakt.TraktSetup.Help">Authorize trakt and synchronize your library with trakt</string>
+
+  <string name="Trakt.ScrobbleStartedHeader">Scrobble started</string>
+  <string name="Trakt.ScrobbleStoppedHeader">Scrobble stopped</string>
+
 </resources>

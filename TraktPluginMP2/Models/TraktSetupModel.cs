@@ -10,11 +10,11 @@ namespace TraktPluginMP2.Models
   {
     private static readonly Guid TRAKT_SETUP_MODEL_ID = new Guid("0A24888F-63C0-442A-9DF6-431869BDE803");
 
-    private readonly TraktSetupManager _manager;
+    private readonly TraktSetupModelManager _manager;
 
     public TraktSetupModel()
     {
-      _manager = TraktSetupContainer.ResolveManager();
+      _manager = TraktSetupModelContainer.ResolveManager();
     }
 
     #region Public properties - Bindable Data

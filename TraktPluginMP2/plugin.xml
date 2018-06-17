@@ -24,6 +24,7 @@
   
   <Register Location="/Models">
     <Model Id="0A24888F-63C0-442A-9DF6-431869BDE803" Name="TraktSetupModel" ClassName="TraktPluginMP2.Models.TraktSetupModel"/>
+    <Model Id="FF91EFE4-120E-499B-8461-BB3C21DFB3E3" Name="TraktNotificationModel" ClassName="TraktPluginMP2.Models.TraktNotificationModel" />
   </Register>
   
   <Register Location="/Services">
@@ -65,7 +66,7 @@
       Id="TraktSetup"
       Text="[Settings.Plugins.Trakt.TraktSetup]"
       HelpText="[Settings.Plugins.Trakt.TraktSetup.Help]"
-      ClassName="TraktPluginMP2.Settings.TraktSettingsConfiguration"
+      ClassName="TraktPluginMP2.Settings.Configuration.TraktSettingsConfiguration"
       AdditionalData="WorkflowState=3DB8C6DB-F4E4-4A87-80CE-53339AECF494,ConfAppPanel=..."/>
 
   </Register>
@@ -77,7 +78,16 @@
       Text="[Settings.Plugins.Trakt.IsScrobbleEnabled]"
       HelpText="[Settings.Plugins.Trakt.IsScrobbleEnabled.Help]"
       ClassName="TraktPluginMP2.Settings.IsScrobbleEnabled"/>
-
+    <ConfigSetting
+      Id="ScrobbleStartNotifications"
+      Text="[Settings.Plugins.Trakt.ScrobbleStartNotifications]"
+      HelpText="[Settings.Plugins.Trakt.ScrobbleStartNotifications.Help]"
+      ClassName="TraktPluginMP2.Settings.Configuration.ScrobbleStartedNotificationSetting"/>
+    <ConfigSetting
+      Id="ScrobbleStopNotifications"
+      Text="[Settings.Plugins.Trakt.ScrobbleStopNotifications]"
+      HelpText="[Settings.Plugins.Trakt.ScrobbleStopNotifications.Help]"
+      ClassName="TraktPluginMP2.Settings.Configuration.ScrobbleStoppedNotificationSetting"/>
   </Register>
   
 </Plugin>

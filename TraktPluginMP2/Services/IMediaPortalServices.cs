@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaPortal.Common.Logging;
 using MediaPortal.Common.MediaManagement;
@@ -7,6 +8,7 @@ using MediaPortal.Common.Threading;
 using MediaPortal.UI.ServerCommunication;
 using MediaPortal.Common.UserManagement;
 using MediaPortal.UI.Presentation.Players;
+using TraktPluginMP2.Models;
 
 namespace TraktPluginMP2.Services
 {
@@ -35,5 +37,7 @@ namespace TraktPluginMP2.Services
     Task<bool> MarkAsWatched(MediaItem mediaItem);
 
     Task<bool> MarkAsUnWatched(MediaItem mediaItem);
+
+    ITraktNotificationModel GetTraktNotificationModel();
   }
 }

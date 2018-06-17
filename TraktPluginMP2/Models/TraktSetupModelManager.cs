@@ -31,7 +31,7 @@ using TraktPluginMP2.Utilities;
 
 namespace TraktPluginMP2.Models
 {
-  public class TraktSetupManager
+  public class TraktSetupModelManager
   {
     private readonly IMediaPortalServices _mediaPortalServices;
     private readonly ITraktClient _traktClient;
@@ -44,7 +44,7 @@ namespace TraktPluginMP2.Models
     private readonly AbstractProperty _pinCodeProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _isSynchronizingProperty = new WProperty(typeof(bool), false);
 
-    public TraktSetupManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient, ITraktCache traktCache, IFileOperations fileOperations)
+    public TraktSetupModelManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient, ITraktCache traktCache, IFileOperations fileOperations)
     {
       _mediaPortalServices = mediaPortalServices;
       _traktClient = traktClient;

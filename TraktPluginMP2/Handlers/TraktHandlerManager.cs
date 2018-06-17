@@ -16,6 +16,7 @@ using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
+using TraktPluginMP2.Notifications;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Utilities;
 
@@ -43,18 +44,12 @@ namespace TraktPluginMP2.Handlers
       ConfigureHandler();
     }
 
+    public bool IsActive { get; private set; }
+
     private void ConfigureHandler(object sender, EventArgs e)
     {
       ConfigureHandler();
     }
-
-    public bool IsActive { get; private set; }
-
-    public bool IsScrobbleStared { get; private set; }
-
-    public bool? IsScrobbleStopped { get; private set; }
-
-    public string ScrobbleTitle { get; private set; }
 
     private void ConfigureHandler()
     {
@@ -62,17 +57,17 @@ namespace TraktPluginMP2.Handlers
       bool isUserAuthorized = _fileOperations.FileExists(authorizationFilePath);
       bool isScrobbleEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.IsScrobbleEnabled;
 
-        if (isUserAuthorized && isScrobbleEnabled)
+      if (isUserAuthorized && isScrobbleEnabled)
       {
         SubscribeToMessages();
         IsActive = true;
-        _mediaPortalServices.GetLogger().Info("Enabled Trakt handler.");
+        _mediaPortalServices.GetLogger().Info("Trakt: enabled trakt handler.");
       }
       else
       {
         UnsubscribeFromMessages();
         IsActive = false;
-        _mediaPortalServices.GetLogger().Info("Disabled Trakt handler");
+        _mediaPortalServices.GetLogger().Info("Trakt: disabled trakt handler.");
       }
     }
 
@@ -88,6 +83,7 @@ namespace TraktPluginMP2.Handlers
         _messageQueue.StartProxy();
       }
     }
+
 
     private void OnMessageReceived(AsynchronousMessageQueue queue, SystemMessage message)
     {
@@ -113,7 +109,6 @@ namespace TraktPluginMP2.Handlers
 
     private void StartScrobble(SystemMessage message)
     {
-      IsScrobbleStopped = null;
       try
       {
         IPlayerSlotController psc = (IPlayerSlotController)message.MessageData[PlayerManagerMessaging.PLAYER_SLOT_CONTROLLER];
@@ -140,16 +135,20 @@ namespace TraktPluginMP2.Handlers
       }
       catch (ArgumentNullException ex)
       {
-        _mediaPortalServices.GetLogger().Error(ex);
+        _mediaPortalServices.GetLogger().Error("Trakt: exception while starting scrobble: " + ex);
       }
       catch (Exception ex)
       {
-        _mediaPortalServices.GetLogger().Error(ex);
+        bool startNotificationsEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStartedNotifications;
+        bool startNotificationsOnFailureEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStartedNotificationsOnFailure;
+        if (startNotificationsEnabled || startNotificationsOnFailureEnabled)
+        {
+          ShowNotification(new TraktScrobbleStartedNotification(ex.Message, false), TimeSpan.FromSeconds(5));
+        }
+        _mediaPortalServices.GetLogger().Error("Trakt: exception while starting scrobble: " + ex);
         _traktEpisode = null;
         _traktMovie = null;
         _duration = TimeSpan.Zero;
-        ScrobbleTitle = null;
-        IsScrobbleStared = false;
       }
     }
 
@@ -160,18 +159,23 @@ namespace TraktPluginMP2.Handlers
 
     private void HandleEpisodeScrobbleStart(IPlayerContext pc, IMediaPlaybackControl pmc)
     {
+      ValidateAuthorization();
+
       MediaItem episodeMediaItem = GetMediaItem(pc.CurrentMediaItem.MediaItemId, new Guid[] { MediaAspect.ASPECT_ID, ExternalIdentifierAspect.ASPECT_ID, EpisodeAspect.ASPECT_ID });
       _traktEpisode = ExtractTraktEpisode(episodeMediaItem);
       _traktShow = ExtractTraktShow(episodeMediaItem);
-
-      ValidateAuthorization();
       float progress = GetCurrentProgress(pmc);
       TraktEpisodeScrobblePostResponse postEpisodeResponse = _traktClient.StartScrobbleEpisode(_traktEpisode, _traktShow, progress);
+      string title = postEpisodeResponse.Episode.Title;
 
-      ScrobbleTitle = postEpisodeResponse.Episode.Title;
+      bool startNotificationsEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStartedNotifications;
+      if (startNotificationsEnabled)
+      {
+        ShowNotification(new TraktScrobbleStartedNotification(title, true), TimeSpan.FromSeconds(5));
+      }
+
       _duration = pmc.Duration;
-      IsScrobbleStared = true;
-      _mediaPortalServices.GetLogger().Info("started to scrobble: {0}", ScrobbleTitle);
+      _mediaPortalServices.GetLogger().Info("Trakt: started to scrobble: {0}", title);
     }
 
     private void ValidateAuthorization()
@@ -191,6 +195,11 @@ namespace TraktPluginMP2.Handlers
         string serializedAuth = JsonConvert.SerializeObject(refreshedAuth);
         _fileOperations.FileWriteAllText(authFilePath, serializedAuth, Encoding.UTF8);
       }
+    }
+
+    private void ShowNotification(ITraktNotification notification, TimeSpan duration)
+    {
+      _mediaPortalServices.GetTraktNotificationModel().ShowNotification(notification, duration);
     }
 
     private MediaItem GetMediaItem(Guid filter, Guid[] aspects)
@@ -237,18 +246,22 @@ namespace TraktPluginMP2.Handlers
 
     private void HandleMovieScrobbleStart(IPlayerContext pc, IMediaPlaybackControl pmc)
     {
+      ValidateAuthorization();
+
       MediaItem movieMediaItem = GetMediaItem(pc.CurrentMediaItem.MediaItemId, new Guid[] { MediaAspect.ASPECT_ID, ExternalIdentifierAspect.ASPECT_ID, MovieAspect.ASPECT_ID });
       _traktMovie = ConvertMediaItemToTraktMovie(movieMediaItem);
       float progress = GetCurrentProgress(pmc);
-
-      ValidateAuthorization();
-
       TraktMovieScrobblePostResponse postMovieResponse = _traktClient.StartScrobbleMovie(_traktMovie, progress);
+      string title = postMovieResponse.Movie.Title;
 
-      ScrobbleTitle = postMovieResponse.Movie.Title;
+      bool startNotificationsEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStartedNotifications;
+      if (startNotificationsEnabled)
+      {
+        ShowNotification(new TraktScrobbleStartedNotification(title, true), TimeSpan.FromSeconds(5));
+      }
+
       _duration = pmc.Duration;
-      IsScrobbleStared = true;
-      _mediaPortalServices.GetLogger().Info("started to scrobble: {0}", ScrobbleTitle);
+      _mediaPortalServices.GetLogger().Info("Trakt: started to scrobble: {0}", title);
     }
 
     private TraktMovie ConvertMediaItemToTraktMovie(MediaItem movieMediaItem)
@@ -286,33 +299,45 @@ namespace TraktPluginMP2.Handlers
 
           float progress = GetSavedProgress();
           TraktEpisodeScrobblePostResponse postEpisodeResponse = _traktClient.StopScrobbleEpisode(_traktEpisode, _traktShow, progress);
-          ScrobbleTitle = postEpisodeResponse.Episode.Title;
+          string title = postEpisodeResponse.Episode.Title;
 
-          _mediaPortalServices.GetLogger().Info("stopped to scrobble: {0}", postEpisodeResponse.Episode.Title);
+          bool stopNotificationsEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStoppedNotifications;
+          if (stopNotificationsEnabled)
+          {
+            ShowNotification(new TraktScrobbleStoppedNotification(title, true), TimeSpan.FromSeconds(5));
+          }
 
-          IsScrobbleStared = false;
-          IsScrobbleStopped = true;
           _traktEpisode = null;
           _traktShow = null;
+          _mediaPortalServices.GetLogger().Info("Trakt: stopped to scrobble: {0}", title);
         }
         else if (_traktMovie != null)
         {
           ValidateAuthorization();
 
-          TraktMovieScrobblePostResponse postMovieResponse = _traktClient.StopScrobbleMovie(_traktMovie, GetSavedProgress());
-          ScrobbleTitle = postMovieResponse.Movie.Title;
+          float progress = GetSavedProgress();
+          TraktMovieScrobblePostResponse postMovieResponse = _traktClient.StopScrobbleMovie(_traktMovie, progress);
+          string title = postMovieResponse.Movie.Title;
 
-          _mediaPortalServices.GetLogger().Info("stopped scrobble: {0}", postMovieResponse.Movie.Title);
-
-          IsScrobbleStared = false;
-          IsScrobbleStopped = true;
+          bool stopNotificationsEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStoppedNotifications;
+          if (stopNotificationsEnabled)
+          {
+            ShowNotification(new TraktScrobbleStoppedNotification(title, true), TimeSpan.FromSeconds(5));
+          }
+          
           _traktMovie = null;
+          _mediaPortalServices.GetLogger().Info("Trakt: stopped scrobble: {0}", title);
         }
       }
       catch (Exception ex)
       {
-        _mediaPortalServices.GetLogger().Error(ex);
-        IsScrobbleStopped = false;
+        bool stopNotificationsEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStoppedNotifications;
+        bool stopNotificationsOnFailureEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.ShowScrobbleStoppedNotificationsOnFailure;
+        if (stopNotificationsEnabled || stopNotificationsOnFailureEnabled)
+        {
+          ShowNotification(new TraktScrobbleStoppedNotification(ex.Message, false), TimeSpan.FromSeconds(4));
+        }
+        _mediaPortalServices.GetLogger().Error("Trakt: exception while stopping scrobble: " + ex);
       }
     }
 
