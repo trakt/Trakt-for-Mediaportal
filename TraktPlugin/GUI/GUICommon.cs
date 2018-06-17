@@ -128,9 +128,7 @@ namespace TraktPlugin.GUI
         AnticipatedMovies = 87605,
         AnticipatedShows = 87606,
         BoxOffice = 87607,
-        CalendarMovies = 87700,
-        TrendingLists = 87701,
-        PopularLists = 87702,
+        CalendarMovies = 87700
     }
 
     enum TraktDashboardControls

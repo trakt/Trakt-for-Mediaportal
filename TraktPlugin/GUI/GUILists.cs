@@ -758,12 +758,15 @@ namespace TraktPlugin.GUI
                 var trending = item.TVTag as TraktListTrending;
                 list = trending.List;
                 username = trending.List.User.Username;
+
+                GUICommon.SetProperty("#Trakt.List.LikesThisWeek", trending.LikesThisWeek);
+                GUICommon.SetProperty("#Trakt.List.CommentsThisWeek", trending.CommentsThisWeek);
             }
             else if (item.TVTag is TraktListPopular)
             {
                 var popular = item.TVTag as TraktListPopular;
                 list = popular.List;
-                username = popular.List.User.Username;
+                username = popular.List.User.Username;                
             }
             PublishListProperties(list, username);
         }

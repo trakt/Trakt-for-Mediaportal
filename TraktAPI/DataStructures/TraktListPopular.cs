@@ -6,10 +6,10 @@ namespace TraktAPI.DataStructures
     public class TraktListPopular
     {
         [DataMember(Name = "like_count")]
-        public int LikesThisWeek { get; set; }
+        public int Likes { get; set; }
 
         [DataMember(Name = "comment_count")]
-        public int CommentsThisWeek { get; set; }
+        public int Comments { get; set; }
 
         [DataMember(Name = "list")]
         public TraktListDetail List { get; set; }
