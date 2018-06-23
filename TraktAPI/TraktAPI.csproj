@@ -178,6 +178,7 @@
     <Compile Include="DataStructures\TraktSyncShowsWatchedEx.cs" />
     <Compile Include="DataStructures\TraktSyncShowWatchedEx.cs" />
     <Compile Include="DataStructures\TraktUser.cs" />
+    <Compile Include="DataStructures\TraktUserId.cs" />
     <Compile Include="DataStructures\TraktUserImages.cs" />
     <Compile Include="DataStructures\TraktUserStatistics.cs" />
     <Compile Include="DataStructures\TraktUserSummary.cs" />

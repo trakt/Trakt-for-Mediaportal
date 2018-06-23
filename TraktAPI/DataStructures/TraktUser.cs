@@ -25,6 +25,8 @@ namespace TraktAPI.DataStructures
 
         [DataMember(Name = "private")]
         public bool IsPrivate { get; set; }
-        
+
+        [DataMember(Name = "Ids")]
+        public TraktUserId Ids { get; set; }
     }
 }
