@@ -1107,6 +1107,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.VIP", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.VIP_EP", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Slug", string.Empty);
         }
         
         internal static void SetUserProperties(TraktUserSummary user)
@@ -1130,6 +1131,7 @@ namespace TraktPlugin.GUI
                 SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
                 SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
             }
+            SetProperty("#Trakt.User.Slug", user.Ids.Slug);
         }
 
         internal static void ClearListProperties()
@@ -1164,6 +1166,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.Likes", list.Likes);
             SetProperty("#Trakt.List.Id", list.Ids.Trakt);
             SetProperty("#Trakt.List.Slug", list.Ids.Slug);
+            SetProperty("#Trakt.List.SortBy", list.SortBy);
+            SetProperty("#Trakt.List.SortHow", list.SortHow);
         }
 
         internal static void ClearStatisticProperties()
