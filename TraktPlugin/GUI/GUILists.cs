@@ -150,9 +150,8 @@ namespace TraktPlugin.GUI
             switch (action.wID)
             {
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
-                    // restore current user and list type
+                    // restore current user
                     CurrentUser = TraktSettings.Username;
-                    ListType = TraktListType.User;
                     ReturningFromListItems = false;
                     base.OnAction(action);
                     break;
@@ -314,9 +313,13 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void CopyList(TraktListDetail sourceList, TraktListDetail newList)
+        private void CopyList(TraktListDetail sourceList, TraktList newList)
         {
-            var copyList = new CopyList { Username = CurrentUser, Source = sourceList, Destination = newList };
+            var copyList = new CopyList {
+                Username = CurrentUser,
+                Source = sourceList,
+                Destination = newList
+            };
             
             var copyThread = new Thread((obj) =>
             {
@@ -325,71 +328,79 @@ namespace TraktPlugin.GUI
                 // first create new list
                 TraktLogger.Info("Creating new list online. Privacy = '{0}', Name = '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
                 var response = TraktAPI.TraktAPI.CreateCustomList(copyParams.Destination);
-                if (response != null)
+                if (response == null || response.Ids == null)
                 {
-                    // get items from other list
-                    var userListItems = TraktAPI.TraktAPI.GetUserListItems(copyParams.Username, copyParams.Source.Ids.Trakt.ToString(), "min");
+                    TraktLogger.Error("Failed to create user list. List Name = '{0}'", copyParams.Destination.Name);
+                    return;
+                }
+                
+                // get items from other list
+                var userListItems = TraktAPI.TraktAPI.GetUserListItems(copyParams.Source.User.Ids.Slug, copyParams.Source.Ids.Trakt.ToString(), "min");
+                if (userListItems == null)
+                {
+                    TraktLogger.Error("Failed to get user list items. List Name = '{0}', ID = '{1}'", copyParams.Destination.Name, copyParams.Source.Ids.Trakt);
+                    return;
+                }
 
-                    // copy items to new list
-                    var itemsToAdd = new TraktSyncAll();
-                    foreach (var item in userListItems)
-                    {
-                        var listItem = new TraktListItem();
-                        listItem.Type = item.Type;
+                // copy items to new list
+                var itemsToAdd = new TraktSyncAll();
+                foreach (var item in userListItems)
+                {
+                    var listItem = new TraktListItem();
+                    listItem.Type = item.Type;
                         
-                        switch (item.Type)
-                        {
-                            case "movie":
-                                if (itemsToAdd.Movies == null)
-                                    itemsToAdd.Movies = new List<TraktMovie>();
-
-                                itemsToAdd.Movies.Add(new TraktMovie { Ids = item.Movie.Ids });
-                                break;
-
-                            case "show":
-                                if (itemsToAdd.Shows == null)
-                                    itemsToAdd.Shows = new List<TraktShow>();
-
-                                itemsToAdd.Shows.Add(new TraktShow { Ids = item.Show.Ids });
-                                break;
-
-                            case "season":
-                                if (itemsToAdd.Seasons == null)
-                                    itemsToAdd.Seasons = new List<TraktSeason>();
-
-                                itemsToAdd.Seasons.Add(new TraktSeason { Ids = item.Season.Ids });
-                                break;
-
-                            case "episode":
-                                if (itemsToAdd.Episodes == null)
-                                    itemsToAdd.Episodes = new List<TraktEpisode>();
-
-                                itemsToAdd.Episodes.Add(new TraktEpisode { Ids = item.Episode.Ids });
-                                break;
-
-                            case "person":
-                                if (itemsToAdd.People == null)
-                                    itemsToAdd.People = new List<TraktPerson>();
-
-                                itemsToAdd.People.Add(new TraktPerson { Ids = item.Person.Ids });
-                                break;
-                        }
-                    }
-                    
-                    // add items to the list
-                    var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList("me", response.Ids.Trakt.ToString(), itemsToAdd);
-
-                    if (ItemsAddedResponse != null)
+                    switch (item.Type)
                     {
-                        TraktLists.ClearListCache(TraktSettings.Username);
-                        TraktCache.ClearCustomListCache();
+                        case "movie":
+                            if (itemsToAdd.Movies == null)
+                                itemsToAdd.Movies = new List<TraktMovie>();
 
-                        // updated MovingPictures categories and filters menu
-                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
-                        {
-                            TraktHandlers.MovingPictures.UpdateCategoriesMenu(SyncListType.CustomList);
-                            TraktHandlers.MovingPictures.UpdateFiltersMenu(SyncListType.CustomList);
-                        }
+                            itemsToAdd.Movies.Add(new TraktMovie { Ids = item.Movie.Ids });
+                            break;
+
+                        case "show":
+                            if (itemsToAdd.Shows == null)
+                                itemsToAdd.Shows = new List<TraktShow>();
+
+                            itemsToAdd.Shows.Add(new TraktShow { Ids = item.Show.Ids });
+                            break;
+
+                        case "season":
+                            if (itemsToAdd.Seasons == null)
+                                itemsToAdd.Seasons = new List<TraktSeason>();
+
+                            itemsToAdd.Seasons.Add(new TraktSeason { Ids = item.Season.Ids });
+                            break;
+
+                        case "episode":
+                            if (itemsToAdd.Episodes == null)
+                                itemsToAdd.Episodes = new List<TraktEpisode>();
+
+                            itemsToAdd.Episodes.Add(new TraktEpisode { Ids = item.Episode.Ids });
+                            break;
+
+                        case "person":
+                            if (itemsToAdd.People == null)
+                                itemsToAdd.People = new List<TraktPerson>();
+
+                            itemsToAdd.People.Add(new TraktPerson { Ids = item.Person.Ids });
+                            break;
+                    }
+                }
+
+                // add items to the list
+                var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList("me", response.Ids.Trakt.ToString(), itemsToAdd);
+
+                if (ItemsAddedResponse != null)
+                {
+                    TraktLists.ClearListCache(TraktSettings.Username);
+                    TraktCache.ClearCustomListCache();
+
+                    // updated MovingPictures categories and filters menu
+                    if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                    {
+                        MovingPictures.UpdateCategoriesMenu(SyncListType.CustomList);
+                        MovingPictures.UpdateFiltersMenu(SyncListType.CustomList);
                     }
                 }
             })
@@ -717,6 +728,8 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            TraktListType LastListType = ListType;
+
             // check if skin is using hyperlinkParameter
             if (!string.IsNullOrEmpty(_loadParameter))
             {
@@ -730,6 +743,11 @@ namespace TraktPlugin.GUI
                 // default to user lists
                 ListType = TraktListType.User;
             }
+
+            // if we're in a different list view since last time
+            // then reset last selected index
+            if (LastListType != ListType)
+                PreviousSelectedIndex = 0;
 
             // set current user to logged in user if not set
             if (string.IsNullOrEmpty(CurrentUser))
@@ -778,6 +796,6 @@ namespace TraktPlugin.GUI
     {
         public string Username { get; set; }
         public TraktListDetail Source { get; set; }
-        public TraktListDetail Destination { get; set; }
+        public TraktList Destination { get; set; }
     }
 }

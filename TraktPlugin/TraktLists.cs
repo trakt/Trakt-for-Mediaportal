@@ -202,7 +202,7 @@ namespace TraktPlugin
 
             list.Privacy = GetPrivacyLevelFromTranslation(items[selectedItem].Label2);
 
-            // Skip 'Show Shouts' and 'Use Numbering' until we have Custom Dialog for List edits
+            // Skip 'Show Shouts', 'Use Numbering', 'SortBy' and 'SortHow' until we have Custom Dialog for List edits
 
             return true;
         }

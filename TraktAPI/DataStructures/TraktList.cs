@@ -20,12 +20,10 @@ namespace TraktAPI.DataStructures
         [DataMember(Name = "allow_comments")]
         public bool AllowComments { get; set; }
 
-        [DataMember(Name = "sort_by")]
+        [DataMember(Name = "sort_by", EmitDefaultValue = false)]
         public string SortBy { get; set; }
 
-        [DataMember(Name = "sort_how")]
+        [DataMember(Name = "sort_how", EmitDefaultValue = false)]
         public string SortHow { get; set; }
-
-
     }
 }
