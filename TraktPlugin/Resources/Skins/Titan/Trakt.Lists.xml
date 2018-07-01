@@ -15,7 +15,7 @@
     <control>
       <description>Current View</description>
       <type>label</type>
-      <label>#Trakt.Lists.CurrentUser</label>
+      <label>#(iif(eq(#Trakt.Lists.ListType,'User'),'#Trakt.Lists.CurrentUser','#Trakt.Lists.ListType'))</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>

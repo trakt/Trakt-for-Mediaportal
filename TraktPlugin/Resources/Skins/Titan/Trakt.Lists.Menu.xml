@@ -53,7 +53,7 @@
         <hyperlink>87270</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
-        <onup>5</onup>
+        <onup>7</onup>
       </control>
       <control Style="SettingsButtonLarge">
         <type>button</type>
@@ -79,6 +79,26 @@
         <id>5</id>
         <label>#Trakt.Translation.CustomLists.Label</label>
         <hyperlink>87275</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+	  <control Style="SettingsButtonLarge">
+        <description>Trending Lists</description>
+        <type>button</type>
+        <id>6</id>
+        <label>#Trakt.Translation.TrendingLists.Label</label>
+        <hyperlink>87275</hyperlink>
+		<hyperlinkParameter>trending</hyperlinkParameter>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+	  <control Style="SettingsButtonLarge">
+        <description>Popular Lists</description>
+        <type>button</type>
+        <id>7</id>
+        <label>#Trakt.Translation.PopularLists.Label</label>
+        <hyperlink>87275</hyperlink>
+		<hyperlinkParameter>popular</hyperlinkParameter>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
         <ondown>2</ondown>
