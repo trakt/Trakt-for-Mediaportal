@@ -630,7 +630,7 @@ namespace TraktPlugin.GUI
         public static string Like = "Like";
         public static string LikedLists = "Liked Lists";        
         public static string Likes = "Likes";
-        public static string LikeThisWeek = "Likes this week";
+        public static string LikesThisWeek = "Likes this week";
         public static string LineProducer = "Line Producer";
         public static string List = "List";
         public static string ListNameAlreadyExists = "List with this name already exists!";

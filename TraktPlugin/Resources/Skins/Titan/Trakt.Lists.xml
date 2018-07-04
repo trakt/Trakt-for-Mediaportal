@@ -219,9 +219,76 @@
       <onup>1026</onup>
       <ondown>1026</ondown>
       <lineSpacing>0.92</lineSpacing>
-      <visible>!string.equals(#Trakt.List.Description,--)</visible>
+      <visible>!string.equals(#Trakt.List.Description,--)+!string.equals(#Trakt.Lists.ListType,trending)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
+	
+	<control>
+      <description>Trending Summary (list)</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>100</posX>
+      <posY>480</posY>
+      <width>590</width>
+      <height>340</height>
+      <label>#Trakt.List.Description</label>
+      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
+      <onleft>1026</onleft>
+      <onright>1026</onright>
+      <onup>1026</onup>
+      <ondown>1026</ondown>
+      <lineSpacing>0.92</lineSpacing>
+      <visible>!string.equals(#Trakt.List.Description,--)+string.equals(#Trakt.Lists.ListType,trending)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+	
+	<control>
+      <type>label</type>
+      <id>1</id>
+      <posX>100</posX>
+      <posY>840</posY>
+      <width>360</width>
+      <label>#Trakt.Translation.LikesThisWeek.Label</label>
+      <textcolor>FF00b7ff</textcolor>
+      <font>TitanLight12</font>
+	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+    </control>
+	<control>
+      <type>label</type>
+      <id>1</id>
+      <posX>500</posX>
+      <posY>840</posY>
+      <width>360</width>
+      <label>#Trakt.List.LikesThisWeek</label>
+      <textcolor>FFffffff</textcolor>
+      <font>TitanLight12</font>
+	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+    </control>
+	
+	<control>
+      <type>label</type>
+      <id>1</id>
+      <posX>100</posX>
+      <posY>890</posY>
+      <width>360</width>
+      <label>#Trakt.Translation.CommentsThisWeek.Label</label>
+      <textcolor>FF00b7ff</textcolor>
+      <font>TitanLight12</font>
+	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+    </control>
+	<control>
+      <type>label</type>
+      <id>1</id>
+      <posX>500</posX>
+      <posY>890</posY>
+      <width>360</width>
+      <label>#Trakt.List.CommentsThisWeek</label>
+      <textcolor>FFffffff</textcolor>
+      <font>TitanLight12</font>
+	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+    </control>
+	
   </controls>
 </window>
