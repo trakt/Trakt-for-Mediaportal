@@ -140,6 +140,7 @@
   <string name="CreateAccountWebsite">Sorry, this feature is no longer\navailable. Please use the website\nto create an account.</string>
   <string name="Comment">Comment</string>
   <string name="Comments">Comments</string>
+  <string name="CommentsThisWeek">Comments this week</string>
   <string name="Community">Community</string>
   <string name="CommunityActivity">Community Activity</string>
   <string name="Compositors">Compositors</string>
@@ -380,6 +381,7 @@
   <string name="Like">Like</string>
   <string name="LikedLists">Liked Lists</string>
   <string name="Likes">Likes</string>
+  <string name="LikesThisWeek">Likes this week</string>
   <string name="LineProducer">Line Producer</string>
   <string name="List">List</string>
   <string name="Lists">Lists</string>
