@@ -53,7 +53,7 @@
         <hyperlink>87270</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
-        <onup>7</onup>
+        <onup>8</onup>
       </control>
       <control Style="SettingsButtonLarge">
         <type>button</type>
@@ -99,6 +99,16 @@
         <label>#Trakt.Translation.PopularLists.Label</label>
         <hyperlink>87275</hyperlink>
 		<hyperlinkParameter>popular</hyperlinkParameter>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+	  <control Style="SettingsButtonLarge">
+        <description>Liked Lists</description>
+        <type>button</type>
+        <id>8</id>
+        <label>#Trakt.Translation.LikedLists.Label</label>
+        <hyperlink>87275</hyperlink>
+		<hyperlinkParameter>liked</hyperlinkParameter>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
         <ondown>2</ondown>
