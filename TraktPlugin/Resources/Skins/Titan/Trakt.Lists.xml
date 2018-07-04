@@ -253,7 +253,9 @@
       <label>#Trakt.Translation.LikesThisWeek.Label</label>
       <textcolor>FF00b7ff</textcolor>
       <font>TitanLight12</font>
-	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <visible>!string.equals(#Trakt.List.LikesThisWeek,)+string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 	<control>
       <type>label</type>
@@ -264,7 +266,9 @@
       <label>#Trakt.List.LikesThisWeek</label>
       <textcolor>FFffffff</textcolor>
       <font>TitanLight12</font>
-	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <visible>!string.equals(#Trakt.List.LikesThisWeek,)+string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 	
 	<control>
@@ -276,7 +280,9 @@
       <label>#Trakt.Translation.CommentsThisWeek.Label</label>
       <textcolor>FF00b7ff</textcolor>
       <font>TitanLight12</font>
-	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <visible>!string.equals(#Trakt.List.CommentsThisWeek,)+string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 	<control>
       <type>label</type>
@@ -287,7 +293,9 @@
       <label>#Trakt.List.CommentsThisWeek</label>
       <textcolor>FFffffff</textcolor>
       <font>TitanLight12</font>
-	  <visible>string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <visible>!string.equals(#Trakt.List.CommentsThisWeek,)+string.equals(#Trakt.Lists.ListType,trending)</visible>
+	  <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 	
   </controls>
