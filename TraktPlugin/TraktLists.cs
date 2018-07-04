@@ -14,10 +14,12 @@ namespace TraktPlugin
         static DateTime LastRequest = new DateTime();
         static DateTime LastTrendingRequest = new DateTime();
         static DateTime LastPopularRequest = new DateTime();
+        static DateTime LastLikedRequest = new DateTime();
         static Dictionary<string, IEnumerable<TraktListDetail>> UserLists = new Dictionary<string, IEnumerable<TraktListDetail>>();
         static Dictionary<string, IEnumerable<TraktListItem>> UserListItems = new Dictionary<string, IEnumerable<TraktListItem>>();
         static IEnumerable<TraktListTrending> TrendingLists = null;
         static IEnumerable<TraktListPopular> PopularLists = null;
+        static IEnumerable<TraktLike> LikedLists = null;
 
         #endregion
 
@@ -59,6 +61,23 @@ namespace TraktPlugin
                 LastPopularRequest = DateTime.UtcNow;
             }
             return PopularLists;
+        }
+
+        /// <summary>
+        /// Get the current users liked lists.
+        /// </summary>
+        public static IEnumerable<TraktLike> GetLikedLists(int page = 1, int maxItems = 100)
+        {
+            if (LastLikedRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            {
+                // get liked lists
+                var likedLists = TraktAPI.TraktAPI.GetLikedItems("lists", "full", page, maxItems);
+                if (likedLists == null) return null;
+
+                LikedLists = likedLists.Likes;
+                LastPopularRequest = DateTime.UtcNow;
+            }
+            return LikedLists;
         }
 
         /// <summary>

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using MediaPortal.GUI.Library;
+using MediaPortal.Util;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using MediaPortal.GUI.Library;
-using MediaPortal.Util;
-using TraktPlugin.Extensions;
 using TraktAPI.DataStructures;
 using TraktAPI.Extensions;
+using TraktPlugin.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -47,7 +47,8 @@ namespace TraktPlugin.GUI
             movie,
             show,
             episode,
-            season
+            season,
+            list
         }
 
         #endregion
@@ -76,6 +77,7 @@ namespace TraktPlugin.GUI
         public static ShowShout ShowInfo { get; set; }
         public static SeasonShout SeasonInfo { get; set; }
         public static EpisodeShout EpisodeInfo { get; set; }
+        public static TraktListDetail ListInfo { get; set; }
         public static string Fanart { get; set; }
         public static string OnlineFanart { get; set; }
         public static bool IsWatched { get; set; }
@@ -437,6 +439,11 @@ namespace TraktPlugin.GUI
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", EpisodeInfo.ToString());
                         return GetEpisodeComments();
 
+                    case ShoutTypeEnum.list:
+                        if (ListInfo == null) return null;
+                        GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", ListInfo.Name);
+                        return GetListComments();
+
                     default:
                         return null;
                 }
@@ -494,7 +501,7 @@ namespace TraktPlugin.GUI
             }
 
             return Comments;
-        }        
+        }
 
         private IEnumerable<TraktComment> GetShowComments()
         {
@@ -581,6 +588,11 @@ namespace TraktPlugin.GUI
             return Comments;
         }
 
+        private IEnumerable<TraktComment> GetListComments()
+        {
+            return TraktAPI.TraktAPI.GetUserListComments(ListInfo.User.Ids.Slug, ListInfo.Ids.Trakt.ToString());
+        }
+
         private void SendCommentsToFacade(IEnumerable<TraktComment> comments)
         {
             // clear facade
@@ -610,6 +622,10 @@ namespace TraktPlugin.GUI
                         break;
                     case ShoutTypeEnum.episode:
                         title = EpisodeInfo.ToString();
+                        break;
+
+                    case ShoutTypeEnum.list:
+                        title = ListInfo.Name;
                         break;
                 }
                 ClearProperties();
@@ -771,6 +787,7 @@ namespace TraktPlugin.GUI
             return string.Format("{0} - {1}x{2}", Title, SeasonIdx, EpisodeIdx);
         }
     }
+    
 
     public class ShoutComparer : IEqualityComparer<TraktComment>
     {

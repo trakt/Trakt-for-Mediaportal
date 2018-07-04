@@ -28,7 +28,8 @@ namespace TraktPlugin.GUI
             Create,
             Delete,
             Edit,
-            Copy            
+            Copy,
+            Comments  
         }
 
         #endregion
@@ -129,6 +130,12 @@ namespace TraktPlugin.GUI
                             selectedList = popular.List;
                             username = popular.List.User.Username;
                         }
+                        else if (selectedItem.TVTag is TraktLike)
+                        {
+                            var likedItem = selectedItem.TVTag as TraktListPopular;
+                            selectedList = likedItem.List;
+                            username = likedItem.List.User.Username;
+                        }
 
                         // Load current selected list
                         GUIListItems.CurrentList = selectedList;
@@ -187,6 +194,12 @@ namespace TraktPlugin.GUI
                 selectedList = popular.List;
                 username = popular.List.User.Username;
             }
+            else if (selectedItem.TVTag is TraktLike)
+            {
+                var likedItem = selectedItem.TVTag as TraktLike;
+                selectedList = likedItem.List;
+                username = likedItem.List.User.Username;
+            }
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -233,6 +246,11 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Copy;
             }
+
+            // allow viewing comments for any type of lists
+            listItem = new GUIListItem(Translation.Comments + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Comments;
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -302,6 +320,12 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
+                case ((int)ContextMenuItem.Comments):
+                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.list;
+                    GUIShouts.ListInfo = selectedList;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    break;
+                
                 default:
                     break;
             }
@@ -534,6 +558,8 @@ namespace TraktPlugin.GUI
                         return TraktLists.GetTrendingLists();
                     case TraktListType.Popular:
                         return TraktLists.GetPopularLists();
+                    case TraktListType.Liked:
+                        return TraktLists.GetLikedLists();
                     default:
                         return TraktLists.GetListsForUser(CurrentUser);
                 }
@@ -549,6 +575,9 @@ namespace TraktPlugin.GUI
                             break;
                         case TraktListType.Popular:
                             SendPopularListsToFacade(result as IEnumerable<TraktListPopular>);
+                            break;
+                        case TraktListType.Liked:
+                            SendLikedListsToFacade(result as IEnumerable<TraktLike>);
                             break;
                         default:
                             Lists = result as IEnumerable<TraktListDetail>;
@@ -651,6 +680,52 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", lists.Count().ToString(), lists.Count() > 1 ? Translation.Lists : Translation.List));
         }
 
+        private void SendLikedListsToFacade(IEnumerable<TraktLike> likedItems)
+        {
+            // clear facade
+            GUIControl.ClearControl(GetID, Facade.GetID);
+
+            if (likedItems == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
+            int itemId = 0;
+
+            // Add each list
+            foreach (var likedItem in likedItems)
+            {
+                var item = new GUIListItem(likedItem.List.Name);
+
+                item.Label2 = string.Format("{0} {1}", likedItem.List.ItemCount, likedItem.List.ItemCount != 1 ? Translation.Items : Translation.Item);
+                item.TVTag = likedItem;
+                item.ItemId = Int32.MaxValue - itemId;
+                item.PinImage = TraktLists.GetPrivacyLevelIcon(likedItem.List.Privacy);
+                item.IconImage = "defaultFolder.png";
+                item.IconImageBig = "defaultFolderBig.png";
+                item.ThumbnailImage = "defaultFolderBig.png";
+                item.OnItemSelected += OnItemSelected;
+                Utils.SetDefaultIcons(item);
+                Facade.Add(item);
+                itemId++;
+            }
+
+            // Set Facade Layout
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
+            GUIControl.FocusControl(GetID, Facade.GetID);
+
+            if (PreviousSelectedIndex >= likedItems.Count())
+                Facade.SelectIndex(PreviousSelectedIndex - 1);
+            else
+                Facade.SelectIndex(PreviousSelectedIndex);
+
+            // set facade properties
+            GUIUtils.SetProperty("#itemcount", likedItems.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", likedItems.Count().ToString(), likedItems.Count() > 1 ? Translation.Lists : Translation.List));
+        }
+
         private void SendUserListsToFacade(IEnumerable<TraktListDetail> lists)
         {
             // clear facade
@@ -737,6 +812,8 @@ namespace TraktPlugin.GUI
                     ListType = TraktListType.Trending;
                 if (_loadParameter.ToLowerInvariant() == "popular")
                     ListType = TraktListType.Popular;
+                if (_loadParameter.ToLowerInvariant() == "liked")
+                    ListType = TraktListType.Liked;
             }
             else if (!ReturningFromListItems)
             {
@@ -785,6 +862,12 @@ namespace TraktPlugin.GUI
                 var popular = item.TVTag as TraktListPopular;
                 list = popular.List;
                 username = popular.List.User.Username;                
+            }
+            else if (item.TVTag is TraktLike)
+            {
+                var likedItem = item.TVTag as TraktLike;
+                list = likedItem.List;
+                username = likedItem.List.User.Username;
             }
             PublishListProperties(list, username);
         }

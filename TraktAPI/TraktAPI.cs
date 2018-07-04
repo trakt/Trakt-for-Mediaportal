@@ -620,6 +620,12 @@ namespace TraktAPI
             return DeleteFromTrakt(string.Format(TraktURIs.UserListLike, username, id));
         }
 
+        public static IEnumerable<TraktComment> GetUserListComments(string username, string id, string sortMethod = "newest", int page = 1, int maxItems = 1000)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserListComments, username, id, sortMethod, page, maxItems));
+            return response.FromJSONArray<TraktComment>();
+        }
+
         #endregion
 
         #region Watchlists

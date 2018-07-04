@@ -293,7 +293,8 @@ namespace TraktPlugin.GUI
         User,        
         Trending,
         Popular,
-        Watchlist
+        Watchlist,
+        Liked
     }
     #endregion
 
