@@ -809,7 +809,12 @@ namespace TraktPlugin.GUI
             if (!string.IsNullOrEmpty(_loadParameter))
             {
                 if (_loadParameter.ToLowerInvariant() == "trending")
+                {
                     ListType = TraktListType.Trending;
+
+                    GUIUtils.SetProperty("#Trakt.List.LikesThisWeek", string.Empty);
+                    GUIUtils.SetProperty("#Trakt.List.CommentsThisWeek", string.Empty);
+                }
                 if (_loadParameter.ToLowerInvariant() == "popular")
                     ListType = TraktListType.Popular;
                 if (_loadParameter.ToLowerInvariant() == "liked")
