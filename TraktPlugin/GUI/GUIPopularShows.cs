@@ -573,6 +573,7 @@ namespace TraktPlugin.GUI
                 GUIUtils.SetProperty("#Trakt.Popular.Description", string.Empty);
                 GUIUtils.SetProperty("#Trakt.Popular.CurrentPage", string.Empty);
                 GUIUtils.SetProperty("#Trakt.Popular.TotalPages", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", string.Empty);
             }
 
             GUIUtils.SetProperty("#Trakt.Show.Watchers", string.Empty);

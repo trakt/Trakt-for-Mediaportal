@@ -589,6 +589,7 @@ namespace TraktPlugin.GUI
                 GUIUtils.SetProperty("#Trakt.Trending.Description", string.Empty);
                 GUIUtils.SetProperty("#Trakt.Trending.CurrentPage", string.Empty);
                 GUIUtils.SetProperty("#Trakt.Trending.TotalPages", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", string.Empty);
             }
 
             GUIUtils.SetProperty("#Trakt.Movie.Watchers", string.Empty);

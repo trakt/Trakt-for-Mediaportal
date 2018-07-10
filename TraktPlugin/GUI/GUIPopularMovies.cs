@@ -575,6 +575,7 @@ namespace TraktPlugin.GUI
             {
                 GUIUtils.SetProperty("#Trakt.Popular.CurrentPage", string.Empty);
                 GUIUtils.SetProperty("#Trakt.Popular.TotalPages", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", string.Empty);
             }
 
             GUICommon.ClearMovieProperties();
