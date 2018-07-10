@@ -132,7 +132,7 @@ namespace TraktPlugin.GUI
                         }
                         else if (selectedItem.TVTag is TraktLike)
                         {
-                            var likedItem = selectedItem.TVTag as TraktListPopular;
+                            var likedItem = selectedItem.TVTag as TraktLike;
                             selectedList = likedItem.List;
                             username = likedItem.List.User.Username;
                         }
