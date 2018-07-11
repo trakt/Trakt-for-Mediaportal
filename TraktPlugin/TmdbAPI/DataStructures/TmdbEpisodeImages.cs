@@ -20,5 +20,16 @@ namespace TraktPlugin.TmdbAPI.DataStructures
         
         [DataMember]
         public string AirDate { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as TmdbEpisodeImages;
+            return other != null && Id.Equals(other.Id) && Season.Equals(other.Season) && Episode.Equals(other.Episode);
+        }
+
+        public override int GetHashCode()
+        {
+            return ((Id ?? -1).ToString() + "_" + Season + "_" + Episode).GetHashCode();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MediaPortal.Configuration;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,125 +14,39 @@ namespace TraktPlugin.Cache
 {
     public static class TmdbCache
     {
-        // create locks for each media type, lists can have multiple types
-        // we add images and retrieve on different threads so try to be thread safe
-        static object lockShowObject = new object();
-        static object lockMovieObject = new object();
-        static object lockSeasonObject = new object();
-        static object lockEpisodeObject = new object();
-        static object lockPersonObject = new object();
-
         static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Movies.json"));
         static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Shows.json"));
         static string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Seasons.json"));
         static string EpisodeCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Episodes.json");        
         static string PersonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\People.json");
-
-        static List<TmdbMovieImages> Movies
-        {
-            get
-            {
-                lock (lockMovieObject)
-                {
-                    return _Movies;
-                }
-            }
-            set
-            {
-                lock (lockMovieObject)
-                {
-                    _Movies = value;
-                }
-            }
-        }
-        static List<TmdbMovieImages> _Movies = null;
-
-        static List<TmdbShowImages> Shows
-        {
-            get
-            {
-                lock (lockShowObject)
-                {
-                    return _Shows;
-                }
-            }
-            set
-            {
-                lock (lockShowObject)
-                {
-                    _Shows = value;
-                }
-            }
-        }
-        static List<TmdbShowImages> _Shows = null;
-
-        static List<TmdbEpisodeImages> Episodes
-        {
-            get
-            {
-                lock (lockEpisodeObject)
-                {
-                    return _Episodes;
-                }
-            }
-            set
-            {
-                lock (lockEpisodeObject)
-                {
-                    _Episodes = value;
-                }
-            }
-        }
-        static List<TmdbEpisodeImages> _Episodes = null;
-
-        static List<TmdbSeasonImages> Seasons
-        {
-            get
-            {
-                lock (lockSeasonObject)
-                {
-                    return _Seasons;
-                }
-            }
-            set
-            {
-                lock (lockSeasonObject)
-                {
-                    _Seasons = value;
-                }
-            }
-        }
-        static List<TmdbSeasonImages> _Seasons = null;
-
-        static List<TmdbPeopleImages> People
-        {
-            get
-            {
-                lock (lockPersonObject)
-                {
-                    return _People;
-                }
-            }
-            set
-            {
-                lock (lockPersonObject)
-                {
-                    _People = value;
-                }
-            }
-        }
-        static List<TmdbPeopleImages> _People = null;
-
-
+                
+        // Create thread-safe dictionaries to cache images for each type
+        // ID's are unique for each type only, seasons and episodes require an extra key to be unique
+        static ConcurrentDictionary<int?, TmdbMovieImages> Movies = null;
+        static ConcurrentDictionary<int?, TmdbShowImages> Shows = null;
+        static ConcurrentDictionary<Tuple<int?, int, int>, TmdbEpisodeImages> Episodes = null;
+        static ConcurrentDictionary<Tuple<int?, int>, TmdbSeasonImages> Seasons = null;
+        static ConcurrentDictionary<int?, TmdbPeopleImages> People = null;
+        
         public static void Init()
         {
             TraktLogger.Info("Loading TMDb request cache");
 
-            _Movies = LoadFileCache(MovieCacheFile, "[]").FromJSONArray<TmdbMovieImages>().ToList();
-            _Shows = LoadFileCache(ShowCacheFile, "[]").FromJSONArray<TmdbShowImages>().ToList();
-            _Seasons = LoadFileCache(SeasonCacheFile, "[]").FromJSONArray<TmdbSeasonImages>().ToList();
-            _Episodes = LoadFileCache(EpisodeCacheFile, "[]").FromJSONArray<TmdbEpisodeImages>().ToList();
-            _People = LoadFileCache(PersonCacheFile, "[]").FromJSONArray<TmdbPeopleImages>().ToList();
+            // load cached images from files and convert them to a thread-safe dictionary keyed by ID (and season/episode)
+            var movies = LoadFileCache(MovieCacheFile, "[]").FromJSONArray<TmdbMovieImages>().ToList();
+            Movies = new ConcurrentDictionary<int?, TmdbMovieImages>(movies.Distinct().ToDictionary(m => m.Id));
+            
+            var shows = LoadFileCache(ShowCacheFile, "[]").FromJSONArray<TmdbShowImages>().ToList();
+            Shows = new ConcurrentDictionary<int?, TmdbShowImages>(shows.Distinct().ToDictionary(s => s.Id));
+
+            var seasons = LoadFileCache(SeasonCacheFile, "[]").FromJSONArray<TmdbSeasonImages>().ToList();
+            Seasons = new ConcurrentDictionary<Tuple<int?, int>, TmdbSeasonImages>(seasons.Distinct().ToDictionary(s => Tuple.Create(s.Id, s.Season)));
+
+            var episodes = LoadFileCache(EpisodeCacheFile, "[]").FromJSONArray<TmdbEpisodeImages>().ToList();
+            Episodes = new ConcurrentDictionary<Tuple<int?, int, int>, TmdbEpisodeImages>(episodes.Distinct().ToDictionary(e => Tuple.Create(e.Id, e.Season, e.Episode)));
+
+            var people = LoadFileCache(PersonCacheFile, "[]").FromJSONArray<TmdbPeopleImages>().ToList();
+            People = new ConcurrentDictionary<int?, TmdbPeopleImages>(people.Distinct().ToDictionary(p => p.Id));
 
             // get updated configuration from TMDb
             GetTmdbConfiguration();
@@ -141,11 +56,11 @@ namespace TraktPlugin.Cache
         {
             TraktLogger.Info("Saving TMDb request cache");
 
-            SaveFileCache(MovieCacheFile, Movies.ToJSON());
-            SaveFileCache(ShowCacheFile, Shows.ToJSON());
-            SaveFileCache(SeasonCacheFile, Seasons.ToJSON());
-            SaveFileCache(EpisodeCacheFile, Episodes.ToJSON());            
-            SaveFileCache(PersonCacheFile, People.ToJSON());
+            SaveFileCache(MovieCacheFile, Movies.Values.ToList().ToJSON());
+            SaveFileCache(ShowCacheFile, Shows.Values.ToList().ToJSON());
+            SaveFileCache(SeasonCacheFile, Seasons.Values.ToList().ToJSON());
+            SaveFileCache(EpisodeCacheFile, Episodes.Values.ToList().ToJSON());
+            SaveFileCache(PersonCacheFile, People.Values.ToList().ToJSON());
         }
 
         static void GetTmdbConfiguration()
@@ -236,8 +151,8 @@ namespace TraktPlugin.Cache
             if (id == null) return null;
 
             // if its in our cache return it
-            var movieImages = Movies.FirstOrDefault(m => m.Id == id);
-            if (movieImages != null)
+            TmdbMovieImages movieImages;
+            if (Movies.TryGetValue(id, out movieImages))
             {
                 if (forceUpdate)
                     return movieImages;
@@ -317,11 +232,8 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                lock (lockMovieObject)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    Movies.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                Movies.TryAdd(images.Id, images);
             }
         }
 
@@ -329,10 +241,8 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                lock (lockMovieObject)
-                {
-                    Movies.RemoveAll(m => m.Id == images.Id);
-                }
+                TmdbMovieImages ignored;
+                Movies.TryRemove(images.Id, out ignored);
             }
         }
 
@@ -345,8 +255,8 @@ namespace TraktPlugin.Cache
             if (id == null) return null;
 
             // if its in our cache return it
-            var showImages = Shows.FirstOrDefault(s => s.Id == id);
-            if (showImages != null)
+            TmdbShowImages showImages;
+            if (Shows.TryGetValue(id, out showImages))
             {
                 if (forceUpdate)
                     return showImages;
@@ -449,11 +359,8 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                lock (lockShowObject)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    Shows.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                Shows.TryAdd(images.Id, images);
             }
         }
 
@@ -461,10 +368,8 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                lock (lockShowObject)
-                {
-                    Shows.RemoveAll(s => s.Id == images.Id);
-                }
+                TmdbShowImages ignored;
+                Shows.TryRemove(images.Id, out ignored);
             }
         }
 
@@ -477,8 +382,8 @@ namespace TraktPlugin.Cache
             if (id == null) return null;
 
             // if its in our cache return it
-            var episodeImages = Episodes.FirstOrDefault(e => e.Id == id && e.Season == season && e.Episode == episode);
-            if (episodeImages != null)
+            TmdbEpisodeImages episodeImages;
+            if (Episodes.TryGetValue(Tuple.Create(id, season, episode), out episodeImages))
             {
                 if (forceUpdate)
                     return episodeImages;
@@ -490,12 +395,12 @@ namespace TraktPlugin.Cache
                 }
 
                 TraktLogger.Info("Episode image cache expired. TMDb ID = '{0}', Season = '{1}', Episode = '{2}', Request Age = '{3}'", id, season, episode, episodeImages.RequestAge);
-                RemoveEpisodeImagesFromCache(episodeImages, season, episode);
+                RemoveEpisodeImagesFromCache(episodeImages);
             }
 
             // get movie images from tmdb and add to the cache            
             episodeImages = TmdbAPI.TmdbAPI.GetEpisodeImages(id.ToString(), season, episode);
-            AddEpisodeImagesToCache(episodeImages, id, season, episode);
+            AddEpisodeImagesToCache(episodeImages);
 
             return episodeImages;
         }
@@ -527,29 +432,21 @@ namespace TraktPlugin.Cache
             return TraktSettings.TmdbConfiguration.Images.BaseUrl + TraktSettings.TmdbPreferredPosterSize + episodeThumb.FilePath;
         }
 
-        static void AddEpisodeImagesToCache(TmdbEpisodeImages images, int? id, int season, int episode)
+        static void AddEpisodeImagesToCache(TmdbEpisodeImages images)
         {
             if (images != null)
             {
-                lock (lockEpisodeObject)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    images.Season = season;
-                    images.Episode = episode;
-                    images.Id = id;
-                    Episodes.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                Episodes.TryAdd(Tuple.Create(images.Id, images.Season, images.Episode), images);
             }
         }
 
-        static void RemoveEpisodeImagesFromCache(TmdbEpisodeImages images, int season, int episode)
+        static void RemoveEpisodeImagesFromCache(TmdbEpisodeImages images)
         {
             if (images != null)
             {
-                lock (lockEpisodeObject)
-                {
-                    Episodes.RemoveAll(e => e.Id == images.Id && e.Season == season && e.Episode == episode);
-                }
+                TmdbEpisodeImages ignored;
+                Episodes.TryRemove(Tuple.Create(images.Id, images.Season, images.Episode), out ignored);
             }
         }
 
@@ -560,10 +457,10 @@ namespace TraktPlugin.Cache
         public static TmdbSeasonImages GetSeasonImages(int? id, int season, bool forceUpdate = false)
         {
             if (id == null) return null;
-            
+
             // if its in our cache return it
-            var seasonImages = Seasons.FirstOrDefault(s => s.Id == id && s.Season == season);
-            if (seasonImages != null)
+            TmdbSeasonImages seasonImages;
+            if (Seasons.TryGetValue(Tuple.Create(id, season), out seasonImages))
             {
                 if (forceUpdate)
                     return seasonImages;
@@ -574,13 +471,13 @@ namespace TraktPlugin.Cache
                     return seasonImages;
                 }
 
-                TraktLogger.Info("Season image cache expired. TMDb ID = '{0}', Season = '{1}', Request Age = '{2}'", id, season, seasonImages.RequestAge);
-                RemoveSeasonImagesFromCache(seasonImages, season);
+                TraktLogger.Info("Season image cache expired. TMDb ID = '{0}', Season = '{1}', Request Age = '{2}'", id, seasonImages.Season, seasonImages.RequestAge);
+                RemoveSeasonImagesFromCache(seasonImages);
             }
 
             // get movie images from tmdb and add to the cache
             seasonImages = TmdbAPI.TmdbAPI.GetSeasonImages(id.ToString(), season);
-            AddSeasonImagesToCache(seasonImages, id, season);
+            AddSeasonImagesToCache(seasonImages);
 
             return seasonImages;
         }
@@ -612,29 +509,20 @@ namespace TraktPlugin.Cache
             return TraktSettings.TmdbConfiguration.Images.BaseUrl + TraktSettings.TmdbPreferredPosterSize + seasonThumb.FilePath;
         }
 
-        static void AddSeasonImagesToCache(TmdbSeasonImages images, int? id, int season)
+        static void AddSeasonImagesToCache(TmdbSeasonImages images)
         {
             if (images != null)
             {
-                lock (lockSeasonObject)
-                {
-                    // the id on the request (show) is different on the response (season)
-                    images.RequestAge = DateTime.Now.ToString();
-                    images.Season = season;
-                    images.Id = id;
-                    Seasons.Add(images);
-                }
+                Seasons.TryAdd(Tuple.Create(images.Id, images.Season), images);
             }
         }
 
-        static void RemoveSeasonImagesFromCache(TmdbSeasonImages images, int season)
+        static void RemoveSeasonImagesFromCache(TmdbSeasonImages images)
         {
             if (images != null)
             {
-                lock (lockSeasonObject)
-                {
-                    Seasons.RemoveAll(s => s.Id == images.Id && s.Season == season);
-                }
+                TmdbSeasonImages ignored;
+                Seasons.TryRemove(Tuple.Create(images.Id, images.Season), out ignored);
             }
         }
 
@@ -647,8 +535,8 @@ namespace TraktPlugin.Cache
             if (id == null) return null;
 
             // if its in our cache return it
-            var personImages = People.FirstOrDefault(m => m.Id == id);
-            if (personImages != null)
+            TmdbPeopleImages personImages;
+            if (People.TryGetValue(id, out personImages))
             {
                 if (forceUpdate)
                     return personImages;
@@ -701,11 +589,8 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                lock (lockPersonObject)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    People.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                People.TryAdd(images.Id, images);
             }
         }
 
@@ -713,10 +598,8 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                lock (lockPersonObject)
-                {
-                    People.RemoveAll(p => p.Id == images.Id);
-                }
+                TmdbPeopleImages ignored;
+                People.TryRemove(images.Id, out ignored);
             }
         }
 
