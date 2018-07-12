@@ -315,8 +315,19 @@ namespace TraktPlugin.GUI
                     GUICommon.UnLikeList(selectedList, username);
                     if (selectedList.Likes > 0)
                     {
-                        selectedList.Likes--;
-                        PublishListProperties(selectedList, username);
+                        // different behaviour basis the current view
+                        if (ListType == TraktListType.Liked)
+                        {
+                            // remove liked list from cache and reload
+                            TraktLists.RemovedItemFromLikedListCache(selectedList.Ids.Trakt);
+                            LoadLists();
+                        }
+                        else
+                        {
+                            // update selected list properties as we have unliked it now.
+                            selectedList.Likes--;
+                            PublishListProperties(selectedList, username);
+                        }
                     }
                     break;
 

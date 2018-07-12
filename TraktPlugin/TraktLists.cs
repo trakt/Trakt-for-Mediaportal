@@ -75,7 +75,7 @@ namespace TraktPlugin
                 if (likedLists == null) return null;
 
                 LikedLists = likedLists.Likes;
-                LastPopularRequest = DateTime.UtcNow;
+                LastLikedRequest = DateTime.UtcNow;
             }
             return LikedLists;
         }
@@ -236,6 +236,11 @@ namespace TraktPlugin
         {
             if (UserListItems.ContainsKey(username + ":" + id))
                 UserListItems.Remove(username);
+        }
+
+        public static void RemovedItemFromLikedListCache(int? id)
+        {
+            LikedLists = LikedLists.Where(l => l.List.Ids.Trakt != id);
         }
 
         #endregion
