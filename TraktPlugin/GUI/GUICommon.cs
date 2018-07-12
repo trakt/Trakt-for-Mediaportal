@@ -1160,8 +1160,8 @@ namespace TraktPlugin.GUI
 
         internal static void SetListProperties(TraktListDetail list, string username)
         {
-            SetProperty("#Trakt.List.Name", list.Name);
-            SetProperty("#Trakt.List.Description", list.Description);
+            SetProperty("#Trakt.List.Name", list.Name.RemapHighOrderChars());
+            SetProperty("#Trakt.List.Description", list.Description.StripHTML());
             SetProperty("#Trakt.List.Privacy", list.Privacy);
             SetProperty("#Trakt.List.Slug", list.Ids.Slug);
             SetProperty("#Trakt.List.Url", string.Format("http://trakt.tv/users/{0}/lists/{1}", username, list.Ids.Trakt));

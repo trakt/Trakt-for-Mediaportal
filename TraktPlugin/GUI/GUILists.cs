@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using TraktAPI.DataStructures;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktHandlers;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -43,7 +44,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         bool StopDownload { get; set; }
-        bool ReturningFromListItems { get; set; }
+        bool ReturningFromListItemsOrComments { get; set; }
         static int PreviousSelectedIndex { get; set; }
         IEnumerable<TraktListDetail> Lists { get; set; }
 
@@ -140,7 +141,7 @@ namespace TraktPlugin.GUI
                         // Load current selected list
                         GUIListItems.CurrentList = selectedList;
                         GUIListItems.CurrentUser = username;
-                        ReturningFromListItems = true;
+                        ReturningFromListItemsOrComments = true;
 
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                     }
@@ -159,7 +160,7 @@ namespace TraktPlugin.GUI
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
                     // restore current user
                     CurrentUser = TraktSettings.Username;
-                    ReturningFromListItems = false;
+                    ReturningFromListItemsOrComments = false;
                     base.OnAction(action);
                     break;
                 default:
@@ -332,6 +333,8 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Comments):
+                    ReturningFromListItemsOrComments = true;
+
                     GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.list;
                     GUIShouts.ListInfo = selectedList;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
@@ -616,7 +619,7 @@ namespace TraktPlugin.GUI
             // Add each list
             foreach (var trending in lists)
             {
-                var item = new GUIListItem(trending.List.Name);
+                var item = new GUIListItem(trending.List.Name.RemapHighOrderChars());
 
                 item.Label2 = string.Format("{0} {1}", trending.List.ItemCount, trending.List.ItemCount != 1 ? Translation.Items : Translation.Item);
                 item.TVTag = trending;
@@ -662,7 +665,7 @@ namespace TraktPlugin.GUI
             // Add each list
             foreach (var popular in lists)
             {
-                var item = new GUIListItem(popular.List.Name);
+                var item = new GUIListItem(popular.List.Name.RemapHighOrderChars());
 
                 item.Label2 = string.Format("{0} {1}", popular.List.ItemCount, popular.List.ItemCount != 1 ? Translation.Items : Translation.Item);
                 item.TVTag = popular;
@@ -708,7 +711,7 @@ namespace TraktPlugin.GUI
             // Add each list
             foreach (var likedItem in likedItems)
             {
-                var item = new GUIListItem(likedItem.List.Name);
+                var item = new GUIListItem(likedItem.List.Name.RemapHighOrderChars());
 
                 item.Label2 = string.Format("{0} {1}", likedItem.List.ItemCount, likedItem.List.ItemCount != 1 ? Translation.Items : Translation.Item);
                 item.TVTag = likedItem;
@@ -814,24 +817,22 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            // restore list type if returning to window
+            // loading parameter will be lost if loaded list items 
+            // or comments for a selected list
             TraktListType LastListType = ListType;
 
             // check if skin is using hyperlinkParameter
             if (!string.IsNullOrEmpty(_loadParameter))
             {
                 if (_loadParameter.ToLowerInvariant() == "trending")
-                {
                     ListType = TraktListType.Trending;
-
-                    GUIUtils.SetProperty("#Trakt.List.LikesThisWeek", string.Empty);
-                    GUIUtils.SetProperty("#Trakt.List.CommentsThisWeek", string.Empty);
-                }
                 if (_loadParameter.ToLowerInvariant() == "popular")
                     ListType = TraktListType.Popular;
                 if (_loadParameter.ToLowerInvariant() == "liked")
                     ListType = TraktListType.Liked;
             }
-            else if (!ReturningFromListItems)
+            else if (!ReturningFromListItemsOrComments)
             {
                 // default to user lists
                 ListType = TraktListType.User;
@@ -845,6 +846,12 @@ namespace TraktPlugin.GUI
             // set current user to logged in user if not set
             if (string.IsNullOrEmpty(CurrentUser))
                 CurrentUser = TraktSettings.Username;
+
+            if (ListType == TraktListType.Trending)
+            {
+                GUIUtils.SetProperty("#Trakt.List.LikesThisWeek", string.Empty);
+                GUIUtils.SetProperty("#Trakt.List.CommentsThisWeek", string.Empty);
+            }
 
             GUICommon.SetProperty("#Trakt.Lists.ListType", ListType.ToString());
             GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);

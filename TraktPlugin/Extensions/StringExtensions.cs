@@ -125,7 +125,9 @@ namespace TraktPlugin.Extensions
             input = input.Replace((char)8226, '*');  //	•
             input = input.Replace(((char)8230).ToString(), "...");  // …
             input = input.Replace(((char)8482).ToString(), string.Empty);  // ™
-            
+            input = input.Replace(((char)10139).ToString(), "->"); // ➛
+            input = input.Replace(((char)10084).ToString(), string.Empty); // ❤
+
             return input;
         }
 
