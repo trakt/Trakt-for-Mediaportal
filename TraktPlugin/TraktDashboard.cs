@@ -2975,7 +2975,7 @@ namespace TraktPlugin
                     if (activity.Shout != null)
                         GUICommon.UnLikeComment(activity.Shout);
                     else if (activity.List != null)
-                        GUICommon.UnLikeList(activity.List, "me");
+                        GUICommon.UnLikeList(activity.List);
 
                     ReloadActivityView = true;
                     break;

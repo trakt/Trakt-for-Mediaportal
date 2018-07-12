@@ -1023,14 +1023,13 @@ namespace TraktPlugin.GUI
             unlikeThread.Start(comment);
         }
 
-        public static void LikeList(TraktListDetail list, string username)
+        public static void LikeList(TraktListDetail list)
         {
             var likeThread = new Thread((obj) =>
             {
                 // all list to likes cache
                 TraktCache.AddListToLikes((TraktListDetail)obj);
-
-                TraktAPI.TraktAPI.LikeList(username, ((TraktListDetail)obj).Ids.Trakt.Value);
+                TraktAPI.TraktAPI.LikeList(list.User.Ids.Slug, ((TraktListDetail)obj).Ids.Trakt.Value);
             })
             {
                 Name = "LikeList",
@@ -1040,14 +1039,13 @@ namespace TraktPlugin.GUI
             likeThread.Start(list);
         }
 
-        public static void UnLikeList(TraktListDetail list, string username)
+        public static void UnLikeList(TraktListDetail list)
         {
             var unlikeThread = new Thread((obj) =>
             {
                 // remove list from likes cache
                 TraktCache.RemoveListFromLikes((TraktListDetail)obj);
-
-                TraktAPI.TraktAPI.UnLikeList(username, ((TraktListDetail)obj).Ids.Trakt.Value);
+                TraktAPI.TraktAPI.UnLikeList(list.User.Ids.Slug, ((TraktListDetail)obj).Ids.Trakt.Value);
             })
             {
                 Name = "UnLikeList",
@@ -1158,13 +1156,11 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.List.SortHow", string.Empty);
         }
 
-        internal static void SetListProperties(TraktListDetail list, string username)
+        internal static void SetListProperties(TraktListDetail list)
         {
             SetProperty("#Trakt.List.Name", list.Name.RemapHighOrderChars());
             SetProperty("#Trakt.List.Description", list.Description.StripHTML());
             SetProperty("#Trakt.List.Privacy", list.Privacy);
-            SetProperty("#Trakt.List.Slug", list.Ids.Slug);
-            SetProperty("#Trakt.List.Url", string.Format("http://trakt.tv/users/{0}/lists/{1}", username, list.Ids.Trakt));
             SetProperty("#Trakt.List.AllowShouts", list.AllowComments);
             SetProperty("#Trakt.List.ShowNumbers", list.DisplayNumbers);
             SetProperty("#Trakt.List.UpdatedAt", list.UpdatedAt.FromISO8601().ToShortDateString());
@@ -1176,6 +1172,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.Slug", list.Ids.Slug);
             SetProperty("#Trakt.List.SortBy", list.SortBy);
             SetProperty("#Trakt.List.SortHow", list.SortHow);
+            SetProperty("#Trakt.List.Slug", list.Ids?.Slug);
+            SetProperty("#Trakt.List.Url", string.Format("http://trakt.tv/users/{0}/lists/{1}", list.User?.Ids?.Slug, list.Ids?.Slug));
         }
 
         internal static void ClearStatisticProperties()

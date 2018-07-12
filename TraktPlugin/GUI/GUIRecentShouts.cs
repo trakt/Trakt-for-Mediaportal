@@ -704,7 +704,7 @@ namespace TraktPlugin.GUI
             }
             else if (item.List != null)
             {
-                GUICommon.SetListProperties(item.List, CurrentUser);
+                GUICommon.SetListProperties(item.List);
             }
         }
 

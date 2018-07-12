@@ -307,13 +307,13 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Like):
-                    GUICommon.LikeList(selectedList, username);
+                    GUICommon.LikeList(selectedList);
                     selectedList.Likes++;
-                    PublishListProperties(selectedList, username);
+                    PublishListProperties(selectedList);
                     break;
 
                 case ((int)ContextMenuItem.Unlike):
-                    GUICommon.UnLikeList(selectedList, username);
+                    GUICommon.UnLikeList(selectedList);
                     if (selectedList.Likes > 0)
                     {
                         // different behaviour basis the current view
@@ -327,7 +327,7 @@ namespace TraktPlugin.GUI
                         {
                             // update selected list properties as we have unliked it now.
                             selectedList.Likes--;
-                            PublishListProperties(selectedList, username);
+                            PublishListProperties(selectedList);
                         }
                     }
                     break;
@@ -857,16 +857,15 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
         }
 
-        private void PublishListProperties(TraktListDetail list, string username)
+        private void PublishListProperties(TraktListDetail list)
         {
-            if (list == null) return;                
-            GUICommon.SetListProperties(list, username);
+            if (list == null) return;
+            GUICommon.SetListProperties(list);
         }
 
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
             TraktListDetail list = null;
-            string username = CurrentUser;
             if (item.TVTag is TraktListDetail)
             {
                 list = item.TVTag as TraktListDetail;
@@ -875,7 +874,6 @@ namespace TraktPlugin.GUI
             {
                 var trending = item.TVTag as TraktListTrending;
                 list = trending.List;
-                username = trending.List.User.Username;
 
                 GUICommon.SetProperty("#Trakt.List.LikesThisWeek", trending.LikesThisWeek);
                 GUICommon.SetProperty("#Trakt.List.CommentsThisWeek", trending.CommentsThisWeek);
@@ -883,16 +881,14 @@ namespace TraktPlugin.GUI
             else if (item.TVTag is TraktListPopular)
             {
                 var popular = item.TVTag as TraktListPopular;
-                list = popular.List;
-                username = popular.List.User.Username;                
+                list = popular.List;              
             }
             else if (item.TVTag is TraktLike)
             {
                 var likedItem = item.TVTag as TraktLike;
                 list = likedItem.List;
-                username = likedItem.List.User.Username;
             }
-            PublishListProperties(list, username);
+            PublishListProperties(list);
         }
 
         #endregion

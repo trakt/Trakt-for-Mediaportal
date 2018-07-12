@@ -1004,7 +1004,7 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             GUICommon.SetProperty("#Trakt.List.Username", CurrentUser);
-            GUICommon.SetListProperties(CurrentList, CurrentUser);
+            GUICommon.SetListProperties(CurrentList);
 
             if (PreviousSlug != CurrentList.Ids.Trakt)
                 PreviousSelectedIndex = 0;
