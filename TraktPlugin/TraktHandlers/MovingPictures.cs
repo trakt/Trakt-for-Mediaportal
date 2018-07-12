@@ -1253,8 +1253,15 @@ namespace TraktPlugin.TraktHandlers
                     return TraktAudio.dts.ToString();
                 case "dtshd":
                     return TraktAudio.dts_ma.ToString();
+                case "dtsx":
+                    return TraktAudio.dts_x.ToString();
                 case "ac3":
                     return TraktAudio.dolby_digital.ToString();
+                case "eac3":
+                    return TraktAudio.dolby_digital_plus.ToString();
+                case "eac3+atmos":
+                case "truehd+atmos":
+                    return TraktAudio.dolby_atmos.ToString();
                 case "aac":
                     return TraktAudio.aac.ToString();
                 case "mp2":
