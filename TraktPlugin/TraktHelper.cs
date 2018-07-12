@@ -943,7 +943,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Movie Shouts
+        #region Movie Comments
 
         public static void ShowMovieShouts(TraktMovieSummary movie)
         {
@@ -991,7 +991,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Show Shouts
+        #region Show Comments
 
         public static void ShowTVShowShouts(TraktShowSummary show)
         {
@@ -1031,7 +1031,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Season Shouts
+        #region Season Comments
 
         public static void ShowTVSeasonShouts(TraktShowSummary show, TraktSeasonSummary season)
         {
@@ -1068,7 +1068,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Episode Shouts
+        #region Episode Comments
 
         public static void ShowEpisodeShouts(TraktShowSummary show, TraktEpisodeSummary episode)
         {
@@ -1111,6 +1111,17 @@ namespace TraktPlugin
             GUIShouts.Fanart = fanart;
             GUIShouts.OnlineFanart = onlineFanart;
             GUIShouts.IsWatched = isWatched;
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+        }
+
+        #endregion
+
+        #region List Comments
+
+        public static void ShowListShouts(TraktListDetail list)
+        {
+            GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.list;
+            GUIShouts.ListInfo = list;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
 

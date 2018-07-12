@@ -2793,6 +2793,15 @@ namespace TraktPlugin
                     listItem.ItemId = (int)ActivityContextMenuItem.ShowSeasonInfo;
                 }
 
+                // you can view comments on lists
+                // GetContextMenuItemsForActivity takes care of adding the item for other supported media types
+                if (activity.List != null)
+                {
+                    listItem = new GUIListItem(Translation.Comments);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ActivityContextMenuItem.Shouts;
+                }
+
                 // get a list of common actions to perform on the selected item
                 if (activity.Movie != null || activity.Show != null)
                 {
@@ -2948,7 +2957,9 @@ namespace TraktPlugin
                     break;
 
                 case ((int)ActivityContextMenuItem.Shouts):
-                    if (activity.Movie != null)
+                    if (activity.List != null)
+                        TraktHelper.ShowListShouts(activity.List);
+                    else if (activity.Movie != null)
                         TraktHelper.ShowMovieShouts(activity.Movie);
                     else if (activity.Episode != null)
                         TraktHelper.ShowEpisodeShouts(activity.Show, activity.Episode);

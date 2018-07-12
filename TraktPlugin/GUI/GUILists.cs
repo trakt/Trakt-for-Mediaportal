@@ -334,10 +334,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Comments):
                     ReturningFromListItemsOrComments = true;
-
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.list;
-                    GUIShouts.ListInfo = selectedList;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowListShouts(selectedList);
                     break;
                 
                 default:
@@ -856,7 +853,13 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Lists.ListType", ListType.ToString());
             GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
         }
-        
+
+        private void PublishListProperties(TraktListDetail list)
+        {
+            if (list == null) return;
+            GUICommon.SetListProperties(list);
+        }
+
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
             TraktListDetail list = null;
