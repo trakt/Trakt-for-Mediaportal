@@ -1158,6 +1158,8 @@ namespace TraktPlugin.GUI
 
         internal static void SetListProperties(TraktListDetail list)
         {
+            if (list == null) return;
+
             SetProperty("#Trakt.List.Name", list.Name.RemapHighOrderChars());
             SetProperty("#Trakt.List.Description", list.Description.StripHTML());
             SetProperty("#Trakt.List.Privacy", list.Privacy);

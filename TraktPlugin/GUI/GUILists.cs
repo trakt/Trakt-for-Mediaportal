@@ -856,13 +856,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Lists.ListType", ListType.ToString());
             GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
         }
-
-        private void PublishListProperties(TraktListDetail list)
-        {
-            if (list == null) return;
-            GUICommon.SetListProperties(list);
-        }
-
+        
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
             TraktListDetail list = null;
@@ -881,14 +875,14 @@ namespace TraktPlugin.GUI
             else if (item.TVTag is TraktListPopular)
             {
                 var popular = item.TVTag as TraktListPopular;
-                list = popular.List;              
+                list = popular.List;
             }
             else if (item.TVTag is TraktLike)
             {
                 var likedItem = item.TVTag as TraktLike;
                 list = likedItem.List;
             }
-            PublishListProperties(list);
+            GUICommon.SetListProperties(list);
         }
 
         #endregion
