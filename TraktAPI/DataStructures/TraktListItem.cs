@@ -5,6 +5,9 @@ namespace TraktAPI.DataStructures
     [DataContract]
     public class TraktListItem
     {
+        [DataMember(Name = "rank")]
+        public int Rank { get; set; }
+
         [DataMember(Name = "listed_at")]
         public string ListedAt { get; set; }
 

@@ -1128,6 +1128,7 @@ namespace TraktPlugin.GUI
                     break;
             }
             GUIUtils.SetProperty("#Trakt.List.ItemType", SelectedType.ToString());
+            GUIUtils.SetProperty("#Trakt.List.Rank", listItem.Rank.ToString());
         }
         #endregion
 
