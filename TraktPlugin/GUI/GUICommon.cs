@@ -1132,7 +1132,10 @@ namespace TraktPlugin.GUI
                 SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
                 SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
             }
-            SetProperty("#Trakt.User.Slug", user.Ids.Slug);
+            if (user.Ids != null)
+            {
+                SetProperty("#Trakt.User.Slug", user.Ids.Slug);
+            }
         }
 
         internal static void ClearListProperties()
@@ -1145,11 +1148,14 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.List.AllowShouts", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.ShowNumbers", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.UpdatedAt", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.CreatedAt", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.ItemCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Likes", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Comments", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Id", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Slug", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.SortBy", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.SortHow", string.Empty);
         }
 
         internal static void SetListProperties(TraktListDetail list, string username)
@@ -1162,6 +1168,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.AllowShouts", list.AllowComments);
             SetProperty("#Trakt.List.ShowNumbers", list.DisplayNumbers);
             SetProperty("#Trakt.List.UpdatedAt", list.UpdatedAt.FromISO8601().ToShortDateString());
+            SetProperty("#Trakt.List.CreatedAt", list.CreatedAt.FromISO8601().ToShortDateString());
             SetProperty("#Trakt.List.ItemCount", list.ItemCount);
             SetProperty("#Trakt.List.Comments", list.Comments);
             SetProperty("#Trakt.List.Likes", list.Likes);

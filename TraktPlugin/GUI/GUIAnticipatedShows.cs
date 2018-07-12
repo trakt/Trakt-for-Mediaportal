@@ -532,6 +532,7 @@ namespace TraktPlugin.GUI
             {
                 GUIUtils.SetProperty("#Trakt.Anticipated.CurrentPage", string.Empty);
                 GUIUtils.SetProperty("#Trakt.Anticipated.TotalPages", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", string.Empty);
             }
 
             GUIUtils.SetProperty("#Trakt.Show.ListCount", string.Empty);
