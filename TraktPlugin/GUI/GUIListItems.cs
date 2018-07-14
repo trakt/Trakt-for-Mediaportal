@@ -525,14 +525,14 @@ namespace TraktPlugin.GUI
                     {
                         GUICreditsMovie.Movie = selectedListItem.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUIMovieListItem).Images.MovieImages);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUICustomListItem).Images.MovieImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (SelectedType == TraktItemType.show)
                     {
                         GUICreditsShow.Show = selectedListItem.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUIShowListItem).Images.ShowImages);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUICustomListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
@@ -542,14 +542,14 @@ namespace TraktPlugin.GUI
                     {
                         GUICreditsMovie.Movie = selectedListItem.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUIMovieListItem).Images.MovieImages);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUICustomListItem).Images.MovieImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (SelectedType == TraktItemType.show)
                     {
                         GUICreditsShow.Show = selectedListItem.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUIShowListItem).Images.ShowImages);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUICustomListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
