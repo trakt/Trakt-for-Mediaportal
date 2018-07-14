@@ -520,6 +520,7 @@ namespace TraktPlugin
                             ShowId = show.Show.Ids.Trakt,
                             ShowTvdbId = show.Show.Ids.Tvdb,
                             ShowImdbId = show.Show.Ids.Imdb,
+                            ShowTmdbId = show.Show.Ids.Tmdb,
                             ShowTitle = show.Show.Title,
                             ShowYear = show.Show.Year,
                             Number = episode.Number,
@@ -607,6 +608,7 @@ namespace TraktPlugin
                             ShowId = show.Show.Ids.Trakt,
                             ShowTvdbId = show.Show.Ids.Tvdb,
                             ShowImdbId = show.Show.Ids.Imdb,
+                            ShowTmdbId = show.Show.Ids.Tmdb,
                             ShowTitle = show.Show.Title,
                             ShowYear = show.Show.Year,
                             Number = episode.Number,
@@ -669,6 +671,7 @@ namespace TraktPlugin
                                         ShowId = pwe.ShowId,
                                         ShowTvdbId = pwe.ShowTvdbId,
                                         ShowImdbId = pwe.ShowImdbId,
+                                        ShowTmdbId = pwe.ShowTmdbId,
                                         ShowTitle = pwe.ShowTitle,
                                         ShowYear = pwe.ShowYear,
                                         Season = pwe.Season,
@@ -3628,6 +3631,7 @@ namespace TraktPlugin
                         ShowId = show.Ids.Trakt,
                         ShowImdbId = show.Ids.Imdb,
                         ShowTvdbId = show.Ids.Tvdb,
+                        ShowTmdbId = show.Ids.Tmdb,
                         ShowTitle = show.Title,
                         ShowYear = show.Year,
                         Plays = 1,
@@ -3664,6 +3668,7 @@ namespace TraktPlugin
                     ShowId = show.Ids.Trakt,
                     ShowImdbId = show.Ids.Imdb,
                     ShowTvdbId = show.Ids.Tvdb,
+                    ShowTmdbId = show.Ids.Tmdb,
                     ShowTitle = show.Title,
                     ShowYear = show.Year,
                     Plays = 1,
@@ -3709,6 +3714,7 @@ namespace TraktPlugin
                         ShowId = show.Ids.Trakt,
                         ShowImdbId = show.Ids.Imdb,
                         ShowTvdbId = show.Ids.Tvdb,
+                        ShowTmdbId = show.Ids.Tmdb,
                         ShowTitle = show.Title,
                         ShowYear = show.Year,
                         CollectedAt = episode.CollectedAt ?? DateTime.UtcNow.ToISO8601()
@@ -3732,6 +3738,7 @@ namespace TraktPlugin
                 ShowId = show.Ids.Trakt,
                 ShowImdbId = show.Ids.Imdb,
                 ShowTvdbId = show.Ids.Tvdb,
+                ShowTmdbId = show.Ids.Tmdb,
                 ShowTitle = show.Title,
                 ShowYear = show.Year,
                 CollectedAt = DateTime.UtcNow.ToISO8601()
@@ -4412,6 +4419,8 @@ namespace TraktPlugin
             public int? ShowId { get; set; }
             [DataMember]
             public int? ShowTvdbId { get; set; }
+            [DataMember]
+            public int? ShowTmdbId { get; set; }
             [DataMember]
             public string ShowImdbId { get; set; }
             [DataMember]
