@@ -249,9 +249,13 @@ namespace TraktPlugin.GUI
             }
 
             // allow viewing comments for any type of lists
-            listItem = new GUIListItem(Translation.Comments + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Comments;
+            // if comments are not allowed there will most like be no comments
+            if (selectedList.AllowComments)
+            {
+                listItem = new GUIListItem(Translation.Comments + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Comments;
+            }
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
