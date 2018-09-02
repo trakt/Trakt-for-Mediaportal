@@ -156,13 +156,6 @@
             <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
               <Param1 />
               <UpdateOption>AlwaysOverwrite</UpdateOption>
-              <LocalFileName>..\TraktPlugin\Resources\Languages\fr.xml</LocalFileName>
-              <ZipFileName>Installer{CopyFile}\{64d4c167-90b0-4808-a02e-b691a5d6ee45}-fr.xml</ZipFileName>
-              <DestinationFilename>%Language%\Trakt\fr.xml</DestinationFilename>
-            </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
-              <Param1 />
-              <UpdateOption>AlwaysOverwrite</UpdateOption>
               <LocalFileName>..\TraktPlugin\Resources\Languages\he.xml</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{a2a22fd6-343f-4d6d-9a2c-eb17c8289b82}-he.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\he.xml</DestinationFilename>
@@ -229,13 +222,6 @@
               <LocalFileName>..\TraktPlugin\Resources\Languages\pl.xml</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{f8ed6626-2ec0-40af-91ce-3af15df5db07}-pl.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\pl.xml</DestinationFilename>
-            </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
-              <Param1 />
-              <UpdateOption>AlwaysOverwrite</UpdateOption>
-              <LocalFileName>..\TraktPlugin\Resources\Languages\pt-BR.xml</LocalFileName>
-              <ZipFileName>Installer{CopyFile}\{cf454c8f-37d2-4db4-8b1c-07b72dd08f35}-pt-BR.xml</ZipFileName>
-              <DestinationFilename>%Language%\Trakt\pt-BR.xml</DestinationFilename>
             </FileItem>
             <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
               <Param1 />
@@ -1553,38 +1539,38 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>6</Major>
       <Minor>0</Minor>
-      <Build>1</Build>
-      <Revision>3</Revision>
+      <Build>2</Build>
+      <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* New authorisation process, existing and new users will need to authorise mediaportal to use your trakt.tv account. This can be done from the GUI in 'Settings/Account Setup' or from the Configuration tool. Skins will need to be updated to support this feature from the GUI, the included Titan skin file has been updated.
+    <VersionDescription>* Added new Audio codecs (DTS-X, ATMOS, DD+) to MovingPictures collection sync. Requires updated MovingPictures to support sending new codecs;
 
-* New TV Calendar views and proper paging support. Can now request as far into the future as you like or in the past.
+* Added support to view Comments on Lists;
 
-* New Movie Calendar GUI, support to view all or your watchlisted movie release dates for movies / dvds / blurays.
+* Added support for Liked Lists (see Ttian skin);
 
-* Added support to view Hidden activities on the dashboard, also added ability to hide shows from the TV calendar.
+* Added support for Trending and Popular Lists (see Titan skin);
 
-* Added custom season titles to the facade of the TV seasons GUI if available (e.g. American Horror Story has custom titles per season).
+* Added 'CommentCount' property to Movie, Show and Episode objects;
 
-* Added first aired and TV network to the seasons GUI i.e. the air date the 1st episode of each season aired, and for Network this can change when one network cancels and another picks it up.
+* Updated Titan skin to support Liked, Trending and Popular Lists
 
-* Support for setting collected item DTS-X and Dolby Atmos on sync methods. Fixed MP-TVSeries sync not picking up Dolby Digital Plus encoded audio.
+* Fixed Cast and Crew context menu items not working from Custom Lists;
 
-* Fixed some possible cases where a crash could occur, initial testing from community suggest this is now resolved.
+* Fixed issues with thread safety in image download handling, should resolve any related crashes;
 
-* The Trakt Rate dialog will no longer work after watching episode/movie if using the WiFi remote plugin, there has been some changes to the trakt plugin which breaks this feature. Disabling the WiFi remote plugin will re-instate the dialog until an update is provided.
+* Fixed skins incorrectly showing page related properties when leaving window and entering another which does not support paging.
 
-* Internal TraktAPI updates, the API is now packaged as a seperate library (DLL) and will be installed along side the plugin. This is so the API can be re-used between MediaPortal 1 and 2 plugins.
+* Fixed a few issues when copying lists;
 
-* The old Default and DefaultWide skins have been removed from package, these are no longer packaged with MediaPortal.
+* Fixed issue where My Videos watched sync did not set the correct watched date in the database;
 
-* Updated translations from Transifex.</VersionDescription>
+* Fixed rate dialog opening before directshow graph is released after playing back fullscreen video. This lead to a MP freeze in some situations. Thanks to Sebastiii for patch.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2017-11-04T10:00:00</ReleaseDate>
+    <ReleaseDate>2018-09-02T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -1759,13 +1745,6 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
-        <LocalFileName>..\TraktPlugin\Resources\Languages\fr.xml</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{64d4c167-90b0-4808-a02e-b691a5d6ee45}-fr.xml</ZipFileName>
-        <DestinationFilename>%Language%\Trakt\fr.xml</DestinationFilename>
-      </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
-        <Param1 />
-        <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Languages\he.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{a2a22fd6-343f-4d6d-9a2c-eb17c8289b82}-he.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\he.xml</DestinationFilename>
@@ -1832,13 +1811,6 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\pl.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{f8ed6626-2ec0-40af-91ce-3af15df5db07}-pl.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\pl.xml</DestinationFilename>
-      </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
-        <Param1 />
-        <UpdateOption>AlwaysOverwrite</UpdateOption>
-        <LocalFileName>..\TraktPlugin\Resources\Languages\pt-BR.xml</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{cf454c8f-37d2-4db4-8b1c-07b72dd08f35}-pt-BR.xml</ZipFileName>
-        <DestinationFilename>%Language%\Trakt\pt-BR.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
