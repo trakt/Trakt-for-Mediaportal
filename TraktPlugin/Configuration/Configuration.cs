@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MediaPortal.Configuration;
 using TraktAPI.Enums;
 using TraktPlugin.TraktHandlers;
+using TraktPlugin.Extensions;
 
 namespace TraktPlugin
 {
@@ -76,7 +77,7 @@ namespace TraktPlugin
             txtPinCode.Enabled = TraktSettings.ParentalControlsEnabled == true;
 
             cbParentalControlsTime.Checked = TraktSettings.ParentalIgnoreAfterEnabled;
-            dtParentalControlsTime.Text = TraktSettings.ParentalIgnoreAfterTime;
+            dtParentalControlsTime.Text = TraktSettings.ParentalIgnoreAfterTime.ToTime();
             dtParentalControlsTime.Enabled = TraktSettings.ParentalIgnoreAfterEnabled;
 
             cbParentalIgnoreMovieCertifications.Checked = TraktSettings.ParentalIgnoreMovieRatingEnabled;
