@@ -2114,12 +2114,7 @@ namespace TraktAPI
         {
             headerCollection = new WebHeaderCollection();
 
-            if (UseSSL)
-            {
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
-            }
-            else
+            if (!UseSSL)
             {
                 address = address.Replace("https://", "http://");
             }
@@ -2225,12 +2220,7 @@ namespace TraktAPI
 
         static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST", string contentType = "application/json")
         {
-            if (UseSSL)
-            {
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
-            }
-            else
+            if (!UseSSL)
             {
                 address = address.Replace("https://", "http://");
             }
