@@ -1279,6 +1279,7 @@ namespace TraktPlugin.TraktHandlers
                                                Resolution = GetEpisodeResolution(episode),
                                                AudioCodec = GetEpisodeAudioCodec(episode),
                                                AudioChannels = GetEpisodeAudioChannels(episode),
+                                               HdrType = GetEpisodeHdrInfo(episode),
                                                Is3D = false
                                            });
 
@@ -1365,6 +1366,7 @@ namespace TraktPlugin.TraktHandlers
                         Resolution = GetEpisodeResolution(episode),
                         AudioCodec = GetEpisodeAudioCodec(episode),
                         AudioChannels = GetEpisodeAudioChannels(episode),
+                        HdrType = GetEpisodeHdrInfo(episode),
                         Is3D = false
                     });
                 }
@@ -1757,6 +1759,21 @@ namespace TraktPlugin.TraktHandlers
                     return "2.0";
                 case "1":
                     return "1.0";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the trakt compatible string for the HDR tag
+        /// Set to dolby_vision, hdr10, hdr10_plus, or hlg.
+        /// </summary>
+        private string GetEpisodeHdrInfo(DBEpisode episode)
+        {
+            switch (episode["VideoFormatCommercial"].ToString())
+            {
+                case "HDR10":
+                    return "hdr10";
                 default:
                     return null;
             }
