@@ -464,7 +464,7 @@ namespace TraktPlugin.TraktHandlers
 
                         show.Seasons.ForEach(s => s.Episodes.ForEach(e =>
                         {
-                            TraktLogger.Info("Adding episode to trakt.tv collection, Title = '{0} - {1}x{2}', Collected At = '{3}', Audio Channels = '{4}', Audio Codec = '{5}', Resolution = '{6}', Media Type = '{7}', Is 3D = '{8}'", show.Title, s.Number, e.Number, e.CollectedAt.ToLogString(), e.AudioChannels.ToLogString(), e.AudioCodec.ToLogString(), e.Resolution.ToLogString(), e.MediaType.ToLogString(), e.Is3D);
+                            TraktLogger.Info($"Adding episode to trakt.tv collection, Title = '{show.Title} - {s.Number}x{e.Number}', Collected At = '{e.CollectedAt.ToLogString()}', Audio Channels = '{e.AudioChannels.ToLogString()}', Audio Codec = '{e.AudioCodec.ToLogString()}', Resolution = '{e.Resolution.ToLogString()}', HDR = '{e.HdrType.ToLogString()}', Media Type = '{e.MediaType.ToLogString()}', Is 3D = '{e.Is3D}'");
                         }));
 
                         // only sync one show at a time regardless of batch size in settings
