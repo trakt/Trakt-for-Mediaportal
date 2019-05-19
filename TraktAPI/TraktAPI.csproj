@@ -55,6 +55,7 @@
     <Compile Include="DataStructures\TraktListsPopular.cs" />
     <Compile Include="DataStructures\TraktListsTrending.cs" />
     <Compile Include="DataStructures\TraktListTrending.cs" />
+    <Compile Include="DataStructures\TraktMediaInfo.cs" />
     <Compile Include="DataStructures\TraktMovieCalendar.cs" />
     <Compile Include="DataStructures\TraktShowCalendar.cs" />
     <Compile Include="DataStructures\TraktCharacter.cs" />

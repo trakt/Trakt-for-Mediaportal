@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace TraktAPI.DataStructures
 {
@@ -23,6 +19,9 @@ namespace TraktAPI.DataStructures
 
         [DataMember(Name = "audio_channels")]
         public string AudioChannels { get; set; }
+
+        [DataMember(Name = "hdr")]
+        public string HdrType { get; set; }
 
         [DataMember(Name = "3d")]
         public bool Is3D { get; set; }

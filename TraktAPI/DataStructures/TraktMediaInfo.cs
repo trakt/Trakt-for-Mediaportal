@@ -3,11 +3,8 @@
 namespace TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktSyncMovieCollected : TraktMovie
+    public class TraktMediaInfo
     {
-        [DataMember(Name = "collected_at")]
-        public string CollectedAt { get; set; }
-
         [DataMember(Name = "media_type")]
         public string MediaType { get; set; }
 
