@@ -69,8 +69,7 @@ namespace TraktPlugin.TmdbAPI
             if (delayRequest > 0)
                 Thread.Sleep(1000 + delayRequest);
 
-            if (OnDataSend != null)
-                OnDataSend(address, null);
+            OnDataSend?.Invoke(address, null);
 
             var headerCollection = new WebHeaderCollection();
 
@@ -97,8 +96,7 @@ namespace TraktPlugin.TmdbAPI
 
                 headerCollection = response.Headers;
 
-                if (OnDataReceived != null)
-                    OnDataReceived(strResponse, response);
+                OnDataReceived?.Invoke(strResponse, response);
 
                 stream.Close();
                 reader.Close();
@@ -128,15 +126,13 @@ namespace TraktPlugin.TmdbAPI
 
                         errorMessage = string.Format("Request Rate Limiting is in effect, retrying request in {0} seconds. Url = '{1}'", retry, address);
 
-                        if (OnDataError != null)
-                            OnDataError(errorMessage);
+                        OnDataError?.Invoke(errorMessage);
 
                         return GetFromTmdb(address, retry * 1000);
                     }
                 }
 
-                if (OnDataError != null)
-                    OnDataError(errorMessage);
+                OnDataError?.Invoke(errorMessage);
 
                 strResponse = null;
             }
@@ -144,8 +140,7 @@ namespace TraktPlugin.TmdbAPI
             {
                 string errorMessage = string.Format("Request failed due to an IO error, Description = '{0}', Url = '{1}', Method = 'GET'", ioe.Message, address);
 
-                if (OnDataError != null)
-                    OnDataError(ioe.Message);
+                OnDataError?.Invoke(ioe.Message);
 
                 strResponse = null;
             }

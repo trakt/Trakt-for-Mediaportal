@@ -71,8 +71,7 @@ namespace TraktPlugin.GUI
                     _identifier = loadResourceSafe(_filename);
 
                     // notify any listeners a resource has been loaded
-                    if (ImageLoadingComplete != null)
-                        ImageLoadingComplete(this);
+                    ImageLoadingComplete?.Invoke(this);
                 }
                 else
                 {
@@ -188,8 +187,7 @@ namespace TraktPlugin.GUI
                 // if there is no change, quit
                 if (_filename != null && _filename.Equals(newFilename))
                 {
-                    if (ImageLoadingComplete != null)
-                        ImageLoadingComplete(this);
+                    ImageLoadingComplete?.Invoke(this);
 
                     return;
                 }
@@ -209,8 +207,7 @@ namespace TraktPlugin.GUI
                 writeProperty();
 
                 // notify any listeners a resource has been loaded
-                if (ImageLoadingComplete != null)
-                    ImageLoadingComplete(this);
+                ImageLoadingComplete?.Invoke(this);
             }
 
             // wait a few seconds in case we want to quickly reload the previous resource

@@ -2119,8 +2119,7 @@ namespace TraktAPI
                 address = address.Replace("https://", "http://");
             }
 
-            if (OnDataSend != null)
-                OnDataSend(address, null);
+            OnDataSend?.Invoke(address, null);
 
             Stopwatch watch;
 
@@ -2168,11 +2167,9 @@ namespace TraktAPI
                     strResponse = response.StatusCode == HttpStatusCode.NoContent ? "Item Deleted" : "Failed to delete item";
                 }
 
-                if (OnDataReceived != null)
-                    OnDataReceived(strResponse, response);
+                OnDataReceived?.Invoke(strResponse, response);
 
-                if (OnLatency != null)
-                    OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, strResponse.Length * sizeof(Char));
+                OnLatency?.Invoke(watch.Elapsed.TotalMilliseconds, response, 0, strResponse.Length * sizeof(Char));
 
                 stream.Close();
                 reader.Close();
@@ -2196,21 +2193,18 @@ namespace TraktAPI
 
                     strResponse = new TraktStatus { Code = (int)response.StatusCode, Description = response.StatusDescription }.ToJSON();
 
-                    if (OnLatency != null)
-                        OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, 0);
+                    OnLatency?.Invoke(watch.Elapsed.TotalMilliseconds, response, 0, 0);
 
                     if (!serialiseError) return null;
                 }
 
-                if (OnDataError != null)
-                    OnDataError(errorMessage);
+                OnDataError?.Invoke(errorMessage);
             }
             catch (IOException ioe)
             {
                 string errorMessage = string.Format("Request failed due to an IO error, Description = '{0}', Url = '{1}', Method = '{2}'", ioe.Message, address, method);
 
-                if (OnDataError != null)
-                    OnDataError(ioe.Message);
+                OnDataError?.Invoke(ioe.Message);
 
                 strResponse = null;
             }
@@ -2278,11 +2272,9 @@ namespace TraktAPI
                     strResponse = response.StatusCode.ToString();
                 }
 
-                if (OnDataReceived != null)
-                    OnDataReceived(strResponse, response);
+                OnDataReceived?.Invoke(strResponse, response);
 
-                if (OnLatency != null)
-                    OnLatency(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), strResponse.Length * sizeof(Char));
+                OnLatency?.Invoke(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), strResponse.Length * sizeof(Char));
 
                 // cleanup
                 postStream.Close();
@@ -2311,15 +2303,13 @@ namespace TraktAPI
 
                     result = new TraktStatus { Code = (int)response.StatusCode, Description = response.StatusDescription }.ToJSON();
 
-                    if (OnLatency != null)
-                        OnLatency(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), 0);
+                    OnLatency?.Invoke(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), 0);
                 }
 
                 // don't log an error on the authentication process if polling (status code 400)
                 if (!address.Contains("oauth/device/token") || !result.Contains("400"))
                 {
-                    if (OnDataError != null)
-                        OnDataError(errorMessage);
+                    OnDataError?.Invoke(errorMessage);
                 }
 
                 return result;
@@ -2328,8 +2318,7 @@ namespace TraktAPI
             {
                 string errorMessage = string.Format("Request failed due to an IO error, Description = '{0}', Url = '{1}', Method = '{2}'", ioe.Message, address, method);
 
-                if (OnDataError != null)
-                    OnDataError(ioe.Message);
+                OnDataError?.Invoke(ioe.Message);
 
                 return null;
             }
