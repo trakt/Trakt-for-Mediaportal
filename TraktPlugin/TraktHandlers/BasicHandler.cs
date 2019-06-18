@@ -400,12 +400,12 @@ namespace TraktPlugin.TraktHandlers
         }
 
         /// <summary>
-        /// Validates an IMDb ID
+        /// Validates an IMDb ID, starts with 'tt' and currently supports 7 and 8 preceeding digits
         /// </summary>
         internal static bool IsValidImdb(string id)
         {
             if (id == null || !id.StartsWith("tt", StringComparison.InvariantCultureIgnoreCase)) return false;
-            if (id.Length != 9) return false;
+            if (id.Length < 9) return false;
             return true;
         }
 
