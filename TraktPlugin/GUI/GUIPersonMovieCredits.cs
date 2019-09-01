@@ -581,7 +581,7 @@ namespace TraktPlugin.GUI
 
         private void PublishCrewSkinProperties(TraktPersonMovieJob creditItem)
         {
-            GUICommon.SetProperty("#Trakt.Person.Movie.CreditValue", GUICommon.GetTranslatedCreditJob(creditItem.Job));
+            GUICommon.SetProperty("#Trakt.Person.Movie.CreditValue", GUICommon.GetTranslatedCreditJob(creditItem.Jobs.FirstOrDefault()));
             GUICommon.SetProperty("#Trakt.Person.Movie.CreditType", Translation.Job);
 
             GUICommon.SetMovieProperties(creditItem.Movie);
@@ -589,7 +589,7 @@ namespace TraktPlugin.GUI
 
         private void PublishCastSkinProperties(TraktPersonMovieCast creditItem)
         {
-            GUICommon.SetProperty("#Trakt.Person.Movie.CreditValue", creditItem.Character);
+            GUICommon.SetProperty("#Trakt.Person.Movie.CreditValue", creditItem.Characters.FirstOrDefault());
             GUICommon.SetProperty("#Trakt.Person.Movie.CreditType", Translation.Character);
 
             GUICommon.SetMovieProperties(creditItem.Movie);
