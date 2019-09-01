@@ -278,7 +278,7 @@ namespace TraktPlugin.GUI
                     var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                     personImages.Add(images);
 
-                    var item = new GUIPersonListItem(string.IsNullOrEmpty(person.Character) ? person.Person.Name : string.Format(Translation.ActorAndRole, person.Person.Name, person.Character), (int)TraktGUIWindows.CreditsShow);
+                    var item = new GUIPersonListItem(string.IsNullOrEmpty(person.Characters[0]) ? person.Person.Name : string.Format(Translation.ActorAndRole, person.Person.Name, person.Characters[0]), (int)TraktGUIWindows.CreditsShow);
 
                     item.Person = person.Person;
                     item.CreditType = Credit.Cast;
@@ -307,7 +307,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.Directing;
                         item.Job = person;
@@ -332,7 +332,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.Writing;
                         item.Job = person;
@@ -357,7 +357,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.Production;
                         item.Job = person;
@@ -382,7 +382,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.Art;
                         item.Job = person;
@@ -407,7 +407,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.Camera;
                         item.Job = person;
@@ -432,7 +432,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.CostumeAndMakeUp;
                         item.Job = person;
@@ -457,7 +457,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsShow);
-                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Jobs[0]);
                         item.Person = person.Person;
                         item.CreditType = Credit.Sound;
                         item.Job = person;
@@ -538,7 +538,7 @@ namespace TraktPlugin.GUI
                 return;
 
             GUIUtils.SetProperty("#Trakt.Person.CreditType", Translation.Character);
-            GUIUtils.SetProperty("#Trakt.Person.CreditValue", selectedItem.Character.Character);
+            GUIUtils.SetProperty("#Trakt.Person.CreditValue", selectedItem.Character.Characters[0]);
             GUICommon.SetPersonProperties(selectedItem.Person);
         }
 
@@ -551,7 +551,7 @@ namespace TraktPlugin.GUI
                 return;
 
             GUIUtils.SetProperty("#Trakt.Person.CreditType", Translation.Job);
-            GUIUtils.SetProperty("#Trakt.Person.CreditValue", GUICommon.GetTranslatedCreditJob(selectedItem.Job.Job));
+            GUIUtils.SetProperty("#Trakt.Person.CreditValue", GUICommon.GetTranslatedCreditJob(selectedItem.Job.Jobs[0]));
             GUICommon.SetPersonProperties(selectedItem.Person);
         }
 
