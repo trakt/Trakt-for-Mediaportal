@@ -11,5 +11,11 @@ namespace TraktAPI.DataStructures
 
         [DataMember(Name = "show")]
         public TraktShowSummary Show { get; set; }
+        
+        [DataMember(Name = "episode_count")]
+        public int EpisodeCount { get; set; }
+
+        [DataMember(Name = "series_regular")]
+        public bool IsSeriesRegular { get; set; }
     }
 }

@@ -569,6 +569,8 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Person.Show.CreditValue", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.Show.CreditType", string.Empty);
+            GUICommon.SetProperty("#Trakt.Person.Show.EpisodeCount", string.Empty);
+            GUICommon.SetProperty("#Trakt.Person.Show.IsSeriesRegular", string.Empty);
 
             GUICommon.ClearPersonProperties();
             GUICommon.ClearShowProperties();
@@ -586,6 +588,8 @@ namespace TraktPlugin.GUI
         {
             GUICommon.SetProperty("#Trakt.Person.Show.CreditValue", creditItem.Characters.FirstOrDefault());
             GUICommon.SetProperty("#Trakt.Person.Show.CreditType", Translation.Character);
+            GUICommon.SetProperty("#Trakt.Person.Show.EpisodeCount", creditItem.EpisodeCount);
+            GUICommon.SetProperty("#Trakt.Person.Show.IsSeriesRegular", creditItem.IsSeriesRegular);
 
             GUICommon.SetShowProperties(creditItem.Show);
         }
