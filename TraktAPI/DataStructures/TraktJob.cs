@@ -12,4 +12,11 @@ namespace TraktAPI.DataStructures
         [DataMember(Name = "person")]
         public TraktPersonSummary Person { get; set; }
     }
+
+    [DataContract]
+    public class TraktShowJob : TraktJob
+    {
+        [DataMember(Name = "episode_count")]
+        public int EpisodeCount { get; set; }
+    }
 }

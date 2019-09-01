@@ -1184,10 +1184,10 @@ namespace TraktAPI
 
         #region People
 
-        public static TraktCredits GetShowPeople(string id)
+        public static TraktShowCredits GetShowPeople(string id)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.ShowPeople, id));
-            return response.FromJSON<TraktCredits>();
+            return response.FromJSON<TraktShowCredits>();
         }
 
         #endregion

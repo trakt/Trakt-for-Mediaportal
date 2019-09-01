@@ -61,9 +61,9 @@ namespace TraktPlugin.GUI
         GUIFacadeControl.Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex = 0;
         DateTime LastRequest = new DateTime();
-        Dictionary<string, TraktCredits> showCredits = new Dictionary<string, TraktCredits>();
+        Dictionary<string, TraktShowCredits> showCredits = new Dictionary<string, TraktShowCredits>();
 
-        TraktCredits ShowCredits
+        TraktShowCredits ShowCredits
         {
             get
             {
@@ -247,13 +247,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    var people = result as TraktCredits;
+                    var people = result as TraktShowCredits;
                     SendCreditResultsToFacade(people);
                 }
             }, Translation.GettingSearchResults, true);
         }
 
-        private void SendCreditResultsToFacade(TraktCredits credits)
+        private void SendCreditResultsToFacade(TraktShowCredits credits)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
