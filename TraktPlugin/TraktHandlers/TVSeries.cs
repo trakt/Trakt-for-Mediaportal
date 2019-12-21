@@ -2355,7 +2355,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportCompleted(bool newEpisodeAdded)
         {
-            Thread.CurrentThread.Name = "Sync";
+            if ( Thread.CurrentThread.Name == null )
+                 Thread.CurrentThread.Name = "Sync";
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 

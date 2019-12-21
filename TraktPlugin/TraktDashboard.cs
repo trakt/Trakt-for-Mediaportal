@@ -225,7 +225,8 @@ namespace TraktPlugin
 
         private void GetStatistics()
         {
-            Thread.CurrentThread.Name = "DashStats";
+            if ( Thread.CurrentThread.Name == null )
+                 Thread.CurrentThread.Name = "DashStats";
 
             // initial publish from persisted settings            
             if (TraktSettings.LastStatistics != null)
@@ -309,7 +310,8 @@ namespace TraktPlugin
 
         private void LoadActivity()
         {
-            Thread.CurrentThread.Name = "DashActivity";
+            if ( Thread.CurrentThread.Name == null )
+                 Thread.CurrentThread.Name = "DashActivity";
 
             GUIFacadeControl facade = null;
 

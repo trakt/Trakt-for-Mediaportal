@@ -70,7 +70,8 @@ namespace TraktPlugin.TraktHandlers
 
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
-                Thread.CurrentThread.Name = "Scrobble";
+                if ( Thread.CurrentThread.Name == null )
+                     Thread.CurrentThread.Name = "Scrobble";
 
                 // get the current program airing on tv now
                 // this may have changed since last status update on trakt
