@@ -384,6 +384,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\InstallSideImage.png" />
+    <Content Include="Resources\Images\paypal.png" />
     <Content Include="Resources\Images\trakt.png" />
     <Content Include="Resources\Images\trakt_invert.png" />
     <Content Include="Resources\Languages\ar.xml" />

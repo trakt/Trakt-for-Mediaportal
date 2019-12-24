@@ -452,6 +452,21 @@ namespace TraktPlugin
         {           
             StartSync();
         }
+        
+        private void lnkPaypal_Click( object sender, EventArgs e )
+        {
+            System.Diagnostics.Process.Start( @"https://www.paypal.me/damienlhaynes" );
+        }
+
+        private void pbPaypal_Click( object sender, EventArgs e )
+        {
+            System.Diagnostics.Process.Start( @"https://www.paypal.me/damienlhaynes" );
+        }
+
+        private void lnkLog_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        {
+            System.Diagnostics.Process.Start( Config.GetFile( Config.Dir.Log, "TraktPlugin.log" ) );
+        }
 
         private void SetSyncControlProperties(bool syncRunning)
         {
@@ -642,5 +657,6 @@ namespace TraktPlugin
             TraktSettings.UserRefreshToken = string.Empty;
             TraktSettings.SaveSettings(false);
         }
+
     }
 }

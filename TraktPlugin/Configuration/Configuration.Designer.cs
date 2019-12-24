@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuration));
             this.gbTraktAccount = new System.Windows.Forms.GroupBox();
             this.linkTrakt = new System.Windows.Forms.LinkLabel();
+            this.lblAuthorizeApplication = new System.Windows.Forms.Label();
+            this.btnAuthoriseApplication = new System.Windows.Forms.Button();
             this.gbPlugins = new System.Windows.Forms.GroupBox();
             this.btnDown = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
@@ -71,8 +73,11 @@
             this.gbImages = new System.Windows.Forms.GroupBox();
             this.cboPreferredImageLanguage = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnAuthoriseApplication = new System.Windows.Forms.Button();
-            this.lblAuthorizeApplication = new System.Windows.Forms.Label();
+            this.gbPaypal = new System.Windows.Forms.GroupBox();
+            this.pbPaypal = new System.Windows.Forms.PictureBox();
+            this.lblPaypal = new System.Windows.Forms.Label();
+            this.lnkPaypal = new System.Windows.Forms.LinkLabel();
+            this.lnkLog = new System.Windows.Forms.LinkLabel();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbSync.SuspendLayout();
@@ -81,6 +86,8 @@
             this.gbRestrictions.SuspendLayout();
             this.gbParentalControls.SuspendLayout();
             this.gbImages.SuspendLayout();
+            this.gbPaypal.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaypal)).BeginInit();
             this.SuspendLayout();
             // 
             // gbTraktAccount
@@ -88,11 +95,9 @@
             this.gbTraktAccount.Controls.Add(this.linkTrakt);
             this.gbTraktAccount.Controls.Add(this.lblAuthorizeApplication);
             this.gbTraktAccount.Controls.Add(this.btnAuthoriseApplication);
-            this.gbTraktAccount.Location = new System.Drawing.Point(18, 18);
-            this.gbTraktAccount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbTraktAccount.Location = new System.Drawing.Point(12, 12);
             this.gbTraktAccount.Name = "gbTraktAccount";
-            this.gbTraktAccount.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbTraktAccount.Size = new System.Drawing.Size(474, 149);
+            this.gbTraktAccount.Size = new System.Drawing.Size(355, 97);
             this.gbTraktAccount.TabIndex = 0;
             this.gbTraktAccount.TabStop = false;
             this.gbTraktAccount.Text = "Account";
@@ -100,25 +105,42 @@
             // linkTrakt
             // 
             this.linkTrakt.AutoSize = true;
-            this.linkTrakt.Location = new System.Drawing.Point(402, 112);
-            this.linkTrakt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.linkTrakt.Location = new System.Drawing.Point(298, 70);
             this.linkTrakt.Name = "linkTrakt";
-            this.linkTrakt.Size = new System.Drawing.Size(57, 20);
+            this.linkTrakt.Size = new System.Drawing.Size(40, 13);
             this.linkTrakt.TabIndex = 4;
             this.linkTrakt.TabStop = true;
             this.linkTrakt.Text = "trakt.tv";
             this.linkTrakt.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTrakt_LinkClicked);
+            // 
+            // lblAuthorizeApplication
+            // 
+            this.lblAuthorizeApplication.Location = new System.Drawing.Point(8, 52);
+            this.lblAuthorizeApplication.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAuthorizeApplication.Name = "lblAuthorizeApplication";
+            this.lblAuthorizeApplication.Size = new System.Drawing.Size(330, 26);
+            this.lblAuthorizeApplication.TabIndex = 6;
+            this.lblAuthorizeApplication.Text = "You must authorize the application to use your account at trakt.tv.";
+            // 
+            // btnAuthoriseApplication
+            // 
+            this.btnAuthoriseApplication.Location = new System.Drawing.Point(9, 19);
+            this.btnAuthoriseApplication.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAuthoriseApplication.Name = "btnAuthoriseApplication";
+            this.btnAuthoriseApplication.Size = new System.Drawing.Size(329, 29);
+            this.btnAuthoriseApplication.TabIndex = 5;
+            this.btnAuthoriseApplication.Text = "Authorize Application...";
+            this.btnAuthoriseApplication.UseVisualStyleBackColor = true;
+            this.btnAuthoriseApplication.Click += new System.EventHandler(this.btnAuthoriseApplication_Click);
             // 
             // gbPlugins
             // 
             this.gbPlugins.Controls.Add(this.btnDown);
             this.gbPlugins.Controls.Add(this.btnUp);
             this.gbPlugins.Controls.Add(this.clbPlugins);
-            this.gbPlugins.Location = new System.Drawing.Point(18, 177);
-            this.gbPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbPlugins.Location = new System.Drawing.Point(12, 115);
             this.gbPlugins.Name = "gbPlugins";
-            this.gbPlugins.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbPlugins.Size = new System.Drawing.Size(483, 191);
+            this.gbPlugins.Size = new System.Drawing.Size(355, 124);
             this.gbPlugins.TabIndex = 1;
             this.gbPlugins.TabStop = false;
             this.gbPlugins.Text = "Plugins";
@@ -126,10 +148,9 @@
             // btnDown
             // 
             this.btnDown.Image = global::TraktPlugin.Properties.Resources.arrow_down;
-            this.btnDown.Location = new System.Drawing.Point(430, 82);
-            this.btnDown.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDown.Location = new System.Drawing.Point(309, 54);
             this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(44, 46);
+            this.btnDown.Size = new System.Drawing.Size(29, 30);
             this.btnDown.TabIndex = 2;
             this.btnDown.UseVisualStyleBackColor = true;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
@@ -137,10 +158,9 @@
             // btnUp
             // 
             this.btnUp.Image = global::TraktPlugin.Properties.Resources.arrow_up;
-            this.btnUp.Location = new System.Drawing.Point(430, 29);
-            this.btnUp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnUp.Location = new System.Drawing.Point(309, 19);
             this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(44, 45);
+            this.btnUp.Size = new System.Drawing.Size(29, 29);
             this.btnUp.TabIndex = 1;
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
@@ -149,11 +169,10 @@
             // 
             this.clbPlugins.ColumnWidth = 132;
             this.clbPlugins.FormattingEnabled = true;
-            this.clbPlugins.Location = new System.Drawing.Point(14, 29);
-            this.clbPlugins.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.clbPlugins.Location = new System.Drawing.Point(9, 19);
             this.clbPlugins.MultiColumn = true;
             this.clbPlugins.Name = "clbPlugins";
-            this.clbPlugins.Size = new System.Drawing.Size(406, 130);
+            this.clbPlugins.Size = new System.Drawing.Size(294, 79);
             this.clbPlugins.TabIndex = 0;
             this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
@@ -174,11 +193,9 @@
             this.gbSync.Controls.Add(this.cbMovingPicturesCategories);
             this.gbSync.Controls.Add(this.lbSyncTimerLength);
             this.gbSync.Controls.Add(this.cbKeepInSync);
-            this.gbSync.Location = new System.Drawing.Point(510, 18);
-            this.gbSync.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbSync.Location = new System.Drawing.Point(373, 12);
             this.gbSync.Name = "gbSync";
-            this.gbSync.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbSync.Size = new System.Drawing.Size(483, 377);
+            this.gbSync.Size = new System.Drawing.Size(334, 245);
             this.gbSync.TabIndex = 3;
             this.gbSync.TabStop = false;
             this.gbSync.Text = "Synchronisation";
@@ -186,10 +203,9 @@
             // cbSyncPlaybackOnEnterPlugin
             // 
             this.cbSyncPlaybackOnEnterPlugin.AutoSize = true;
-            this.cbSyncPlaybackOnEnterPlugin.Location = new System.Drawing.Point(14, 295);
-            this.cbSyncPlaybackOnEnterPlugin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSyncPlaybackOnEnterPlugin.Location = new System.Drawing.Point(9, 192);
             this.cbSyncPlaybackOnEnterPlugin.Name = "cbSyncPlaybackOnEnterPlugin";
-            this.cbSyncPlaybackOnEnterPlugin.Size = new System.Drawing.Size(357, 24);
+            this.cbSyncPlaybackOnEnterPlugin.Size = new System.Drawing.Size(245, 17);
             this.cbSyncPlaybackOnEnterPlugin.TabIndex = 10;
             this.cbSyncPlaybackOnEnterPlugin.Text = "Sync Playback when entering enabled Plugins";
             this.ttpConfig.SetToolTip(this.cbSyncPlaybackOnEnterPlugin, "Sync playback/resume data when entering an enabled plugin.\r\nThis is in addition t" +
@@ -200,17 +216,15 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(286, 34);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(191, 22);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 20);
+            this.label2.Size = new System.Drawing.Size(33, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "hours";
             // 
             // numSyncInterval
             // 
-            this.numSyncInterval.Location = new System.Drawing.Point(194, 29);
-            this.numSyncInterval.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numSyncInterval.Location = new System.Drawing.Point(129, 19);
             this.numSyncInterval.Maximum = new decimal(new int[] {
             168,
             0,
@@ -222,7 +236,7 @@
             0,
             0});
             this.numSyncInterval.Name = "numSyncInterval";
-            this.numSyncInterval.Size = new System.Drawing.Size(82, 26);
+            this.numSyncInterval.Size = new System.Drawing.Size(55, 20);
             this.numSyncInterval.TabIndex = 1;
             this.ttpConfig.SetToolTip(this.numSyncInterval, "Enter the period in hours to sync with trakt.tv for your selected \r\nsync options " +
         "(Collection, Ratings, Watched etc).");
@@ -236,24 +250,22 @@
             // lblSyncResumeDelta
             // 
             this.lblSyncResumeDelta.AutoSize = true;
-            this.lblSyncResumeDelta.Location = new System.Drawing.Point(10, 329);
-            this.lblSyncResumeDelta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSyncResumeDelta.Location = new System.Drawing.Point(26, 214);
             this.lblSyncResumeDelta.Name = "lblSyncResumeDelta";
-            this.lblSyncResumeDelta.Size = new System.Drawing.Size(295, 20);
+            this.lblSyncResumeDelta.Size = new System.Drawing.Size(197, 13);
             this.lblSyncResumeDelta.TabIndex = 11;
             this.lblSyncResumeDelta.Text = "Delta in seconds to apply to resume time";
             // 
             // numSyncResumeDelta
             // 
-            this.numSyncResumeDelta.Location = new System.Drawing.Point(378, 326);
-            this.numSyncResumeDelta.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.numSyncResumeDelta.Location = new System.Drawing.Point(252, 212);
             this.numSyncResumeDelta.Maximum = new decimal(new int[] {
             600,
             0,
             0,
             0});
             this.numSyncResumeDelta.Name = "numSyncResumeDelta";
-            this.numSyncResumeDelta.Size = new System.Drawing.Size(92, 26);
+            this.numSyncResumeDelta.Size = new System.Drawing.Size(61, 20);
             this.numSyncResumeDelta.TabIndex = 12;
             this.ttpConfig.SetToolTip(this.numSyncResumeDelta, "You may wish to re-play X seconds from where you left off, this setting \r\nallows " +
         "you control how far back to start when prompted.");
@@ -262,10 +274,9 @@
             // cbSyncPlayback
             // 
             this.cbSyncPlayback.AutoSize = true;
-            this.cbSyncPlayback.Location = new System.Drawing.Point(14, 263);
-            this.cbSyncPlayback.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSyncPlayback.Location = new System.Drawing.Point(9, 171);
             this.cbSyncPlayback.Name = "cbSyncPlayback";
-            this.cbSyncPlayback.Size = new System.Drawing.Size(383, 24);
+            this.cbSyncPlayback.Size = new System.Drawing.Size(260, 17);
             this.cbSyncPlayback.TabIndex = 9;
             this.cbSyncPlayback.Text = "Sync Playback (resume) data on Startup/Resume";
             this.ttpConfig.SetToolTip(this.cbSyncPlayback, "Sync playback / resume data for partially watched videos. This allows\r\nyou to con" +
@@ -277,10 +288,9 @@
             // cbSyncRatings
             // 
             this.cbSyncRatings.AutoSize = true;
-            this.cbSyncRatings.Location = new System.Drawing.Point(14, 198);
-            this.cbSyncRatings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSyncRatings.Location = new System.Drawing.Point(9, 129);
             this.cbSyncRatings.Name = "cbSyncRatings";
-            this.cbSyncRatings.Size = new System.Drawing.Size(181, 24);
+            this.cbSyncRatings.Size = new System.Drawing.Size(123, 17);
             this.cbSyncRatings.TabIndex = 7;
             this.cbSyncRatings.Text = "S&ynchronise Ratings";
             this.ttpConfig.SetToolTip(this.cbSyncRatings, resources.GetString("cbSyncRatings.ToolTip"));
@@ -290,10 +300,9 @@
             // cbSyncLibrary
             // 
             this.cbSyncLibrary.AutoSize = true;
-            this.cbSyncLibrary.Location = new System.Drawing.Point(14, 166);
-            this.cbSyncLibrary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSyncLibrary.Location = new System.Drawing.Point(9, 108);
             this.cbSyncLibrary.Name = "cbSyncLibrary";
-            this.cbSyncLibrary.Size = new System.Drawing.Size(300, 24);
+            this.cbSyncLibrary.Size = new System.Drawing.Size(205, 17);
             this.cbSyncLibrary.TabIndex = 6;
             this.cbSyncLibrary.Text = "Sync &Library (Collected and Watched)";
             this.ttpConfig.SetToolTip(this.cbSyncLibrary, "Enable this setting to synchronise your collection and watched states to and from" +
@@ -304,10 +313,9 @@
             // cbMyFilmsCategories
             // 
             this.cbMyFilmsCategories.AutoSize = true;
-            this.cbMyFilmsCategories.Location = new System.Drawing.Point(14, 134);
-            this.cbMyFilmsCategories.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbMyFilmsCategories.Location = new System.Drawing.Point(9, 87);
             this.cbMyFilmsCategories.Name = "cbMyFilmsCategories";
-            this.cbMyFilmsCategories.Size = new System.Drawing.Size(290, 24);
+            this.cbMyFilmsCategories.Size = new System.Drawing.Size(195, 17);
             this.cbMyFilmsCategories.TabIndex = 5;
             this.cbMyFilmsCategories.Text = "Create My Fi&lms Categories on Sync";
             this.cbMyFilmsCategories.UseVisualStyleBackColor = true;
@@ -316,10 +324,9 @@
             // cbMovingPicturesFilters
             // 
             this.cbMovingPicturesFilters.AutoSize = true;
-            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(14, 102);
-            this.cbMovingPicturesFilters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 66);
             this.cbMovingPicturesFilters.Name = "cbMovingPicturesFilters";
-            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(306, 24);
+            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(208, 17);
             this.cbMovingPicturesFilters.TabIndex = 4;
             this.cbMovingPicturesFilters.Text = "Create Moving Pictures &Filters on Sync";
             this.cbMovingPicturesFilters.UseVisualStyleBackColor = true;
@@ -328,10 +335,9 @@
             // cbMovingPicturesCategories
             // 
             this.cbMovingPicturesCategories.AutoSize = true;
-            this.cbMovingPicturesCategories.Location = new System.Drawing.Point(14, 69);
-            this.cbMovingPicturesCategories.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbMovingPicturesCategories.Location = new System.Drawing.Point(9, 45);
             this.cbMovingPicturesCategories.Name = "cbMovingPicturesCategories";
-            this.cbMovingPicturesCategories.Size = new System.Drawing.Size(340, 24);
+            this.cbMovingPicturesCategories.Size = new System.Drawing.Size(231, 17);
             this.cbMovingPicturesCategories.TabIndex = 3;
             this.cbMovingPicturesCategories.Text = "Create Moving Pictures &Categories on Sync";
             this.cbMovingPicturesCategories.UseVisualStyleBackColor = true;
@@ -340,10 +346,9 @@
             // lbSyncTimerLength
             // 
             this.lbSyncTimerLength.AutoSize = true;
-            this.lbSyncTimerLength.Location = new System.Drawing.Point(10, 34);
-            this.lbSyncTimerLength.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbSyncTimerLength.Location = new System.Drawing.Point(7, 22);
             this.lbSyncTimerLength.Name = "lbSyncTimerLength";
-            this.lbSyncTimerLength.Size = new System.Drawing.Size(173, 20);
+            this.lbSyncTimerLength.Size = new System.Drawing.Size(121, 13);
             this.lbSyncTimerLength.TabIndex = 0;
             this.lbSyncTimerLength.Text = "Sync with trakt.tv every ";
             this.ttpConfig.SetToolTip(this.lbSyncTimerLength, "Set this to the value in hours that you want to wait to resync with Trakt");
@@ -351,10 +356,9 @@
             // cbKeepInSync
             // 
             this.cbKeepInSync.AutoSize = true;
-            this.cbKeepInSync.Location = new System.Drawing.Point(14, 231);
-            this.cbKeepInSync.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbKeepInSync.Location = new System.Drawing.Point(9, 150);
             this.cbKeepInSync.Name = "cbKeepInSync";
-            this.cbKeepInSync.Size = new System.Drawing.Size(411, 24);
+            this.cbKeepInSync.Size = new System.Drawing.Size(278, 17);
             this.cbKeepInSync.TabIndex = 8;
             this.cbKeepInSync.Text = "&Remove Collected items if no longer in local database";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
@@ -364,10 +368,9 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(834, 717);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOK.Location = new System.Drawing.Point(601, 542);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(159, 35);
+            this.btnOK.Size = new System.Drawing.Size(106, 23);
             this.btnOK.TabIndex = 8;
             this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -384,10 +387,9 @@
             // 
             // btnTVSeriesRestrictions
             // 
-            this.btnTVSeriesRestrictions.Location = new System.Drawing.Point(14, 86);
-            this.btnTVSeriesRestrictions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnTVSeriesRestrictions.Location = new System.Drawing.Point(9, 56);
             this.btnTVSeriesRestrictions.Name = "btnTVSeriesRestrictions";
-            this.btnTVSeriesRestrictions.Size = new System.Drawing.Size(224, 35);
+            this.btnTVSeriesRestrictions.Size = new System.Drawing.Size(149, 23);
             this.btnTVSeriesRestrictions.TabIndex = 1;
             this.btnTVSeriesRestrictions.Text = "&Series...";
             this.ttpConfig.SetToolTip(this.btnTVSeriesRestrictions, "Select the series you want to ignore from Syncronization and Scrobbling.");
@@ -397,10 +399,9 @@
             // cbParentControls
             // 
             this.cbParentControls.AutoSize = true;
-            this.cbParentControls.Location = new System.Drawing.Point(15, 29);
-            this.cbParentControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbParentControls.Location = new System.Drawing.Point(10, 19);
             this.cbParentControls.Name = "cbParentControls";
-            this.cbParentControls.Size = new System.Drawing.Size(283, 24);
+            this.cbParentControls.Size = new System.Drawing.Size(191, 17);
             this.cbParentControls.TabIndex = 0;
             this.cbParentControls.Text = "Enable Parental Controls Pin Code:";
             this.ttpConfig.SetToolTip(this.cbParentControls, "When enabled, will prevent playback of inappropriate material.");
@@ -409,12 +410,11 @@
             // 
             // txtPinCode
             // 
-            this.txtPinCode.Location = new System.Drawing.Point(378, 25);
-            this.txtPinCode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtPinCode.Location = new System.Drawing.Point(252, 16);
             this.txtPinCode.MaxLength = 4;
             this.txtPinCode.Name = "txtPinCode";
             this.txtPinCode.PasswordChar = '*';
-            this.txtPinCode.Size = new System.Drawing.Size(91, 26);
+            this.txtPinCode.Size = new System.Drawing.Size(62, 20);
             this.txtPinCode.TabIndex = 1;
             this.ttpConfig.SetToolTip(this.txtPinCode, "Enter in a 4-digit pin code to prevent playback of inappropriate material.");
             this.txtPinCode.TextChanged += new System.EventHandler(this.txtPinCode_TextChanged);
@@ -425,11 +425,9 @@
             this.gbRestrictions.Controls.Add(this.textBox2);
             this.gbRestrictions.Controls.Add(this.btnMovieRestrictions);
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
-            this.gbRestrictions.Location = new System.Drawing.Point(18, 377);
-            this.gbRestrictions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 245);
             this.gbRestrictions.Name = "gbRestrictions";
-            this.gbRestrictions.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbRestrictions.Size = new System.Drawing.Size(483, 137);
+            this.gbRestrictions.Size = new System.Drawing.Size(355, 89);
             this.gbRestrictions.TabIndex = 2;
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
@@ -438,11 +436,10 @@
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(16, 29);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBox2.Location = new System.Drawing.Point(11, 19);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(447, 55);
+            this.textBox2.Size = new System.Drawing.Size(327, 36);
             this.textBox2.TabIndex = 0;
             this.textBox2.TabStop = false;
             this.textBox2.Text = "Choose what movies and tv shows you would like to ignore during sync and scrobble" +
@@ -450,10 +447,9 @@
             // 
             // btnMovieRestrictions
             // 
-            this.btnMovieRestrictions.Location = new System.Drawing.Point(246, 86);
-            this.btnMovieRestrictions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnMovieRestrictions.Location = new System.Drawing.Point(186, 56);
             this.btnMovieRestrictions.Name = "btnMovieRestrictions";
-            this.btnMovieRestrictions.Size = new System.Drawing.Size(228, 35);
+            this.btnMovieRestrictions.Size = new System.Drawing.Size(152, 23);
             this.btnMovieRestrictions.TabIndex = 2;
             this.btnMovieRestrictions.Text = "&Movies...";
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
@@ -463,10 +459,9 @@
             // 
             this.progressBarSync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarSync.Location = new System.Drawing.Point(18, 617);
-            this.progressBarSync.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.progressBarSync.Location = new System.Drawing.Point(12, 481);
             this.progressBarSync.Name = "progressBarSync";
-            this.progressBarSync.Size = new System.Drawing.Size(975, 35);
+            this.progressBarSync.Size = new System.Drawing.Size(695, 23);
             this.progressBarSync.TabIndex = 5;
             // 
             // lblSyncStatus
@@ -474,10 +469,9 @@
             this.lblSyncStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSyncStatus.AutoEllipsis = true;
-            this.lblSyncStatus.Location = new System.Drawing.Point(18, 722);
-            this.lblSyncStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSyncStatus.Location = new System.Drawing.Point(12, 545);
             this.lblSyncStatus.Name = "lblSyncStatus";
-            this.lblSyncStatus.Size = new System.Drawing.Size(807, 22);
+            this.lblSyncStatus.Size = new System.Drawing.Size(583, 14);
             this.lblSyncStatus.TabIndex = 7;
             this.lblSyncStatus.Text = "Ready for anything!";
             // 
@@ -485,10 +479,9 @@
             // 
             this.btnStartLibrarySync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartLibrarySync.Location = new System.Drawing.Point(18, 662);
-            this.btnStartLibrarySync.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnStartLibrarySync.Location = new System.Drawing.Point(12, 510);
             this.btnStartLibrarySync.Name = "btnStartLibrarySync";
-            this.btnStartLibrarySync.Size = new System.Drawing.Size(975, 37);
+            this.btnStartLibrarySync.Size = new System.Drawing.Size(695, 24);
             this.btnStartLibrarySync.TabIndex = 6;
             this.btnStartLibrarySync.Text = "Start Library and Playback Sync";
             this.btnStartLibrarySync.UseVisualStyleBackColor = true;
@@ -497,11 +490,10 @@
             // dtParentalControlsTime
             // 
             this.dtParentalControlsTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtParentalControlsTime.Location = new System.Drawing.Point(339, 58);
-            this.dtParentalControlsTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtParentalControlsTime.Location = new System.Drawing.Point(226, 38);
             this.dtParentalControlsTime.Name = "dtParentalControlsTime";
             this.dtParentalControlsTime.ShowUpDown = true;
-            this.dtParentalControlsTime.Size = new System.Drawing.Size(130, 26);
+            this.dtParentalControlsTime.Size = new System.Drawing.Size(88, 20);
             this.dtParentalControlsTime.TabIndex = 3;
             this.dtParentalControlsTime.Value = new System.DateTime(2016, 3, 25, 21, 0, 0, 0);
             this.dtParentalControlsTime.ValueChanged += new System.EventHandler(this.dtParentalControlsTime_ValueChanged);
@@ -509,10 +501,9 @@
             // cbParentalControlsTime
             // 
             this.cbParentalControlsTime.AutoSize = true;
-            this.cbParentalControlsTime.Location = new System.Drawing.Point(15, 66);
-            this.cbParentalControlsTime.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbParentalControlsTime.Location = new System.Drawing.Point(10, 43);
             this.cbParentalControlsTime.Name = "cbParentalControlsTime";
-            this.cbParentalControlsTime.Size = new System.Drawing.Size(244, 24);
+            this.cbParentalControlsTime.Size = new System.Drawing.Size(163, 17);
             this.cbParentalControlsTime.TabIndex = 2;
             this.cbParentalControlsTime.Text = "Ignore Parental Controls after";
             this.cbParentalControlsTime.UseVisualStyleBackColor = true;
@@ -520,7 +511,8 @@
             // 
             // gbParentalControls
             // 
-            this.gbParentalControls.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbParentalControls.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbParentalControls.Controls.Add(this.cboMovieCertifications);
             this.gbParentalControls.Controls.Add(this.cbParentalIgnoreMovieCertifications);
@@ -530,11 +522,9 @@
             this.gbParentalControls.Controls.Add(this.cbParentControls);
             this.gbParentalControls.Controls.Add(this.dtParentalControlsTime);
             this.gbParentalControls.Controls.Add(this.txtPinCode);
-            this.gbParentalControls.Location = new System.Drawing.Point(510, 406);
-            this.gbParentalControls.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbParentalControls.Location = new System.Drawing.Point(373, 264);
             this.gbParentalControls.Name = "gbParentalControls";
-            this.gbParentalControls.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbParentalControls.Size = new System.Drawing.Size(480, 194);
+            this.gbParentalControls.Size = new System.Drawing.Size(332, 209);
             this.gbParentalControls.TabIndex = 4;
             this.gbParentalControls.TabStop = false;
             this.gbParentalControls.Text = "Parental Controls";
@@ -548,20 +538,18 @@
             "PG",
             "PG-13",
             "R"});
-            this.cboMovieCertifications.Location = new System.Drawing.Point(378, 128);
-            this.cboMovieCertifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboMovieCertifications.Location = new System.Drawing.Point(252, 83);
             this.cboMovieCertifications.Name = "cboMovieCertifications";
-            this.cboMovieCertifications.Size = new System.Drawing.Size(90, 28);
+            this.cboMovieCertifications.Size = new System.Drawing.Size(61, 21);
             this.cboMovieCertifications.TabIndex = 7;
             this.cboMovieCertifications.SelectedValueChanged += new System.EventHandler(this.cboMovieCertifications_SelectedValueChanged);
             // 
             // cbParentalIgnoreMovieCertifications
             // 
             this.cbParentalIgnoreMovieCertifications.AutoSize = true;
-            this.cbParentalIgnoreMovieCertifications.Location = new System.Drawing.Point(15, 138);
-            this.cbParentalIgnoreMovieCertifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbParentalIgnoreMovieCertifications.Location = new System.Drawing.Point(10, 90);
             this.cbParentalIgnoreMovieCertifications.Name = "cbParentalIgnoreMovieCertifications";
-            this.cbParentalIgnoreMovieCertifications.Size = new System.Drawing.Size(276, 24);
+            this.cbParentalIgnoreMovieCertifications.Size = new System.Drawing.Size(188, 17);
             this.cbParentalIgnoreMovieCertifications.TabIndex = 6;
             this.cbParentalIgnoreMovieCertifications.Text = "Ignore on Movies with Certification";
             this.cbParentalIgnoreMovieCertifications.UseVisualStyleBackColor = true;
@@ -578,20 +566,18 @@
             "TV-PG",
             "TV-14",
             "TV-M"});
-            this.cboTVCertifications.Location = new System.Drawing.Point(378, 92);
-            this.cboTVCertifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboTVCertifications.Location = new System.Drawing.Point(252, 60);
             this.cboTVCertifications.Name = "cboTVCertifications";
-            this.cboTVCertifications.Size = new System.Drawing.Size(90, 28);
+            this.cboTVCertifications.Size = new System.Drawing.Size(61, 21);
             this.cboTVCertifications.TabIndex = 5;
             this.cboTVCertifications.SelectedValueChanged += new System.EventHandler(this.cboTVCertifications_SelectedValueChanged);
             // 
             // cbParentalIgnoreShowCertifications
             // 
             this.cbParentalIgnoreShowCertifications.AutoSize = true;
-            this.cbParentalIgnoreShowCertifications.Location = new System.Drawing.Point(15, 102);
-            this.cbParentalIgnoreShowCertifications.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbParentalIgnoreShowCertifications.Location = new System.Drawing.Point(10, 66);
             this.cbParentalIgnoreShowCertifications.Name = "cbParentalIgnoreShowCertifications";
-            this.cbParentalIgnoreShowCertifications.Size = new System.Drawing.Size(275, 24);
+            this.cbParentalIgnoreShowCertifications.Size = new System.Drawing.Size(186, 17);
             this.cbParentalIgnoreShowCertifications.TabIndex = 4;
             this.cbParentalIgnoreShowCertifications.Text = "Ignore on Shows with Certification";
             this.cbParentalIgnoreShowCertifications.UseVisualStyleBackColor = true;
@@ -601,11 +587,9 @@
             // 
             this.gbImages.Controls.Add(this.cboPreferredImageLanguage);
             this.gbImages.Controls.Add(this.label1);
-            this.gbImages.Location = new System.Drawing.Point(18, 525);
-            this.gbImages.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbImages.Location = new System.Drawing.Point(12, 341);
             this.gbImages.Name = "gbImages";
-            this.gbImages.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.gbImages.Size = new System.Drawing.Size(483, 75);
+            this.gbImages.Size = new System.Drawing.Size(355, 52);
             this.gbImages.TabIndex = 9;
             this.gbImages.TabStop = false;
             this.gbImages.Text = "Images";
@@ -614,46 +598,87 @@
             // 
             this.cboPreferredImageLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPreferredImageLanguage.FormattingEnabled = true;
-            this.cboPreferredImageLanguage.Location = new System.Drawing.Point(183, 25);
-            this.cboPreferredImageLanguage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboPreferredImageLanguage.Location = new System.Drawing.Point(122, 16);
             this.cboPreferredImageLanguage.Name = "cboPreferredImageLanguage";
-            this.cboPreferredImageLanguage.Size = new System.Drawing.Size(289, 28);
+            this.cboPreferredImageLanguage.Size = new System.Drawing.Size(216, 21);
             this.cboPreferredImageLanguage.TabIndex = 1;
             this.cboPreferredImageLanguage.SelectedIndexChanged += new System.EventHandler(this.cboPreferredImageLanguage_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 31);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(11, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(155, 20);
+            this.label1.Size = new System.Drawing.Size(104, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Preferred Language:";
             // 
-            // btnAuthoriseApplication
+            // gbPaypal
             // 
-            this.btnAuthoriseApplication.Location = new System.Drawing.Point(14, 29);
-            this.btnAuthoriseApplication.Name = "btnAuthoriseApplication";
-            this.btnAuthoriseApplication.Size = new System.Drawing.Size(445, 44);
-            this.btnAuthoriseApplication.TabIndex = 5;
-            this.btnAuthoriseApplication.Text = "Authorize Application...";
-            this.btnAuthoriseApplication.UseVisualStyleBackColor = true;
-            this.btnAuthoriseApplication.Click += new System.EventHandler(this.btnAuthoriseApplication_Click);
+            this.gbPaypal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbPaypal.Controls.Add(this.lnkPaypal);
+            this.gbPaypal.Controls.Add(this.lblPaypal);
+            this.gbPaypal.Controls.Add(this.pbPaypal);
+            this.gbPaypal.Location = new System.Drawing.Point(13, 400);
+            this.gbPaypal.Name = "gbPaypal";
+            this.gbPaypal.Size = new System.Drawing.Size(354, 73);
+            this.gbPaypal.TabIndex = 10;
+            this.gbPaypal.TabStop = false;
+            this.gbPaypal.Text = "Donate";
             // 
-            // lblAuthorizeApplication
+            // pbPaypal
             // 
-            this.lblAuthorizeApplication.Location = new System.Drawing.Point(12, 80);
-            this.lblAuthorizeApplication.Name = "lblAuthorizeApplication";
-            this.lblAuthorizeApplication.Size = new System.Drawing.Size(445, 40);
-            this.lblAuthorizeApplication.TabIndex = 6;
-            this.lblAuthorizeApplication.Text = "You must authorize the application to use your account at trakt.tv.";
+            this.pbPaypal.Image = global::TraktPlugin.Properties.Resources.paypal;
+            this.pbPaypal.InitialImage = null;
+            this.pbPaypal.Location = new System.Drawing.Point(13, 15);
+            this.pbPaypal.Name = "pbPaypal";
+            this.pbPaypal.Size = new System.Drawing.Size(48, 48);
+            this.pbPaypal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbPaypal.TabIndex = 0;
+            this.pbPaypal.TabStop = false;
+            this.pbPaypal.Click += new System.EventHandler(this.pbPaypal_Click);
+            // 
+            // lblPaypal
+            // 
+            this.lblPaypal.AutoSize = true;
+            this.lblPaypal.Location = new System.Drawing.Point(68, 16);
+            this.lblPaypal.Name = "lblPaypal";
+            this.lblPaypal.Size = new System.Drawing.Size(243, 26);
+            this.lblPaypal.TabIndex = 1;
+            this.lblPaypal.Text = "If you enjoy using the Trakt plugin please consider\r\ndonating to help support con" +
+    "tinued development";
+            // 
+            // lnkPaypal
+            // 
+            this.lnkPaypal.AutoSize = true;
+            this.lnkPaypal.Location = new System.Drawing.Point(68, 47);
+            this.lnkPaypal.Name = "lnkPaypal";
+            this.lnkPaypal.Size = new System.Drawing.Size(193, 13);
+            this.lnkPaypal.TabIndex = 2;
+            this.lnkPaypal.TabStop = true;
+            this.lnkPaypal.Text = "https://www.paypal.me/damienlhaynes";
+            this.lnkPaypal.Click += new System.EventHandler(this.lnkPaypal_Click);
+            // 
+            // lnkLog
+            // 
+            this.lnkLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnkLog.AutoSize = true;
+            this.lnkLog.Location = new System.Drawing.Point(13, 562);
+            this.lnkLog.Name = "lnkLog";
+            this.lnkLog.Size = new System.Drawing.Size(54, 13);
+            this.lnkLog.TabIndex = 11;
+            this.lnkLog.TabStop = true;
+            this.lnkLog.Text = "Open Log";
+            this.lnkLog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkLog_LinkClicked);
             // 
             // Configuration
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 771);
+            this.ClientSize = new System.Drawing.Size(717, 581);
+            this.Controls.Add(this.lnkLog);
+            this.Controls.Add(this.gbPaypal);
             this.Controls.Add(this.gbImages);
             this.Controls.Add(this.gbParentalControls);
             this.Controls.Add(this.btnStartLibrarySync);
@@ -665,10 +690,8 @@
             this.Controls.Add(this.gbPlugins);
             this.Controls.Add(this.gbTraktAccount);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1021, 799);
+            this.MinimumSize = new System.Drawing.Size(733, 620);
             this.Name = "Configuration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trakt Configuration v10.0.0.0";
@@ -686,7 +709,11 @@
             this.gbParentalControls.PerformLayout();
             this.gbImages.ResumeLayout(false);
             this.gbImages.PerformLayout();
+            this.gbPaypal.ResumeLayout(false);
+            this.gbPaypal.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPaypal)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -735,5 +762,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblAuthorizeApplication;
         private System.Windows.Forms.Button btnAuthoriseApplication;
+        private System.Windows.Forms.GroupBox gbPaypal;
+        private System.Windows.Forms.PictureBox pbPaypal;
+        private System.Windows.Forms.LinkLabel lnkPaypal;
+        private System.Windows.Forms.Label lblPaypal;
+        private System.Windows.Forms.LinkLabel lnkLog;
     }
 }
