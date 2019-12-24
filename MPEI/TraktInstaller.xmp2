@@ -321,6 +321,20 @@
               <ZipFileName>Installer{CopyFile}\{c1abd248-83dc-4354-84f0-ea6614746af6}-sq.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\sq.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\fr.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a8adeb8e-e06d-416f-9577-ade4ea688830}-fr.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\fr.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\pt-BR.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{82266a78-6be6-4486-8d7c-f42a2ee2d639}-pt-BR.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\pt-BR.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1534,43 +1548,27 @@ Click Next to continue or Cancel to exit Setup.
     <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
     <Author>ltfearme</Author>
     <HomePage>http://github.com/trakt/Trakt-for-Mediaportal</HomePage>
-    <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
+    <ForumPage>https://forum.team-mediaportal.com/forums/trakt.548/</ForumPage>
     <UpdateUrl>https://raw.github.com/trakt/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>6</Major>
       <Minor>0</Minor>
-      <Build>2</Build>
-      <Revision>0</Revision>
+      <Build>3</Build>
+      <Revision>1</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added new Audio codecs (DTS-X, ATMOS, DD+) to MovingPictures collection sync. Requires updated MovingPictures to support sending new codecs;
-
-* Added support to view Comments on Lists;
-
-* Added support for Liked Lists (see Ttian skin);
-
-* Added support for Trending and Popular Lists (see Titan skin);
-
-* Added 'CommentCount' property to Movie, Show and Episode objects;
-
-* Updated Titan skin to support Liked, Trending and Popular Lists
-
-* Fixed Cast and Crew context menu items not working from Custom Lists;
-
-* Fixed issues with thread safety in image download handling, should resolve any related crashes;
-
-* Fixed skins incorrectly showing page related properties when leaving window and entering another which does not support paging.
-
-* Fixed a few issues when copying lists;
-
-* Fixed issue where My Videos watched sync did not set the correct watched date in the database;
-
-* Fixed rate dialog opening before directshow graph is released after playing back fullscreen video. This lead to a MP freeze in some situations. Thanks to Sebastiii for patch.</VersionDescription>
+    <VersionDescription>* Fixed issues with invalid dates in setting when opening configuration tool;
+* Fixed issue with loading plugin if TMDb cache contained invalid NUL characters;
+* Fixed Invalid Operation Exception when naming threads, issue appears when running imports between trakt and tvseries in config mode;
+* Added support to sent HDR information during sync for TVSeries;
+* Added support for 8 digiti IMDb ID's;
+* Added EpisodeCount and IsSeriesRegular skin properties to show credits;
+</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2018-09-02T10:00:00</ReleaseDate>
+    <ReleaseDate>2019-12-24T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -1909,6 +1907,20 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\sq.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{c1abd248-83dc-4354-84f0-ea6614746af6}-sq.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\sq.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\fr.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a8adeb8e-e06d-416f-9577-ade4ea688830}-fr.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\fr.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\pt-BR.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{82266a78-6be6-4486-8d7c-f42a2ee2d639}-pt-BR.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\pt-BR.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -2873,14 +2885,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{165ec2cb-87e4-40fa-a819-3b754f07363b}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{2786f4cf-001b-4f75-96bb-05488c42fd77}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt-1024.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{7b555c31-014b-40a9-8325-a1363b3522a7}-trakt-1024.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{203b7fdb-2b99-4436-b1e7-cd7bbd939d74}-trakt-1024.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>

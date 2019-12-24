@@ -525,7 +525,7 @@ namespace TraktPlugin
         /// </summary>
         private void syncLibraryWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
+            if (Thread.CurrentThread.Name == null)
                 Thread.CurrentThread.Name = "Sync";
 
             LibrarySyncRunning = false;
@@ -547,7 +547,8 @@ namespace TraktPlugin
             LibrarySyncRunning = true;
             SyncStartTime = DateTime.UtcNow;
 
-            Thread.CurrentThread.Name = "Sync";
+            if ( Thread.CurrentThread.Name == null )
+                 Thread.CurrentThread.Name = "Sync";
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;

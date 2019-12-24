@@ -126,7 +126,7 @@ namespace TraktPlugin.Cache
                 {
                     TraktLogger.Debug("Loading file from disk. Filename = '{0}'", filename);
                     returnValue = File.ReadAllText(filename, Encoding.UTF8);
-                    if (string.IsNullOrEmpty(returnValue))
+                    if (string.IsNullOrEmpty(returnValue) || returnValue.StartsWith("\0"))
                     {
                         TraktLogger.Warning("Unexpected contents in file '{0}', restoring default value", filename);
                         returnValue = defaultValue;
