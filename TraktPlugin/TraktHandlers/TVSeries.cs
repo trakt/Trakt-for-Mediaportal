@@ -259,6 +259,8 @@ namespace TraktPlugin.TraktHandlers
 
                 var localRatedEpisodes = new List<DBEpisode>();
                 var localNonRatedEpisodes = new List<DBEpisode>();
+                var localRatedSeasons = new List<DBSeason>();
+                var localNonRatedSeasons = new List<DBSeason>();
                 var localRatedShows = new List<DBSeries>();
                 var localNonRatedShows = new List<DBSeries>();
                 if (TraktSettings.SyncRatings)
@@ -267,6 +269,12 @@ namespace TraktPlugin.TraktHandlers
                     localRatedEpisodes.AddRange(localEpisodes.Where(e => e[DBOnlineEpisode.cMyRating] > 0));
                     localNonRatedEpisodes = localEpisodes.Except(localRatedEpisodes).ToList();
                     TraktLogger.Info("Found {0} episodes rated in tvseries database", localRatedEpisodes.Count);
+
+                    // get the seasons that we have rated/unrated
+                    var seasons = DBSeason.Get( new SQLCondition() );
+                    localRatedSeasons.AddRange( seasons.Where( s => s[DBSeason.cMyRating] > 0 && !IgnoredSeries.Contains( s[DBSeason.cSeriesID] ) ) );
+                    localNonRatedSeasons = seasons.Except( localRatedSeasons ).ToList();
+                    TraktLogger.Info( "Found {0} seasons rated in tvseries database", localRatedSeasons.Count );
 
                     // get the shows that we have rated/unrated
                     var shows = DBSeries.Get(new SQLCondition());
@@ -349,7 +357,7 @@ namespace TraktPlugin.TraktHandlers
 
                 #endregion
 
-                #region Rate episodes/shows in local database
+                #region Rate episodes/season/shows in local database
 
                 if (TraktSettings.SyncRatings)
                 {
@@ -380,6 +388,31 @@ namespace TraktPlugin.TraktHandlers
                     }
                     #endregion
 
+                    #region Seasons
+                    TraktLogger.Info( "Start sync of tv season ratings to local database" );
+                    if ( traktRatedSeasons != null && traktRatedSeasons.Count() > 0 )
+                    {
+                        foreach ( var season in localNonRatedSeasons )
+                        {
+                            if ( IgnoredSeries.Exists( tvdbid => tvdbid == season[DBSeason.cSeriesID] ) )
+                                continue;
+
+                            // if we have the season unrated, rate it
+                            var traktSeason = traktRatedSeasons.FirstOrDefault( trs => trs.Show.Ids.Tvdb == season[DBSeason.cSeriesID] && trs.Season.Number == season[DBSeason.cIndex] );
+                            if ( traktSeason == null )
+                                continue;
+
+                            // update local collection rating
+                            TraktLogger.Info( "Inserting rating for tv season in local database, season is rated on trakt.tv. Rating = '{0}/10', Title = '{1}', Season = '{2}', Year = '{3}', Show TVDb ID = '{4}'",
+                                traktSeason.Rating, traktSeason.Show.Title, traktSeason.Season.Number, traktSeason.Show.Year.HasValue ? traktSeason.Show.Year.ToString() : "<empty>", traktSeason.Show.Ids.Tvdb.HasValue ? traktSeason.Show.Ids.Tvdb.ToString() : "<empty>" );
+
+                            season[DBSeason.cMyRating] = traktSeason.Rating;
+                            season[DBSeason.cMyRatingAt] = traktSeason.RatedAt.FromISO8601().ToString( "yyyy-MM-dd HH:mm:ss" );
+                            season.Commit();
+                        }
+                    }
+                    #endregion
+
                     #region Shows
                     TraktLogger.Info("Start sync of tv show ratings to local database");
                     if (traktRatedShows != null && traktRatedShows.Count() > 0)
@@ -395,7 +428,7 @@ namespace TraktPlugin.TraktHandlers
                                 continue;
 
                             // update local collection rating
-                            TraktLogger.Info("Inserting rating for tv show in local database, show is rated on trakt.tv. Rating = '{0}/10', Title = '{1}', Year = '{1}', Show TVDb ID = '{2}'",
+                            TraktLogger.Info("Inserting rating for tv show in local database, show is rated on trakt.tv. Rating = '{0}/10', Title = '{1}', Year = '{2}', Show TVDb ID = '{3}'",
                                 traktShow.Rating, traktShow.Show.Title, traktShow.Show.Year.HasValue ? traktShow.Show.Year.ToString() : "<empty>" , traktShow.Show.Ids.Tvdb.HasValue ? traktShow.Show.Ids.Tvdb.ToString() : "<empty>");
 
                             show[DBOnlineSeries.cMyRating] = traktShow.Rating;
