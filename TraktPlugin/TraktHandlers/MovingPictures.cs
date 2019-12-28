@@ -31,6 +31,7 @@ namespace TraktPlugin.TraktHandlers
         bool SyncPlaybackInProgress;
         bool TraktRateSent;
         bool IsDVDPlaying;
+        bool IsHdrCompatible;
         static bool AdvancedRatings;
         public static MoviePlayer player = null;
 
@@ -57,6 +58,9 @@ namespace TraktPlugin.TraktHandlers
                 if (new Version(version) >= new Version(1, 8, 1, 0))
                     AdvancedRatings = true;
 
+                // check if it supports reporting HDR info
+                if ( new Version( version ) >= new Version( 1, 8, 3, 0 ) )
+                    IsHdrCompatible = true;
             }
 
             Priority = priority;
@@ -356,7 +360,8 @@ namespace TraktPlugin.TraktHandlers
                                                Resolution = GetMovieResolution(movie),
                                                AudioCodec = GetMovieAudioCodec(movie),
                                                AudioChannels = GetMovieAudioChannels(movie),
-                                               Is3D = IsMovie3D(movie)
+                                               Is3D = IsMovie3D(movie),
+                                               HdrType = IsHdrCompatible ? GetMovieHdrInfo(movie) : null
                                            }).ToList();
 
                     TraktLogger.Info("Adding {0} movies to trakt.tv collection", syncCollectedMovies.Count);
@@ -1107,7 +1112,8 @@ namespace TraktPlugin.TraktHandlers
                             Resolution = GetMovieResolution(tMovie),
                             AudioCodec = GetMovieAudioCodec(tMovie),
                             AudioChannels = GetMovieAudioChannels(tMovie),
-                            Is3D = IsMovie3D(tMovie)
+                            Is3D = IsMovie3D(tMovie),
+                            HdrType = IsHdrCompatible ? GetMovieHdrInfo(tMovie) : null
                         };
 
                         TraktLogger.Info("New movie added into MovingPictures, adding to trakt.tv collection. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}', Date Added = '{4}', MediaType = '{5}', Resolution = '{6}', Audio Codec = '{7}', Audio Channels = '{8}'",
@@ -1155,11 +1161,27 @@ namespace TraktPlugin.TraktHandlers
         }
 
         #endregion
-        
+
         #region Data Creators
 
         /// <summary>
-        /// Checks if the movie is 3D or not
+        /// Get whether the movie is HDR or not
+        /// Set to dolby_vision, hdr10, hdr10_plus, or hlg.
+        /// </summary>
+        private string GetMovieHdrInfo( DBMovieInfo movie )
+        {
+            // get the first movie if stacked
+            var firstMovie = movie.LocalMedia.FirstOrDefault();
+            if ( firstMovie == null ) return null;
+
+            // if mediainfo not available don't do anything
+            if ( !firstMovie.HasMediaInfo ) return null;
+
+            return firstMovie.IsHDR ? "hdr10" : null;
+        }
+
+        /// <summary>
+        /// Get whether the movie is 3D or not
         /// </summary>
         private bool IsMovie3D(DBMovieInfo movie)
         {
@@ -1227,6 +1249,7 @@ namespace TraktPlugin.TraktHandlers
                 case "480i":
                     return TraktResolution.sd_480i.ToString();
                 case "4K UHD":
+                case "2160p":
                     return TraktResolution.uhd_4k.ToString();
             }
 
@@ -1250,21 +1273,29 @@ namespace TraktPlugin.TraktHandlers
                 case "truehd":
                     return TraktAudio.dolby_truehd.ToString();
                 case "dts":
+                case "dts es":
                     return TraktAudio.dts.ToString();
                 case "dtshd":
+                case "dtshd_ma":
                     return TraktAudio.dts_ma.ToString();
                 case "dtsx":
                     return TraktAudio.dts_x.ToString();
                 case "ac3":
+                case "ac-3":
                     return TraktAudio.dolby_digital.ToString();
                 case "eac3":
                     return TraktAudio.dolby_digital_plus.ToString();
                 case "eac3+atmos":
                 case "truehd+atmos":
+                case "eac3 atmos":
+                case "truehd atmos":
                     return TraktAudio.dolby_atmos.ToString();
                 case "aac":
+                case "aac he-aac":
+                case "aac lc":
                     return TraktAudio.aac.ToString();
                 case "mp2":
+                case "mp3":
                     return TraktAudio.mp3.ToString();
                 case "pcm":
                     return TraktAudio.lpcm.ToString();
