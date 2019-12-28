@@ -1150,6 +1150,7 @@ namespace TraktPlugin.TraktHandlers
             if (show == null) return;
 
             show[DBOnlineSeries.cMyRating] = rating;
+            show[DBOnlineSeries.cMyRatingAt] = DateTime.UtcNow.ToISO8601();
             if (show[DBOnlineSeries.cRatingCount] == 0)
             {
                 show[DBOnlineSeries.cRatingCount] = 1;
@@ -1158,12 +1159,28 @@ namespace TraktPlugin.TraktHandlers
             show.Commit();
         }
 
+        public static void SetShowSeasonRating( int rating )
+        {
+            var season = SelectedObject as DBSeason;
+            if ( season == null ) return;
+
+            season[DBSeason.cMyRating] = rating;
+            season[DBSeason.cMyRatingAt] = DateTime.UtcNow.ToISO8601();
+            if ( season[DBSeason.cRatingCount] == 0 )
+            {
+                season[DBSeason.cRatingCount] = 1;
+                season[DBSeason.cRating] = rating;
+            }
+            season.Commit();
+        }
+
         public static void SetEpisodeUserRating(int rating)
         {
             var episode = SelectedObject as DBEpisode;
             if (episode == null) return;
 
             episode[DBOnlineEpisode.cRating] = rating;
+            episode[DBOnlineEpisode.cMyRatingAt] = DateTime.UtcNow.ToISO8601();
             if (episode[DBOnlineEpisode.cRatingCount] == 0)
             {
                 episode[DBOnlineEpisode.cRatingCount] = 1;

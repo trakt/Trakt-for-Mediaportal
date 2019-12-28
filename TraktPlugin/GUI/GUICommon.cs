@@ -2957,7 +2957,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Comments);
+            var pItem = new GUIListItem(Translation.Comments);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
 
@@ -3018,7 +3018,7 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TraktMenuItems.Rate):
                     TraktLogger.Info("Displaying rate dialog for tv season. Title = '{0}', Year = '{1}', TVDb ID = '{2}', Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
-                    GUIUtils.ShowRateDialog<TraktSyncSeasonRatedEx>(new TraktSyncSeasonRatedEx
+                    int lRating = GUIUtils.ShowRateDialog<TraktSyncSeasonRatedEx>(new TraktSyncSeasonRatedEx
                     {
                         Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
                         Title = title,
@@ -3032,6 +3032,38 @@ namespace TraktPlugin.GUI
                             }
                         }
                     });
+
+                    // update local databases
+                    if ( lRating >= 0 )
+                    {
+                        switch ( GUIWindowManager.ActiveWindow )
+                        {
+                            case ( int )ExternalPluginWindows.TVSeries:
+                                TraktHandlers.TVSeries.SetShowSeasonRating( lRating );
+                                break;
+                        }
+
+                        var lShow = new TraktShow
+                        {
+                            Ids = new TraktShowId { Tvdb = int.Parse( tvdbid ), Imdb = imdbid },
+                            Title = title,
+                            Year = year.ToNullableInt32()
+                        };
+                        var lSeason = new TraktSeason
+                        {
+                            Number = seasonNumber,
+                            Ids = new TraktSeasonId { Tvdb = seasonid.ToNullableInt32() }
+                        };
+
+                        if ( lRating == 0 )
+                        {
+                            TraktCache.RemoveSeasonFromRatings( lShow, lSeason );
+                        }
+                        else
+                        {
+                            TraktCache.AddSeasonToRatings( lShow, lSeason, lRating );
+                        }
+                    }
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
