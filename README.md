@@ -35,3 +35,4 @@ If you're a plugin developer for Mediaportal and would like to have your plugin 
 
 * [Forum](http://forum.team-mediaportal.com/forums/trakt.548/)
 * [Download](http://www.team-mediaportal.com/extensions/movies-videos/trakt)
+* [Donations](https://www.paypal.me/damienlhaynes)
