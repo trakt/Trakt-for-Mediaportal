@@ -197,7 +197,7 @@ namespace TraktPlugin
 
                         i++;
                     }
-                    while (i < 25 && !bReady);
+                    while (i < 50 && !bReady);
                 }
                 catch (Exception ex)
                 {
