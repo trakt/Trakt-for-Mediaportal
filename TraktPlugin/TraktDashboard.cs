@@ -132,6 +132,8 @@ namespace TraktPlugin
 
         TraktActivity.Activity PreviousSelectedActivity = null;
 
+        bool WindowInitialised = false;
+
         #endregion
 
         #region Constructor
@@ -162,42 +164,32 @@ namespace TraktPlugin
             return TraktSkinSettings.DashboardTrendingCollection.Select(d => d.FacadeMaxItems).Max();
         }
 
-        private GUIFacadeControl GetFacade(int facadeID)
+        private GUIFacadeControl GetFacade(int aFacadeID)
         {
             lock (lockObject)
             {
                 int i = 0;
-                GUIFacadeControl facade = null;
+                GUIFacadeControl lFacade = null;
 
-                // window init message does not work unless overridden from a guiwindow class
-                // so we need to be ensured that the window is fully loaded
-                // before we can get reference to a skin control
                 try
                 {
-                    bool bReady;
-                    
                     do
                     {
                         // get current window
                         var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
 
                         // get facade control
-                        facade = window.GetControl(facadeID) as GUIFacadeControl;
+                        lFacade = window.GetControl(aFacadeID) as GUIFacadeControl;
 
                         // ensure we're ready for action
-                        if (!window.WindowLoaded || facade == null)
+                        if (lFacade == null)
                         {
-                            bReady = false;
                             Thread.Sleep(100);
+                            i++;
                         }
-                        else
-                        {
-                            bReady = true;
-                        }
-
-                        i++;
                     }
-                    while (i < 25 && !bReady);
+                    // keep trying until window is initialised but not indefinitely
+                    while (!WindowInitialised && i < 300);
                 }
                 catch (Exception ex)
                 {
@@ -205,9 +197,9 @@ namespace TraktPlugin
                     TraktLogger.Error(ex.StackTrace);
                 }
 
-                if (facade == null)
+                if (lFacade == null)
                 {
-                    TraktLogger.Debug("Unable to find facade control [id:{0}], check that trakt skin settings are correctly defined!", facadeID.ToString());
+                    TraktLogger.Debug("Unable to find facade control [id:{0}], check that trakt skin settings are correctly defined!", aFacadeID.ToString());
 
                     // remove windows from future checks
                     foreach (var tc in TraktSkinSettings.DashboardTrendingCollection)
@@ -219,7 +211,7 @@ namespace TraktPlugin
                     TraktSkinSettings.DashBoardActivityWindows.RemoveAll(d => d == GUIWindowManager.ActiveWindow.ToString());
                 }
 
-                return facade;
+                return lFacade;
             }
         }
 
@@ -3331,7 +3323,7 @@ namespace TraktPlugin
             if (!IsDashBoardWindow()) return;
 
             switch (message.Message)
-            {                   
+            {
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
                     if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
 
@@ -3438,8 +3430,13 @@ namespace TraktPlugin
                     }
                     break;
 
-                case GUIMessage.MessageType.GUI_MSG_WINDOW_INIT:
-                    // doesn't work, only if overridden from a guiwindow class
+                case GUIMessage.MessageType.GUI_MSG_WINDOW_INIT_DONE:
+                    TraktLogger.Debug("Trakt window initialisation complete, ready to load dashboard");
+                    WindowInitialised = true;
+                    break;
+
+                case GUIMessage.MessageType.GUI_MSG_WINDOW_DEINIT_DONE:
+                    WindowInitialised = false;
                     break;
 
                 default:
