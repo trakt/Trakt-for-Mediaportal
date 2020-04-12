@@ -417,7 +417,6 @@
     </control>
 
     <!--            :: HIDDEN MENU ::           	 -->
-
     <control>
       <id>1</id>
       <type>image</type>
@@ -430,7 +429,6 @@
       <animation effect="slide" start="-60,0" end="0,0" tween="quadratic" easing="in" time="250" delay="400">WindowOpen</animation>
       <animation effect="slide" start="0,0" end="-60,0" tween="quadratic" easing="in" time="250" delay="100">WindowClose</animation>
     </control>
-
     <control>
       <id>1</id>
       <type>image</type>
@@ -441,18 +439,16 @@
       <animation effect="slide" start="0,-60" end="0,0" tween="quadratic" easing="in" time="250" delay="400">WindowOpen</animation>
       <animation effect="slide" start="0,0" end="0,-60" tween="quadratic" easing="in" time="250" delay="100">WindowClose</animation>
     </control>
-
     <control>
       <type>actiongroup</type>
       <description>action menu</description>
       <defaultcontrol>3</defaultcontrol>
       <onexit>50</onexit>
       <dimColor>00ffffff</dimColor>
-      <buttonX>0</buttonX>
-      <buttonY>0</buttonY>
-      <buttonwidth>521</buttonwidth>
+      <buttonX>-460</buttonX>
+      <buttonY>155</buttonY>
+      <buttonwidth>499</buttonwidth>
       <buttonheight>1080</buttonheight>
-
       <control>
         <type>image</type>
         <id>0</id>
@@ -463,7 +459,6 @@
         <animation effect="fade" time="450">visible</animation>
         <animation effect="fade" time="400">hidden</animation>
       </control>
-
       <control>
         <type>image</type>
         <id>0</id>
@@ -478,7 +473,6 @@
         <animation effect="fade" time="50">visible</animation>
         <animation effect="fade" time="0">hidden</animation>
       </control>
-
       <control>
         <description>Menu label</description>
         <type>label</type>
@@ -505,7 +499,6 @@
         <posX>53</posX>
         <posY>155</posY>
         <layout>StackLayout(0, Vertical, true)</layout>
-
         <control>
           <description>Change Layout</description>
           <type>button</type>
@@ -518,6 +511,94 @@
           <textYOff>16</textYOff>
           <label>-</label>
           <onright>50</onright>
+          <ondown>8</ondown>
+          <onup>8</onup>
+        </control>
+        <control>
+          <description>Sort</description>
+          <type>sortbutton</type>
+          <id>8</id>
+          <label>-</label>
+          <textureFocus>hiddenmenu_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <width>499</width>
+          <height>69</height>
+          <textXOff>62</textXOff>
+          <textYOff>16</textYOff>
+          <offsetSortButtonX>421</offsetSortButtonX>
+          <offsetSortButtonY>27</offsetSortButtonY>
+          <onright>50</onright>
+          <onleft>50</onleft>
+          <ondown>9</ondown>
+          <onup>2</onup>
+        </control>
+        <control>
+          <description>Hide Watched</description>
+          <type>checkbutton</type>
+          <id>9</id>
+          <width>499</width>
+          <height>69</height>
+          <textureFocus>hiddenmenu_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <textcolorNoFocus>ff393939</textcolorNoFocus>
+          <label>#Trakt.Translation.HideWatched.Label</label>
+          <onup>8</onup>
+          <ondown>10</ondown>
+          <onright>50</onright>
+          <onleft>50</onleft>
+          <textXOff>62</textXOff>
+          <textYOff>16</textYOff>
+        </control>
+        <control>
+          <description>Hide Watchlisted</description>
+          <type>checkbutton</type>
+          <id>10</id>
+          <width>499</width>
+          <height>69</height>
+          <textureFocus>hiddenmenu_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <textcolorNoFocus>ff393939</textcolorNoFocus>
+          <label>#Trakt.Translation.HideWatchlisted.Label</label>
+          <onup>9</onup>
+          <ondown>11</ondown>
+          <onright>50</onright>
+          <onleft>50</onleft>
+          <textXOff>62</textXOff>
+          <textYOff>16</textYOff>
+        </control>
+        <control>
+          <description>Hide Collected</description>
+          <type>checkbutton</type>
+          <id>11</id>
+          <width>499</width>
+          <height>69</height>
+          <textureFocus>hiddenmenu_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <textcolorNoFocus>ff393939</textcolorNoFocus>
+          <label>#Trakt.Translation.HideCollected.Label</label>
+          <onup>10</onup>
+          <ondown>12</ondown>
+          <onright>50</onright>
+          <onleft>50</onleft>
+          <textXOff>62</textXOff>
+          <textYOff>16</textYOff>
+        </control>
+        <control>
+          <description>Hide Rated</description>
+          <type>checkbutton</type>
+          <id>12</id>
+          <width>499</width>
+          <height>69</height>
+          <textureFocus>hiddenmenu_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <textcolorNoFocus>ff393939</textcolorNoFocus>
+          <label>#Trakt.Translation.HideRated.Label</label>
+          <onup>11</onup>
+          <ondown>2</ondown>
+          <onright>50</onright>
+          <onleft>50</onleft>
+          <textXOff>62</textXOff>
+          <textYOff>16</textYOff>
         </control>
       </control>
     </control>

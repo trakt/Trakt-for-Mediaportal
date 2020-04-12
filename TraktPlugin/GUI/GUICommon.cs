@@ -2200,6 +2200,11 @@ namespace TraktPlugin.GUI
                     newSortBy.Field = SortingFields.Anticipated;
                     break;
 
+                case (int)SortingFields.Rank:
+                    newSortBy.Direction = SortingDirections.Descending;
+                    newSortBy.Field = SortingFields.Rank;
+                    break;
+
                 default:
                     newSortBy.Field = SortingFields.Title;
                     break;
