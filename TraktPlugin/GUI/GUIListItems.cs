@@ -19,6 +19,21 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
+        [SkinControl(9)]
+        protected GUICheckButton filterWatchedButton = null;
+
+        [SkinControl(10)]
+        protected GUICheckButton filterWatchListedButton = null;
+
+        [SkinControl(11)]
+        protected GUICheckButton filterCollectedButton = null;
+
+        [SkinControl(12)]
+        protected GUICheckButton filterRatedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -50,6 +65,7 @@ namespace TraktPlugin.GUI
             Shouts,
             Cast,
             Crew,
+            Filters,
             ChangeLayout,
             Trailers,
             SearchWithMpNZB,
@@ -191,6 +207,48 @@ namespace TraktPlugin.GUI
                 // Layout Button
                 case (2):
                     CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
+                    break;
+
+                // Sort Button
+                case (8):
+                    var lNewSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByListItems);
+                    if (lNewSortBy != null)
+                    {
+                        if (lNewSortBy.Field != TraktSettings.SortByListItems.Field)
+                        {
+                            TraktSettings.SortByListItems = lNewSortBy;
+                            UpdateButtonState();
+                            LoadListItems();
+                        }
+                    }
+                    break;
+
+                // Hide Watched
+                case (9):
+                    TraktSettings.ListItemsHideWatched = !TraktSettings.ListItemsHideWatched;
+                    UpdateButtonState();
+                    LoadListItems();
+                    break;
+
+                // Hide Watchlisted
+                case (10):
+                    TraktSettings.ListItemsHideWatchlisted = !TraktSettings.ListItemsHideWatchlisted;
+                    UpdateButtonState();
+                    LoadListItems();
+                    break;
+
+                // Hide Collected
+                case (11):
+                    TraktSettings.ListItemsHideCollected = !TraktSettings.ListItemsHideCollected;
+                    UpdateButtonState();
+                    LoadListItems();
+                    break;
+
+                // Hide Rated
+                case (12):
+                    TraktSettings.ListItemsHideRated = !TraktSettings.ListItemsHideRated;
+                    UpdateButtonState();
+                    LoadListItems();
                     break;
 
                 default:
@@ -337,6 +395,11 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Crew;
             }
+
+            // Filters
+            listItem = new GUIListItem(Translation.Filters + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Filters;
 
             // Trailers
             if (SelectedType != TraktItemType.person)
@@ -551,6 +614,14 @@ namespace TraktPlugin.GUI
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
                         GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUICustomListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
+                    break;
+
+                case ((int)ContextMenuItem.Filters):
+                    if (GUICommon.ShowListItemsFiltersMenu())
+                    {
+                        UpdateButtonState();
+                        LoadListItems();
                     }
                     break;
 
@@ -858,11 +929,17 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // filter list items
+            var lFilteredList = GUICommon.FilterListItems(listItems).ToList();
+
+            // sort list items
+            lFilteredList.Sort(new GUIListItemSorter(TraktSettings.SortByListItems.Field, TraktSettings.SortByListItems.Direction));
+
             int itemId = 1;
             var listImages = new List<GUITmdbImage>();
             
             // Add each list item
-            foreach (var listItem in listItems)
+            foreach (var listItem in lFilteredList)
             {
                 // add image for download
                 var images = GetTmdbImage(listItem);
@@ -899,8 +976,8 @@ namespace TraktPlugin.GUI
             Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", listItems.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", listItems.Count().ToString(), listItems.Count() > 1 ? Translation.Items : Translation.Item));
+            GUIUtils.SetProperty("#itemcount", lFilteredList.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", lFilteredList.Count().ToString(), lFilteredList.Count() > 1 ? Translation.Items : Translation.Item));
 
             // Download images Async and set to facade
             GUICustomListItem.GetImages(listImages);
@@ -1018,8 +1095,20 @@ namespace TraktPlugin.GUI
 
             // load last layout
             CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.ListItemsDefaultLayout;
-            // update button label
-            GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
+
+            // Update Button States
+            UpdateButtonState();
+
+            if (sortButton != null)
+            {
+                UpdateButtonState();
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByListItems.Direction = (SortingDirections)(e.Order - 1);
+                    UpdateButtonState();
+                    LoadListItems();
+                };
+            }
         }
 
         private void ClearProperties()
@@ -1129,6 +1218,30 @@ namespace TraktPlugin.GUI
             }
             GUIUtils.SetProperty("#Trakt.List.ItemType", SelectedType.ToString());
             GUIUtils.SetProperty("#Trakt.List.Rank", listItem.Rank.ToString());
+        }
+
+        private void UpdateButtonState()
+        {
+            // update layout button label
+            GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
+
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByListItems);
+                sortButton.IsAscending = (TraktSettings.SortByListItems.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByListItems));
+
+            // update filter buttons
+            if (filterWatchedButton != null)
+                filterWatchedButton.Selected = TraktSettings.ListItemsHideWatched;
+            if (filterWatchListedButton != null)
+                filterWatchListedButton.Selected = TraktSettings.ListItemsHideWatchlisted;
+            if (filterCollectedButton != null)
+                filterCollectedButton.Selected = TraktSettings.ListItemsHideCollected;
+            if (filterRatedButton != null)
+                filterRatedButton.Selected = TraktSettings.ListItemsHideRated;
         }
         #endregion
 

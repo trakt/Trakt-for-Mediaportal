@@ -2903,7 +2903,7 @@ namespace TraktPlugin
         {
             if (item.Type == "movie" && item.Movie != null)
                 return item.Movie.Plays();
-            if (item.Type == "show" && item.Movie != null)
+            if (item.Type == "show" && item.Show != null)
                 return item.Show.Plays();
             if (item.Type == "season" && item.Season != null)
                 return item.Season.Plays(item.Show);
@@ -2917,7 +2917,7 @@ namespace TraktPlugin
         {
             if (item.Type == "movie" && item.Movie != null)
                 return item.Movie.IsWatched();
-            if (item.Type == "show" && item.Movie != null)
+            if (item.Type == "show" && item.Show != null)
                 return item.Show.IsWatched();
             if (item.Type == "season" && item.Season != null)
                 return item.Season.IsWatched(item.Show);

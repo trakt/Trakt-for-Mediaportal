@@ -146,6 +146,8 @@ namespace TraktPlugin
 
         private DashboardTrendingSettings GetTrendingSettings()
         {
+           
+
             // skinners should set unique window ids per trending so it doesn't matter if we pick the first
             // the whole point of having a collection is to define unique dashboard settings per window otherwise all windows share the same settings
 
@@ -3435,7 +3437,8 @@ namespace TraktPlugin
                     WindowInitialised = true;
                     break;
 
-                case GUIMessage.MessageType.GUI_MSG_WINDOW_DEINIT_DONE:
+                case GUIMessage.MessageType.GUI_MSG_WINDOW_DEINIT:
+                    TraktLogger.Debug("Trakt window de-initialisation complete");
                     WindowInitialised = false;
                     break;
 
