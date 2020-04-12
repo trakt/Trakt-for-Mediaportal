@@ -810,6 +810,7 @@ namespace TraktPlugin.GUI
         public static string RiggingGaffer = "Rigging Gaffer";
         public static string RiggingGrip = "Rigging Grip";
         public static string Runtime = "Runtime";
+        public static string Rank = "Rank";
 
         // S
         public static string ScanQRCode = "Scan QR Code or browse to {0} and enter in code {1} to authorize";

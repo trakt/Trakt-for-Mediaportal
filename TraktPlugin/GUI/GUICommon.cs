@@ -208,7 +208,8 @@ namespace TraktPlugin.GUI
         PeopleWatching,
         WatchListInserted,
         Popularity,
-        Anticipated
+        Anticipated,
+        Rank
     }
 
     public enum SortingDirections
@@ -2139,6 +2140,14 @@ namespace TraktPlugin.GUI
                 pItem.ItemId = (int)SortingFields.Anticipated;
             }
 
+            // Custom Lists
+            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.CustomListItems)
+            {
+                pItem = new GUIListItem(Translation.Rank);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)SortingFields.Rank;
+            }
+
             // set the focus to currently used sort method
             dlg.SelectedLabel = (int)currentSortBy.Field;
 
@@ -2240,7 +2249,11 @@ namespace TraktPlugin.GUI
                 case SortingFields.Anticipated:
                     strLine = Translation.Anticipated;
                     break;
-                
+
+                case SortingFields.Rank:
+                    strLine = Translation.Rank;
+                    break;
+
                 default:
                     strLine = Translation.Title;
                     break;
@@ -3374,6 +3387,42 @@ namespace TraktPlugin.GUI
             return true;
         }
 
+        internal static bool ShowListItemsFiltersMenu()
+        {
+            var lFilters = new Dictionary<Filters, bool>
+            {
+                { Filters.Watched, TraktSettings.ListItemsHideWatched },
+                { Filters.Watchlisted, TraktSettings.ListItemsHideWatchlisted },
+                { Filters.Collected, TraktSettings.ListItemsHideCollected },
+                { Filters.Rated, TraktSettings.ListItemsHideRated }
+            };
+
+            var lSelectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, GetFilterListItems(lFilters));
+            if (lSelectedItems == null) return false;
+
+            foreach (var item in lSelectedItems.Where(l => l.Selected == true))
+            {
+                // toggle state of all selected items
+                switch ((Filters)Enum.Parse(typeof(Filters), item.ItemID, true))
+                {
+                    case Filters.Watched:
+                        TraktSettings.ListItemsHideWatched = !TraktSettings.ListItemsHideWatched;
+                        break;
+                    case Filters.Watchlisted:
+                        TraktSettings.ListItemsHideWatchlisted = !TraktSettings.ListItemsHideWatchlisted;
+                        break;
+                    case Filters.Collected:
+                        TraktSettings.ListItemsHideCollected = !TraktSettings.ListItemsHideCollected;
+                        break;
+                    case Filters.Rated:
+                        TraktSettings.ListItemsHideRated = !TraktSettings.ListItemsHideRated;
+                        break;
+                }
+            }
+
+            return true;
+        }
+
         internal static IEnumerable<TraktMovieTrending> FilterTrendingMovies(IEnumerable<TraktMovieTrending> moviesToFilter)
         {
             if (TraktSettings.TrendingMoviesHideWatched)
@@ -3406,6 +3455,23 @@ namespace TraktPlugin.GUI
                 showsToFilter = showsToFilter.Where(t => t.Show.UserRating() == null);
 
             return showsToFilter;
+        }
+
+        internal static IEnumerable<TraktListItem> FilterListItems(IEnumerable<TraktListItem> aListItemsToFilter)
+        {
+            if (TraktSettings.ListItemsHideWatched)
+                aListItemsToFilter = aListItemsToFilter.Where(t => !t.IsWatched());
+
+            if (TraktSettings.ListItemsHideWatchlisted)
+                aListItemsToFilter = aListItemsToFilter.Where(t => !t.IsWatchlisted());
+
+            if (TraktSettings.ListItemsHideCollected)
+                aListItemsToFilter = aListItemsToFilter.Where(t => !t.IsCollected());
+
+            if (TraktSettings.ListItemsHideRated)
+                aListItemsToFilter = aListItemsToFilter.Where(t => t.UserRating() == null);
+
+            return aListItemsToFilter;
         }
 
         #endregion

@@ -109,6 +109,7 @@ namespace TraktPlugin
         public static SortBy SortByWatchListShows { get; set; }
         public static SortBy SortByCreditShows { get; set; }
         public static SortBy SortByAnticipatedShows { get; set; }
+        public static SortBy SortByListItems { get; set; }
         public static bool EnableJumpToForTVShows { get; set; }
         public static bool MyFilmsCategories { get; set; }
         public static bool SortSeasonsAscending { get; set; }
@@ -141,6 +142,10 @@ namespace TraktPlugin
         public static bool CreditShowsHideRated { get; set; }
         public static bool AnticipatedMoviesHideWatchlisted { get; set; }
         public static bool AnticipatedShowsHideWatchlisted { get; set; }
+        public static bool ListItemsHideWatched { get; set; }
+        public static bool ListItemsHideWatchlisted { get; set; }
+        public static bool ListItemsHideCollected { get; set; }
+        public static bool ListItemsHideRated { get; set; }
         public static int DefaultNetworkView { get; set; }
         public static int RecentWatchedMoviesDefaultLayout { get; set; }
         public static int RecentWatchedEpisodesDefaultLayout { get; set; }
@@ -316,6 +321,7 @@ namespace TraktPlugin
         private const string cSortByWatchListShows = "SortByWatchListShows";
         private const string cSortByCreditShows = "SortByCreditShows";
         private const string cSortByAnticipatedShows = "SortByAnticipatedShows";
+        private const string cSortByListItems = "SortByListItems";
         private const string cEnableJumpToForTVShows = "EnableJumpToForTVShows";
         private const string cMyFilmsCategories = "MyFilmsCategories";
         private const string cSortSeasonsAscending = "SortSeasonsAscending";
@@ -348,6 +354,10 @@ namespace TraktPlugin
         private const string cCreditShowsHideRated = "CreditShowsHideRated";
         private const string cAnticipatedShowsHideWatchlisted = "AnticipatedShowsHideWatchlisted";
         private const string cAnticipatedMoviesHideWatchlisted = "AnticipatedMoviesHideWatchlisted";
+        private const string cListItemsHideWatched = "ListItemsHideWatched";
+        private const string cListItemsHideWatchlisted = "ListItemsHideWatchlisted";
+        private const string cListItemsHideCollected = "ListItemsHideCollected";
+        private const string cListItemsHideRated = "ListItemsHideRated";
         private const string cDefaultNetworkView = "DefaultNetworkView";
         private const string cRecentWatchedMoviesDefaultLayout = "RecentWatchedMoviesDefaultLayout";
         private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
@@ -775,6 +785,7 @@ namespace TraktPlugin
                 SortByPopularShows = xmlreader.GetValueAsString(cTrakt, cSortByPopularShows, "{\"Field\": 7,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByWatchListMovies = xmlreader.GetValueAsString(cTrakt, cSortByWatchListMovies, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByWatchListShows = xmlreader.GetValueAsString(cTrakt, cSortByWatchListShows, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
+                SortByListItems = xmlreader.GetValueAsString(cTrakt, cSortByListItems, "{\"Field\": 9,\"Direction\": 0}").FromJSON<SortBy>();
                 EnableJumpToForTVShows = xmlreader.GetValueAsBool(cTrakt, cEnableJumpToForTVShows, false);
                 MyFilmsCategories = xmlreader.GetValueAsBool(cTrakt, cMyFilmsCategories, false);
                 SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
@@ -799,6 +810,10 @@ namespace TraktPlugin
                 PopularShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cPopularShowsHideRated, false);
                 AnticipatedMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cAnticipatedMoviesHideWatchlisted, false);
                 AnticipatedShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cAnticipatedShowsHideWatchlisted, false);
+                ListItemsHideWatched = xmlreader.GetValueAsBool(cTrakt, cListItemsHideWatched, false);
+                ListItemsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cListItemsHideWatchlisted, false);
+                ListItemsHideCollected = xmlreader.GetValueAsBool(cTrakt, cListItemsHideCollected, false);
+                ListItemsHideRated = xmlreader.GetValueAsBool(cTrakt, cListItemsHideRated, false);
                 DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
                 RecentWatchedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedMoviesDefaultLayout, 0);
                 RecentWatchedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedEpisodesDefaultLayout, 0);
@@ -1008,6 +1023,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSortByWatchListShows, SortByWatchListShows.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByAnticipatedMovies, SortByAnticipatedMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByAnticipatedShows, SortByAnticipatedShows.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByListItems, SortByListItems.ToJSON());
                 xmlwriter.SetValueAsBool(cTrakt, cEnableJumpToForTVShows, EnableJumpToForTVShows);
                 xmlwriter.SetValueAsBool(cTrakt, cMyFilmsCategories, MyFilmsCategories);
                 xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
@@ -1031,6 +1047,10 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cPopularShowsHideRated, PopularShowsHideRated);
                 xmlwriter.SetValueAsBool(cTrakt, cAnticipatedMoviesHideWatchlisted, AnticipatedMoviesHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cAnticipatedShowsHideWatchlisted, AnticipatedShowsHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cListItemsHideWatched, ListItemsHideWatched);
+                xmlwriter.SetValueAsBool(cTrakt, cListItemsHideWatchlisted, ListItemsHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cListItemsHideCollected, ListItemsHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cListItemsHideRated, ListItemsHideRated);
                 xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedMoviesDefaultLayout, RecentWatchedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedEpisodesDefaultLayout, RecentWatchedEpisodesDefaultLayout);
