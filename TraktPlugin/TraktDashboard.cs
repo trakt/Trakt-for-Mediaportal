@@ -114,25 +114,27 @@ namespace TraktPlugin
 
         #region Private Variables
 
-        private static Object lockObject = new object();
+        private static Object mLockObject = new object();
 
-        private long ActivityStartTime = 0;
+        private long mActivityStartTime = 0;
 
-        private Timer ActivityTimer = null;
-        private Timer TrendingMoviesTimer = null;
-        private Timer TrendingShowsTimer = null;
-        private Timer StatisticsTimer = null;
+        private Timer mActivityTimer = null;
+        private Timer mTrendingMoviesTimer = null;
+        private Timer mTrendingShowsTimer = null;
+        private Timer mStatisticsTimer = null;
 
-        bool GetFullActivityLoad = false;
-        bool TrendingContextMenuIsActive = false;
-        bool ReloadActivityView = false;
+        private bool mActivityTimerActive = false;
+        private bool mTrendingMoviesTimerActive = false;
+        private bool mTrendingShowsTimerActive = false;
 
-        DateTime LastTrendingShowUpdate = DateTime.MinValue;
-        DateTime LastTrendingMovieUpdate = DateTime.MinValue;
+        bool mGetFullActivityLoad = false;
+        bool mTrendingContextMenuIsActive = false;
+        bool mReloadActivityView = false;
 
-        TraktActivity.Activity PreviousSelectedActivity = null;
+        DateTime mLastTrendingShowUpdate = DateTime.MinValue;
+        DateTime mLastTrendingMovieUpdate = DateTime.MinValue;
 
-        bool WindowInitialised = false;
+        TraktActivity.Activity mPreviousSelectedActivity = null;
 
         #endregion
 
@@ -146,8 +148,6 @@ namespace TraktPlugin
 
         private DashboardTrendingSettings GetTrendingSettings()
         {
-           
-
             // skinners should set unique window ids per trending so it doesn't matter if we pick the first
             // the whole point of having a collection is to define unique dashboard settings per window otherwise all windows share the same settings
 
@@ -168,30 +168,17 @@ namespace TraktPlugin
 
         private GUIFacadeControl GetFacade(int aFacadeID)
         {
-            lock (lockObject)
+            lock (mLockObject)
             {
-                int i = 0;
                 GUIFacadeControl lFacade = null;
 
                 try
                 {
-                    do
-                    {
-                        // get current window
-                        var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+                    // get current window
+                    var lWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
 
-                        // get facade control
-                        lFacade = window.GetControl(aFacadeID) as GUIFacadeControl;
-
-                        // ensure we're ready for action
-                        if (lFacade == null)
-                        {
-                            Thread.Sleep(100);
-                            i++;
-                        }
-                    }
-                    // keep trying until window is initialised but not indefinitely
-                    while (!WindowInitialised && i < 300);
+                    // get facade control
+                    lFacade = lWindow.GetControl(aFacadeID) as GUIFacadeControl;
                 }
                 catch (Exception ex)
                 {
@@ -204,10 +191,10 @@ namespace TraktPlugin
                     TraktLogger.Debug("Unable to find facade control [id:{0}], check that trakt skin settings are correctly defined!", aFacadeID.ToString());
 
                     // remove windows from future checks
-                    foreach (var tc in TraktSkinSettings.DashboardTrendingCollection)
+                    foreach (var window in TraktSkinSettings.DashboardTrendingCollection)
                     {
-                        tc.MovieWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
-                        tc.TVShowWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
+                        window.MovieWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
+                        window.TVShowWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
                     }
 
                     TraktSkinSettings.DashBoardActivityWindows.RemoveAll(d => d == GUIWindowManager.ActiveWindow.ToString());
@@ -411,7 +398,7 @@ namespace TraktPlugin
             var view = (ActivityView)TraktSettings.ActivityStreamView;
 
             // if no new activities then nothing to do
-            if (facade.Count > 0 && !ReloadActivityView)
+            if (facade.Count > 0 && !mReloadActivityView)
             {
                 var mostRecentActivity = facade[0].TVTag as TraktActivity.Activity;
                 var lastActivity = facade[facade.Count - 1].TVTag as TraktActivity.Activity;
@@ -432,7 +419,7 @@ namespace TraktPlugin
                 }
             }
 
-            ReloadActivityView = false;
+            mReloadActivityView = false;
             TraktLogger.Debug("Loading Trakt Activity Facade");
 
             // stop any existing image downloads
@@ -448,9 +435,9 @@ namespace TraktPlugin
             // Add each activity item to the facade
             foreach (var activity in activities.Activities.Distinct().OrderByDescending(a => a.Timestamp))
             {
-                if (PreviousSelectedIdx == -1 && PreviousSelectedActivity != null && TraktSettings.RememberLastSelectedActivity)
+                if (PreviousSelectedIdx == -1 && mPreviousSelectedActivity != null && TraktSettings.RememberLastSelectedActivity)
                 {
-                    if (activity.Equals(PreviousSelectedActivity))
+                    if (activity.Equals(mPreviousSelectedActivity))
                         PreviousSelectedIdx = itemId;
                 }
 
@@ -1051,7 +1038,7 @@ namespace TraktPlugin
         private IEnumerable<TraktMovieTrending> GetTrendingMovies(out bool isCached)
         {
             isCached = false;
-            double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingMovieUpdate).TotalMilliseconds;
+            double timeSinceLastUpdate = DateTime.Now.Subtract(mLastTrendingMovieUpdate).TotalMilliseconds;
 
             if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
@@ -1059,7 +1046,7 @@ namespace TraktPlugin
                 var trendingResult = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
                 if (trendingResult != null && trendingResult.Movies.Count() > 0)
                 {
-                    LastTrendingMovieUpdate = DateTime.Now;
+                    mLastTrendingMovieUpdate = DateTime.Now;
                     PreviousTrendingMovies = trendingResult.Movies;
                 }
             }
@@ -1069,7 +1056,7 @@ namespace TraktPlugin
                 isCached = true;
                 // update start interval
                 int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
-                TrendingMoviesTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
+                mTrendingMoviesTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
             }
             return PreviousTrendingMovies;
         }
@@ -1077,7 +1064,7 @@ namespace TraktPlugin
         private IEnumerable<TraktShowTrending> GetTrendingShows(out bool isCached)
         {
             isCached = false;
-            double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingShowUpdate).TotalMilliseconds;
+            double timeSinceLastUpdate = DateTime.Now.Subtract(mLastTrendingShowUpdate).TotalMilliseconds;
 
             if (PreviousTrendingShows == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
@@ -1085,7 +1072,7 @@ namespace TraktPlugin
                 var trendingItems = TraktAPI.TraktAPI.GetTrendingShows(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
                 if (trendingItems != null && trendingItems.Shows.Count() > 0)
                 {
-                    LastTrendingShowUpdate = DateTime.Now;
+                    mLastTrendingShowUpdate = DateTime.Now;
                     PreviousTrendingShows = trendingItems.Shows;
                 }
             }
@@ -1095,7 +1082,7 @@ namespace TraktPlugin
                 isCached = true;
                 // update start interval
                 int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
-                TrendingShowsTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
+                mTrendingShowsTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
             }
             return PreviousTrendingShows;
         }
@@ -2089,7 +2076,7 @@ namespace TraktPlugin
 
             SetUpdateAnimation(true);
 
-            if (PreviousActivity == null || PreviousActivity.Activities == null || ActivityStartTime <= 0 || GetFullActivityLoad)
+            if (PreviousActivity == null || PreviousActivity.Activities == null || mActivityStartTime <= 0 || mGetFullActivityLoad)
             {
                 switch (activityView)
                 {
@@ -2117,7 +2104,7 @@ namespace TraktPlugin
                         //PreviousActivity = GetMyActivityFromCache();
                         break;
                 }
-                GetFullActivityLoad = false;
+                mGetFullActivityLoad = false;
             }
             else
             {
@@ -2162,7 +2149,7 @@ namespace TraktPlugin
             // store current timestamp and only request incremental change next time
             if (PreviousActivity != null && PreviousActivity.Timestamps != null)
             {
-                ActivityStartTime = PreviousActivity.Timestamps.Current;
+                mActivityStartTime = PreviousActivity.Timestamps.Current;
             }
 
             SetUpdateAnimation(false);
@@ -2829,7 +2816,7 @@ namespace TraktPlugin
                 case ((int)ActivityContextMenuItem.FilterActions):
                     if (ShowActivityFilterActionsMenu())
                     {
-                        ReloadActivityView = true;
+                        mReloadActivityView = true;
                         StartActivityPolling();
                     }
                     break;
@@ -2837,7 +2824,7 @@ namespace TraktPlugin
                 case ((int)ActivityContextMenuItem.FilterTypes):
                     if (ShowActivityFilterTypesMenu())
                     {
-                        ReloadActivityView = true;
+                        mReloadActivityView = true;
                         StartActivityPolling();
                     }
                     break;
@@ -2845,7 +2832,7 @@ namespace TraktPlugin
                 case ((int)ActivityContextMenuItem.ChangeView):
                     if (ShowActivityViewMenu())
                     {
-                        GetFullActivityLoad = true;
+                        mGetFullActivityLoad = true;
                         StartActivityPolling();
                     }
                     else
@@ -2909,7 +2896,7 @@ namespace TraktPlugin
                         TraktHelper.RemoveShowFromWatchList(activity.Show);
 
                     // force reload of activity view as we only check if the most recent item has changed
-                    ReloadActivityView = true;
+                    mReloadActivityView = true;
                     break;
 
                 case ((int)ActivityContextMenuItem.MarkAsWatched):
@@ -2929,7 +2916,7 @@ namespace TraktPlugin
                     else if (activity.Episodes != null && activity.Episodes.Count == 1)
                         TraktHelper.RemoveEpisodeFromWatchHistory(activity.Show, activity.Episodes.First());
 
-                    ReloadActivityView = true;
+                    mReloadActivityView = true;
                     break;
 
                 case ((int)ActivityContextMenuItem.AddToCollection):
@@ -2949,7 +2936,7 @@ namespace TraktPlugin
                     else if (activity.Episodes != null && activity.Episodes.Count == 1)
                         TraktHelper.RemoveEpisodeFromCollection(activity.Show, activity.Episodes.First());
 
-                    ReloadActivityView = true;
+                    mReloadActivityView = true;
                     break;
 
                 case ((int)ActivityContextMenuItem.Shouts):
@@ -2984,7 +2971,7 @@ namespace TraktPlugin
                     else if (activity.List != null)
                         GUICommon.UnLikeList(activity.List);
 
-                    ReloadActivityView = true;
+                    mReloadActivityView = true;
                     break;
 
                 case ((int)ActivityContextMenuItem.Cast):
@@ -3042,7 +3029,7 @@ namespace TraktPlugin
                     {
                         TraktHelper.RemoveHiddenShow(activity.Show, activity.Action.Substring(5));
                     }
-                    ReloadActivityView = true;
+                    mReloadActivityView = true;
                     StartActivityPolling();
                     break;
 
@@ -3214,7 +3201,7 @@ namespace TraktPlugin
             }
 
             // remember last selected item
-            PreviousSelectedActivity = activity;
+            mPreviousSelectedActivity = activity;
 
             // set type and action properties
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", activity.Type);
@@ -3322,124 +3309,154 @@ namespace TraktPlugin
 
         private void GUIWindowManager_Receivers(GUIMessage message)
         {
-            if (!IsDashBoardWindow()) return;
+            //TraktLogger.Debug($"GUI Message received, Message Type = '{message.Message.ToString()}', Active Window = '{GUIWindowManager.ActiveWindow.ToString()}'");
 
             switch (message.Message)
             {
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
-                    if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
-
-                    if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
+                    if (IsDashBoardWindow())
                     {
-                        var activityFacade = GetFacade((int)TraktDashboardControls.ActivityFacade);
-                        if (activityFacade == null) return;
+                        if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
 
-                        var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
-                        if (activity == null || string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
-                            return;
-
-                        var action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
-                        var type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
-
-                        switch (action)
+                        if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
                         {
-                            case ActivityAction.review:
-                            case ActivityAction.shout:
-                                // view shout in shouts window
-                                ViewShout(activity);
-                                break;
+                            var activityFacade = GetFacade((int)TraktDashboardControls.ActivityFacade);
+                            if (activityFacade == null) return;
 
-                            case ActivityAction.item_added:
-                            case ActivityAction.updated:
-                                // load users list
-                                GUIListItems.CurrentList = activity.List;
-                                GUIListItems.CurrentUser = activity.User.Username;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
-                                break;
+                            var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+                            if (activity == null || string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
+                                return;
 
-                            case ActivityAction.created:
-                                // load lists menu
-                                GUILists.CurrentUser = activity.User.Username;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
-                                break;
+                            var action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+                            var type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
 
-                            case ActivityAction.watchlist:
-                                // load users watchlist
-                                if (type == ActivityType.movie)
-                                {
-                                    GUIWatchListMovies.CurrentUser = activity.User.Username;
-                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
-                                }
-                                else if (type == ActivityType.show)
-                                {
-                                    GUIWatchListShows.CurrentUser = activity.User.Username;
-                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
-                                }
-                                else
-                                {
-                                    GUIWatchListEpisodes.CurrentUser = activity.User.Username;
-                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
-                                }
-                                break;
+                            switch (action)
+                            {
+                                case ActivityAction.review:
+                                case ActivityAction.shout:
+                                    // view shout in shouts window
+                                    ViewShout(activity);
+                                    break;
 
-                            case ActivityAction.like:
-                                if (type == ActivityType.comment)
-                                {
-                                    // view comment
-                                    GUIUtils.ShowTextDialog(Translation.Comment, activity.Shout.Text);
-                                }
-                                else if (type == ActivityType.list)
-                                {
-                                    // load the liked list
-                                    if (activity.List.User != null)
+                                case ActivityAction.item_added:
+                                case ActivityAction.updated:
+                                    // load users list
+                                    GUIListItems.CurrentList = activity.List;
+                                    GUIListItems.CurrentUser = activity.User.Username;
+                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
+                                    break;
+
+                                case ActivityAction.created:
+                                    // load lists menu
+                                    GUILists.CurrentUser = activity.User.Username;
+                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
+                                    break;
+
+                                case ActivityAction.watchlist:
+                                    // load users watchlist
+                                    if (type == ActivityType.movie)
                                     {
-                                        GUIListItems.CurrentList = activity.List;
-                                        GUIListItems.CurrentUser = activity.List.User.Username;
-                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
+                                        GUIWatchListMovies.CurrentUser = activity.User.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
+                                    }
+                                    else if (type == ActivityType.show)
+                                    {
+                                        GUIWatchListShows.CurrentUser = activity.User.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
                                     }
                                     else
                                     {
-                                        TraktLogger.Warning("No user associated with liked list. ID = '{0}', Name = '{1}', Privacy = '{2}'", activity.List.Ids.Trakt, activity.List.Name, activity.List.Privacy); 
+                                        GUIWatchListEpisodes.CurrentUser = activity.User.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
                                     }
-                                }
-                                break;
+                                    break;
 
-                            default:
-                                PlayActivityItem(true);
-                                break;
+                                case ActivityAction.like:
+                                    if (type == ActivityType.comment)
+                                    {
+                                        // view comment
+                                        GUIUtils.ShowTextDialog(Translation.Comment, activity.Shout.Text);
+                                    }
+                                    else if (type == ActivityType.list)
+                                    {
+                                        // load the liked list
+                                        if (activity.List.User != null)
+                                        {
+                                            GUIListItems.CurrentList = activity.List;
+                                            GUIListItems.CurrentUser = activity.List.User.Username;
+                                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
+                                        }
+                                        else
+                                        {
+                                            TraktLogger.Warning("No user associated with liked list. ID = '{0}', Name = '{1}', Privacy = '{2}'", activity.List.Ids.Trakt, activity.List.Name, activity.List.Privacy);
+                                        }
+                                    }
+                                    break;
+
+                                default:
+                                    PlayActivityItem(true);
+                                    break;
+                            }
                         }
-                    }
-                    if (message.SenderControlId == (int)TraktDashboardControls.TrendingShowsFacade)
-                    {
-                        if (TraktSettings.EnableJumpToForTVShows)
+                        if (message.SenderControlId == (int)TraktDashboardControls.TrendingShowsFacade)
                         {
-                            PlayShow(true);
+                            if (TraktSettings.EnableJumpToForTVShows)
+                            {
+                                PlayShow(true);
+                            }
+                            else
+                            {
+                                var facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
+                                if (facade == null) return;
+
+                                var trendingItem = facade.SelectedListItem.TVTag as TraktShowTrending;
+                                if (trendingItem == null) return;
+
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, trendingItem.Show.ToJSON());
+                            }
                         }
-                        else
+                        if (message.SenderControlId == (int)TraktDashboardControls.TrendingMoviesFacade)
                         {
-                            var facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
-                            if (facade == null) return;
-
-                            var trendingItem = facade.SelectedListItem.TVTag as TraktShowTrending;
-                            if (trendingItem == null) return;
-
-                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, trendingItem.Show.ToJSON());
+                            PlayMovie(true);
                         }
-                    }
-                    if (message.SenderControlId == (int)TraktDashboardControls.TrendingMoviesFacade)
-                    {
-                        PlayMovie(true);
                     }
                     break;
 
                 case GUIMessage.MessageType.GUI_MSG_WINDOW_INIT_DONE:
-                    TraktLogger.Debug("Trakt window initialisation complete, ready to load dashboard");
-                    WindowInitialised = true;
+                    #region Dashboard Start
+                    if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+                    {
+                        StartActivityPolling();
+                    }
+                    else
+                    {
+                        StopActivityPolling();
+                    }
+
+                    if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
+                    {
+                        StartTrendingMoviesPolling();
+                    }
+                    else
+                    {
+                        StopTrendingMoviesPolling();
+                    }
+
+                    if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
+                    {
+                        StartTrendingShowsPolling();
+                    }
+                    else
+                    {
+                        StopTrendingShowsPolling();
+                    }
+                    #endregion
                     break;
 
-                case GUIMessage.MessageType.GUI_MSG_WINDOW_DEINIT:
-                    TraktLogger.Debug("Trakt window de-initialisation complete");
-                    WindowInitialised = false;
+                case GUIMessage.MessageType.GUI_MSG_WINDOW_DEINIT_DONE:
+                    StopActivityPolling();
+                    StopTrendingMoviesPolling();
+                    StopTrendingShowsPolling();
                     break;
 
                 default:
@@ -3458,20 +3475,20 @@ namespace TraktPlugin
                 case Action.ActionType.ACTION_CONTEXT_MENU:
                     if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.ActivityFacade)
                     {
-                        TrendingContextMenuIsActive = true;
+                        mTrendingContextMenuIsActive = true;
                         ShowActivityContextMenu();
                     }
                     else if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
                     {
-                        TrendingContextMenuIsActive = true;
+                        mTrendingContextMenuIsActive = true;
                         ShowTrendingMoviesContextMenu();
                     }
                     else if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
                     {
-                        TrendingContextMenuIsActive = true;
+                        mTrendingContextMenuIsActive = true;
                         ShowTrendingShowsContextMenu();
                     }
-                    TrendingContextMenuIsActive = false;
+                    mTrendingContextMenuIsActive = false;
                     break;
 
                 case Action.ActionType.ACTION_PLAY:
@@ -3495,7 +3512,7 @@ namespace TraktPlugin
                     // issue has been resolved in MP 1.5.0 so only do it for earlier releases
                     if (TraktSettings.MPVersion < new Version(1, 5, 0, 0))
                     {
-                        if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
+                        if (!mTrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
                         {
                             var control = GetFacade(activeWindow.GetFocusControlId());
                             if (control == null) return;
@@ -3505,7 +3522,7 @@ namespace TraktPlugin
                             // set focus on correct control
                             GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.TrendingMoviesFacade);
                         }
-                        else if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
+                        else if (!mTrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
                         {
                             var control = GetFacade(activeWindow.GetFocusControlId());
                             if (control == null) return;
@@ -3529,9 +3546,6 @@ namespace TraktPlugin
 
         public void Init()
         {
-            GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
-            GUIWindowManager.OnNewAction +=new OnActionHandler(GUIWindowManager_OnNewAction);
-
             // Clear Properties
             ClearMovieProperties();
             ClearShowProperties();
@@ -3542,7 +3556,7 @@ namespace TraktPlugin
                 PreviousActivity = TraktSettings.LastActivityLoad;
                 if (TraktSettings.LastActivityLoad.Timestamps != null)
                 {
-                    ActivityStartTime = TraktSettings.LastActivityLoad.Timestamps.Current;
+                    mActivityStartTime = TraktSettings.LastActivityLoad.Timestamps.Current;
                 }
             }
             if (TraktSettings.LastTrendingShows != null)
@@ -3554,74 +3568,93 @@ namespace TraktPlugin
                 PreviousTrendingMovies = TraktSettings.LastTrendingMovies;
             }
 
-            // initialize timercallbacks
+            // initialise timer callbacks
             if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Count > 0)
             {
+                TraktLogger.Debug("Initialising Activity Dashboard Timer");
                 ClearSelectedActivityProperties();
-                ActivityTimer = new Timer(new TimerCallback((o) => { LoadActivity(); }), null, Timeout.Infinite, Timeout.Infinite);
+                mActivityTimer = new Timer(new TimerCallback((o) => { LoadActivity(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
             if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Count > 0))
             {
-                TrendingMoviesTimer = new Timer(new TimerCallback((o) => { LoadTrendingMovies(); }), null, Timeout.Infinite, Timeout.Infinite);
+                TraktLogger.Debug("Initialising Trending Movies Dashboard Timer");
+                mTrendingMoviesTimer = new Timer(new TimerCallback((o) => { LoadTrendingMovies(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
             if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Count > 0))
             {
-                TrendingShowsTimer = new Timer(new TimerCallback((o) => { LoadTrendingShows(); }), null, Timeout.Infinite, Timeout.Infinite);
+                TraktLogger.Debug("Initialising Trending TV Shows Dashboard Timer");
+                mTrendingShowsTimer = new Timer(new TimerCallback((o) => { LoadTrendingShows(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
             if (TraktSkinSettings.HasDashboardStatistics)
             {
-                StatisticsTimer = new Timer(new TimerCallback((o) => { GetStatistics(); }), null, 3000, 3600000);
+                TraktLogger.Debug("Initialising Statistics Dashboard Timer");
+                mStatisticsTimer = new Timer(new TimerCallback((o) => { GetStatistics(); }), null, 3000, 3600000);
             }
+
+            GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
+            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);
         }
 
         public void StartTrendingMoviesPolling()
         {
-            if (TrendingMoviesTimer != null)
+            if (mTrendingMoviesTimer != null)
             {
-                TrendingMoviesTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardTrendingPollInterval);
+                TraktLogger.Debug($"Starting Trending Movies Dashboard Timer, Start Delay = '{TraktSettings.DashboardLoadDelay}ms', Interval = '{TraktSettings.DashboardTrendingPollInterval}ms'");
+                mTrendingMoviesTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardTrendingPollInterval);
+                mTrendingMoviesTimerActive = true;
             }
         }
 
         public void StartTrendingShowsPolling()
         {
-            if (TrendingShowsTimer != null)
+            if (mTrendingShowsTimer != null)
             {
-                TrendingShowsTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardTrendingPollInterval);
+                TraktLogger.Debug($"Starting Trending TV Shows Dashboard Timer, Start Delay = '{TraktSettings.DashboardLoadDelay}ms', Interval = '{TraktSettings.DashboardTrendingPollInterval}ms'");
+                mTrendingShowsTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardTrendingPollInterval);
+                mTrendingShowsTimerActive = true;
             }
         }
 
         public void StartActivityPolling()
         {
-            if (ActivityTimer != null)
+            if (mActivityTimer != null)
             {
-                ActivityTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardActivityPollInterval);
+                TraktLogger.Debug($"Starting Activity Dashboard Timer, Start Delay = '{TraktSettings.DashboardLoadDelay}ms', Interval = '{TraktSettings.DashboardActivityPollInterval}ms'");
+                mActivityTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardActivityPollInterval);
+                mActivityTimerActive = true;
             }
         }
 
         public void StopActivityPolling()
         {
-            if (ActivityTimer != null)
+            if (mActivityTimer != null && mActivityTimerActive)
             {
-                ActivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                TraktLogger.Debug("Stopping Activity Dashboard Timer");
+                mActivityTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                mActivityTimerActive = false;
             }
         }
 
         public void StopTrendingMoviesPolling()
         {
-            if (TrendingMoviesTimer != null)
+            if (mTrendingMoviesTimer != null && mTrendingMoviesTimerActive)
             {
-                TrendingMoviesTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                TraktLogger.Debug("Stopping Trending Movies Dashboard Timer");
+                mTrendingMoviesTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                mTrendingMoviesTimerActive = false;
             }
         }
 
         public void StopTrendingShowsPolling()
         {
-            if (TrendingShowsTimer != null)
+            if (mTrendingShowsTimer != null && mTrendingShowsTimerActive)
             {
-                TrendingShowsTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                TraktLogger.Debug("Stopping Trending TV Shows Dashboard Timer");
+                mTrendingShowsTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                mTrendingShowsTimerActive = false;
             }
         }
 

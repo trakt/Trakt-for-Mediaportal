@@ -72,6 +72,31 @@ namespace TraktPlugin
             // Load plugins we want to sync
             LoadPluginHandlers();
 
+            // Initialise translations
+            Translation.Init();
+
+            // Initialise skin settings
+            TraktSkinSettings.Init();
+
+            // Initialise genres
+            TraktGenres.Init();
+
+            // Initialise Extension Settings
+            GUIExtensionSettings.Init();
+
+            // Initialise TMDb Cache
+            TmdbCache.Init();
+
+            // Load main skin window
+            // this is a launching pad to all other windows
+            string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
+            TraktLogger.Info("Loading main skin window. Filename = '{0}'", xmlSkin);
+            bool loadResult = Load(xmlSkin);
+
+            // Sync Libaries now and periodically
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength * 3600000);
+            SyncPlayback();
+
             TraktLogger.Debug("Adding MediaPortal event handlers");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
@@ -86,33 +111,8 @@ namespace TraktPlugin
             // Resume/Standby Windows Event
             Microsoft.Win32.SystemEvents.PowerModeChanged += new Microsoft.Win32.PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
 
-            // Initialise translations
-            Translation.Init();
-
-            // Initialise skin settings
-            TraktSkinSettings.Init();
-
-            // Initialise genres
-            TraktGenres.Init();
-
-            // Initialise Extension Settings
-            GUIExtensionSettings.Init();
-
             // Initialise Skin Dashboard
             DashBoard.Init();
-
-            // Initialise TMDb Cache
-            TmdbCache.Init();
-
-            // Load main skin window
-            // this is a launching pad to all other windows
-            string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
-            TraktLogger.Info("Loading main skin window. Filename = '{0}'", xmlSkin);
-            bool loadResult = Load(xmlSkin);
-
-            // Sync Libaries now and periodically
-            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength * 3600000);
-            SyncPlayback();
 
             return loadResult;
         }
@@ -758,37 +758,6 @@ namespace TraktPlugin
 
                 followerReqThread.Start();
             }
-            #endregion
-
-            #region Dashboard Start
-
-            if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
-            {
-                DashBoard.StartActivityPolling();
-            }
-            else
-            {
-                DashBoard.StopActivityPolling();
-            }
-
-            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(windowID.ToString())))
-            {
-                DashBoard.StartTrendingMoviesPolling();
-            }
-            else
-            {
-                DashBoard.StopTrendingMoviesPolling();
-            }
-
-            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Contains(windowID.ToString())))
-            {
-                DashBoard.StartTrendingShowsPolling();
-            }
-            else
-            {
-                DashBoard.StopTrendingShowsPolling();
-            }
-
             #endregion
 
             #region Playback / Resume Sync

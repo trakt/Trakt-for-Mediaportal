@@ -201,18 +201,20 @@ namespace TraktPlugin.GUI
         /// </summary>
         public static void ShowNotifyDialog(string heading, string text, string image, string buttonText, int timeout)
         {
-            if (GUIGraphicsContext.form.InvokeRequired)
-            {
-                ShowNotifyDialogDelegate d = ShowNotifyDialog;
-                GUIGraphicsContext.form.Invoke(d, heading, text, image, buttonText, timeout);
-                return;
-            }
-
-            GUIDialogNotify pDlgNotify = (GUIDialogNotify)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_NOTIFY);
-            if (pDlgNotify == null) return;
+            GUIDialogNotify pDlgNotify = null;
 
             try
             {
+                if (GUIGraphicsContext.form.InvokeRequired)
+                {
+                    ShowNotifyDialogDelegate d = ShowNotifyDialog;
+                    GUIGraphicsContext.form.Invoke(d, heading, text, image, buttonText, timeout);
+                    return;
+                }
+
+                pDlgNotify = (GUIDialogNotify)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_NOTIFY);
+                if (pDlgNotify == null) return;
+
                 pDlgNotify.Reset();
                 pDlgNotify.SetHeading(heading);
                 pDlgNotify.SetImage(image);
