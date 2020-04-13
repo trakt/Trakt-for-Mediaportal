@@ -627,6 +627,9 @@ namespace TraktPlugin
         #region MediaPortal Window Hooks
 
         int PreviousWindow = 0;
+        bool ConnectionChecked = false;
+        bool FollowerRequestsChecked = false;
+
         void GUIWindowManager_OnDeActivateWindow(int windowID)
         {
             // Settings/General window
@@ -651,115 +654,8 @@ namespace TraktPlugin
             PreviousWindow = windowID;
         }
 
-        bool ConnectionChecked = false;
-        bool FollowerRequestsChecked = false;
         void GUIWindowManager_OnActivateWindow(int windowID)
         {
-            #region Connection Check
-            // we can Notify in GUI now that its initialized
-            // only need this if previous connection attempt was invalid on Init()
-            if (!ConnectionChecked)
-            {
-                ConnectionChecked = true;
-                var checkStatus = new Thread(() =>
-                {
-                    if (TraktSettings.AccountStatus == ConnectionState.Invalid)
-                    {
-                        TraktSettings.AccountStatus = ConnectionState.Pending;
-                        
-                        // Re-Check and Notify
-                        if (TraktSettings.AccountStatus == ConnectionState.UnAuthorised)
-                        {
-                            Thread.Sleep(10000);
-                            GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized);
-                        }
-                        else if (TraktSettings.AccountStatus == ConnectionState.Invalid)
-                        {
-                            Thread.Sleep(10000);
-                            GUIUtils.ShowNotifyDialog(Translation.Error, Translation.LoginFailedServerError);
-                        }
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "CheckConnection"
-                };
-                checkStatus.Start();
-            }
-            #endregion
-
-            #region Plugin Handler Check
-            // If we exit settings, we may need to reload plugin handlers
-            // Also Prompt to Sync / Warn users if no plugin handlers are defined
-            if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsGeneral) &&
-                (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsGeneral))
-            {
-              Thread pluginHandlerCheckThread = new Thread(delegate(object obj)
-              {
-                if (GUISettingsPlugins.PluginHandlersChanged)
-                {
-                  LoadPluginHandlers();
-                }
-
-                // Help user get started if no plugins enabled
-                if (TraktHandlers.Count == 0)
-                {
-                  if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
-                  {
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
-                  }
-                  return;
-                }
-
-                if (GUISettingsPlugins.PluginHandlersAdded)
-                {
-                  if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
-                      ChangeSyncTimer(0, TraktSettings.SyncTimerLength * 3600000);
-                }
-
-                GUISettingsPlugins.PluginHandlersAdded = false;
-                GUISettingsPlugins.PluginHandlersChanged = false;
-              })
-              {
-                IsBackground = true,
-                Name = "PluginCheck"
-              };
-              pluginHandlerCheckThread.Start();
-            }
-            #endregion
-
-            #region Follower Requests Check
-            if (TraktSettings.GetFollowerRequestsOnStartup && !FollowerRequestsChecked)
-            {
-                FollowerRequestsChecked = true;
-                var followerReqThread = new Thread((o) =>
-                {
-                    if (TraktSettings.AccountStatus == ConnectionState.Connected)
-                    {
-                        var followerRequests = TraktCache.FollowerRequests;
-                        if (followerRequests == null)
-                        {
-                            TraktLogger.Error("Failed to retrieve follower requests");
-                            return;
-                        }
-
-                        TraktLogger.Info("Found {0} follower requests for user", followerRequests.Count());
-                        if (followerRequests.Count() > 0)
-                        {
-                            Thread.Sleep(10000);
-                            GUIUtils.ShowNotifyDialog(Translation.FollowerRequests, string.Format(Translation.FollowerRequestMessage, followerRequests.Count().ToString()));
-                        }
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "FollowReq"
-                };
-
-                followerReqThread.Start();
-            }
-            #endregion
-
             #region Playback / Resume Sync
 
             if (TraktSettings.SyncPlaybackOnEnterPlugin)
@@ -1101,7 +997,114 @@ namespace TraktPlugin
                             break;
                     }
                     break;
-                
+
+                case GUIMessage.MessageType.GUI_MSG_WINDOW_INIT_DONE:
+                    #region Connection Check
+                    // we can Notify in GUI now that its initialized
+                    // only need this if previous connection attempt was invalid on Init()
+                    if (!ConnectionChecked)
+                    {
+                        ConnectionChecked = true;
+                        var checkStatus = new Thread(() =>
+                        {
+                            if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                            {
+                                TraktSettings.AccountStatus = ConnectionState.Pending;
+
+                                // Re-Check and Notify
+                                if (TraktSettings.AccountStatus == ConnectionState.UnAuthorised)
+                                {
+                                    Thread.Sleep(1000);
+                                    GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized);
+                                }
+                                else if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                                {
+                                    Thread.Sleep(1000);
+                                    GUIUtils.ShowNotifyDialog(Translation.Error, Translation.LoginFailedServerError);
+                                }
+                            }
+                        })
+                        {
+                            IsBackground = true,
+                            Name = "CheckConnection"
+                        };
+                        checkStatus.Start();
+                    }
+                    #endregion
+
+                    #region Plugin Handler Check
+                    // If we exit settings, we may need to reload plugin handlers
+                    // Also Prompt to Sync / Warn users if no plugin handlers are defined
+                    if ((GUIWindowManager.ActiveWindow < (int)TraktGUIWindows.Settings || GUIWindowManager.ActiveWindow > (int)TraktGUIWindows.SettingsGeneral) &&
+                        (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsGeneral))
+                    {
+                        Thread pluginHandlerCheckThread = new Thread(delegate (object obj)
+                        {
+                            if (GUISettingsPlugins.PluginHandlersChanged)
+                            {
+                                LoadPluginHandlers();
+                            }
+
+                            // Help user get started if no plugins enabled
+                            if (TraktHandlers.Count == 0)
+                            {
+                                if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
+                                {
+                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
+                                }
+                                return;
+                            }
+
+                            if (GUISettingsPlugins.PluginHandlersAdded)
+                            {
+                                if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
+                                    ChangeSyncTimer(0, TraktSettings.SyncTimerLength * 3600000);
+                            }
+
+                            GUISettingsPlugins.PluginHandlersAdded = false;
+                            GUISettingsPlugins.PluginHandlersChanged = false;
+                        })
+                        {
+                            IsBackground = true,
+                            Name = "PluginCheck"
+                        };
+                        pluginHandlerCheckThread.Start();
+                    }
+                    #endregion
+
+                    #region Follower Requests Check
+                    if (TraktSettings.GetFollowerRequestsOnStartup && !FollowerRequestsChecked)
+                    {
+                        FollowerRequestsChecked = true;
+                        var followerReqThread = new Thread((o) =>
+                        {
+                            if (TraktSettings.AccountStatus == ConnectionState.Connected)
+                            {
+                                var followerRequests = TraktCache.FollowerRequests;
+                                if (followerRequests == null)
+                                {
+                                    TraktLogger.Error("Failed to retrieve follower requests");
+                                    return;
+                                }
+
+                                TraktLogger.Info("Found {0} follower requests for user", followerRequests.Count());
+                                if (followerRequests.Count() > 0)
+                                {
+                                    Thread.Sleep(1000);
+                                    GUIUtils.ShowNotifyDialog(Translation.FollowerRequests, string.Format(Translation.FollowerRequestMessage, followerRequests.Count().ToString()));
+                                }
+                            }
+                        })
+                        {
+                            IsBackground = true,
+                            Name = "FollowReq"
+                        };
+
+                        followerReqThread.Start();
+                    }
+                    #endregion
+                    break;
+
                 default:
                     break;
             }
