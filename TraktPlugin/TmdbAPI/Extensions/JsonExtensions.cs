@@ -16,7 +16,7 @@ namespace TraktPlugin.TmdbAPI.Extensions
         /// </summary>
         public static IEnumerable<T> FromJSONArray<T>(this string jsonArray)
         {
-            if (string.IsNullOrEmpty(jsonArray)) return null;
+            if (string.IsNullOrEmpty(jsonArray)) return "[]".FromJSONArray<T>();
 
             try
             {
@@ -24,12 +24,12 @@ namespace TraktPlugin.TmdbAPI.Extensions
                 {
                     var ser = new DataContractJsonSerializer(typeof(IEnumerable<T>));
                     var result = (IEnumerable<T>)ser.ReadObject(ms);
-                    return result;
+                    return result ?? "[]".FromJSONArray<T>();
                 }
             }
             catch (Exception)
             {
-                return null;
+                return "[]".FromJSONArray<T>();
             }
         }
 

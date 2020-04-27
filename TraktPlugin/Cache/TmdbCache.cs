@@ -14,11 +14,11 @@ namespace TraktPlugin.Cache
 {
     public static class TmdbCache
     {
-        static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Movies.json"));
-        static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Shows.json"));
-        static string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Seasons.json"));
-        static string EpisodeCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Episodes.json");        
-        static string PersonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\People.json");
+        static readonly string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Movies.json"));
+        static readonly string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Shows.json"));
+        static readonly string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Seasons.json"));
+        static readonly string EpisodeCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Episodes.json");        
+        static readonly string PersonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\People.json");
                 
         // Create thread-safe dictionaries to cache images for each type
         // ID's are unique for each type only, seasons and episodes require an extra key to be unique
