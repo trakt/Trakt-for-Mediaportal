@@ -121,6 +121,7 @@ namespace TraktPlugin
 
                 // add to list items cache
                 UserListItems.Add(key, listItems);
+                LastRequest = DateTime.UtcNow;
             }
             return UserListItems[key];
         }
@@ -234,8 +235,9 @@ namespace TraktPlugin
 
         public static void ClearListItemCache(string username, string id)
         {
-            if (UserListItems.ContainsKey(username + ":" + id))
-                UserListItems.Remove(username);
+            string lKey = username + ":" + id;
+            if (UserListItems.ContainsKey(lKey))
+                UserListItems.Remove(lKey);
         }
 
         public static void RemovedItemFromLikedListCache(int? id)
