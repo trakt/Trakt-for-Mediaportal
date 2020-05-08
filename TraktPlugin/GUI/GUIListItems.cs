@@ -1174,46 +1174,31 @@ namespace TraktPlugin.GUI
                 case "movie":
                     SelectedType = TraktItemType.movie;
                     PublishMovieSkinProperties(listItem);
-                    string fanart = TmdbCache.GetMovieBackdropFilename((item as GUICustomListItem).Images.MovieImages);
-                    if (!string.IsNullOrEmpty(fanart))
-                    {
-                        GUIImageHandler.LoadFanart(backdrop, fanart);
-                    }
+                    GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUICustomListItem).Images.MovieImages));
                     break;
 
                 case "show":
                     SelectedType = TraktItemType.show;
                     PublishShowSkinProperties(listItem);
-                    fanart = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
-                    if (!string.IsNullOrEmpty(fanart))
-                    {
-                        GUIImageHandler.LoadFanart(backdrop, fanart);
-                    }
+                    GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages));
                     break;
 
                 case "season":
                     SelectedType = TraktItemType.season;
                     PublishSeasonSkinProperties(listItem);
-                    fanart = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
-                    if (!string.IsNullOrEmpty(fanart))
-                    {
-                        GUIImageHandler.LoadFanart(backdrop, fanart);
-                    }
+                    GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages));
                     break;
 
                 case "episode":
                     SelectedType = TraktItemType.episode;
                     PublishEpisodeSkinProperties(listItem);
-                    fanart = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
-                    if (!string.IsNullOrEmpty(fanart))
-                    {
-                        GUIImageHandler.LoadFanart(backdrop, fanart);
-                    }
+                    GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages));
                     break;
 
                 case "person":
                     SelectedType = TraktItemType.person;
                     PublishPersonSkinProperties(listItem);
+                    GUIImageHandler.LoadFanart(backdrop, null); // TODO: get from one of the person's movies
                     break;
             }
             GUIUtils.SetProperty("#Trakt.List.ItemType", SelectedType.ToString());
