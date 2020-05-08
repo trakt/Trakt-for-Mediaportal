@@ -15,11 +15,12 @@ namespace TraktPlugin
         static DateTime LastTrendingRequest = new DateTime();
         static DateTime LastPopularRequest = new DateTime();
         static DateTime LastLikedRequest = new DateTime();
-        static Dictionary<string, IEnumerable<TraktListDetail>> UserLists = new Dictionary<string, IEnumerable<TraktListDetail>>();
-        static Dictionary<string, IEnumerable<TraktListItem>> UserListItems = new Dictionary<string, IEnumerable<TraktListItem>>();
+        static readonly Dictionary<string, IEnumerable<TraktListDetail>> UserLists = new Dictionary<string, IEnumerable<TraktListDetail>>();
+        static readonly Dictionary<string, IEnumerable<TraktListItem>> UserListItems = new Dictionary<string, IEnumerable<TraktListItem>>();
         static IEnumerable<TraktListTrending> TrendingLists = null;
         static IEnumerable<TraktListPopular> PopularLists = null;
         static IEnumerable<TraktLike> LikedLists = null;
+        static Dictionary<string, DateTime> UserListItemLastRequestTime = new Dictionary<string, DateTime>();
 
         #endregion
 
@@ -108,8 +109,11 @@ namespace TraktPlugin
         {
             string key = username + ":" + id;
 
+            // get last time we requested this list
+            UserListItemLastRequestTime.TryGetValue(key, out DateTime lLastRequest);
+
             // use the username:id to cache items in a users list
-            if (!UserListItems.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            if (!UserListItems.Keys.Contains(key) || lLastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
                 // get list items               
                 var listItems = TraktAPI.TraktAPI.GetUserListItems(username == TraktSettings.Username ? "me" : username, id.ToString(), "full");
@@ -119,9 +123,12 @@ namespace TraktPlugin
                 if (UserListItems.Keys.Contains(key))
                     UserListItems.Remove(key);
 
+                if (UserListItemLastRequestTime.Keys.Contains(key))
+                    UserListItemLastRequestTime.Remove(key);
+
                 // add to list items cache
                 UserListItems.Add(key, listItems);
-                LastRequest = DateTime.UtcNow;
+                UserListItemLastRequestTime.Add(key, DateTime.UtcNow);
             }
             return UserListItems[key];
         }
