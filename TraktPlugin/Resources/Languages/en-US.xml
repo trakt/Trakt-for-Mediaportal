@@ -351,6 +351,8 @@
   <string name="HideUpdated">Hide Updated</string>
   <string name="HideWatched">Hide Watched</string>
   <string name="HideWatchlisted">Hide Watchlisted</string>
+  <string name="HideNotWatched">Hide UnWatched</string>
+  <string name="HideNotCollected">Hide UnCollected</string>
   <string name="HideHiddenCalendarItems">Hide Hidden Calendar Items</string>
   <string name="HideHiddenRecommendations">Hide Hidden Recommendations</string>
   <string name="HideHiddenCollectedProgress">Hide Hidden Collected Progress</string>

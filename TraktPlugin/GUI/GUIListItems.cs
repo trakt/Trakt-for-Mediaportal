@@ -34,6 +34,12 @@ namespace TraktPlugin.GUI
         [SkinControl(12)]
         protected GUICheckButton filterRatedButton = null;
 
+        [SkinControl(13)]
+        protected GUICheckButton filterNotCollectedButton = null;
+
+        [SkinControl(14)]
+        protected GUICheckButton filterNotWatchedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -247,6 +253,20 @@ namespace TraktPlugin.GUI
                 // Hide Rated
                 case (12):
                     TraktSettings.ListItemsHideRated = !TraktSettings.ListItemsHideRated;
+                    UpdateButtonState();
+                    LoadListItems();
+                    break;
+
+                // Hide UnCollected
+                case (13):
+                    TraktSettings.ListItemsHideNotCollected = !TraktSettings.ListItemsHideNotCollected;
+                    UpdateButtonState();
+                    LoadListItems();
+                    break;
+
+                // Hide UnWatched
+                case (14):
+                    TraktSettings.ListItemsHideNotWatched = !TraktSettings.ListItemsHideNotWatched;
                     UpdateButtonState();
                     LoadListItems();
                     break;
@@ -1227,6 +1247,10 @@ namespace TraktPlugin.GUI
                 filterCollectedButton.Selected = TraktSettings.ListItemsHideCollected;
             if (filterRatedButton != null)
                 filterRatedButton.Selected = TraktSettings.ListItemsHideRated;
+            if (filterNotCollectedButton != null)
+                filterNotCollectedButton.Selected = TraktSettings.ListItemsHideNotCollected;
+            if (filterNotWatchedButton != null)
+                filterNotWatchedButton.Selected = TraktSettings.ListItemsHideNotWatched;
         }
         #endregion
 

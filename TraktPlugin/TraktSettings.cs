@@ -146,6 +146,8 @@ namespace TraktPlugin
         public static bool ListItemsHideWatchlisted { get; set; }
         public static bool ListItemsHideCollected { get; set; }
         public static bool ListItemsHideRated { get; set; }
+        public static bool ListItemsHideNotCollected { get; set; }
+        public static bool ListItemsHideNotWatched { get; set; }
         public static int DefaultNetworkView { get; set; }
         public static int RecentWatchedMoviesDefaultLayout { get; set; }
         public static int RecentWatchedEpisodesDefaultLayout { get; set; }
@@ -358,6 +360,8 @@ namespace TraktPlugin
         private const string cListItemsHideWatchlisted = "ListItemsHideWatchlisted";
         private const string cListItemsHideCollected = "ListItemsHideCollected";
         private const string cListItemsHideRated = "ListItemsHideRated";
+        private const string cListItemsHideNotCollected = "ListItemsHideNotCollected";
+        private const string cListItemsHideNotWatched = "ListItemsHideNotWatched";
         private const string cDefaultNetworkView = "DefaultNetworkView";
         private const string cRecentWatchedMoviesDefaultLayout = "RecentWatchedMoviesDefaultLayout";
         private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
@@ -814,6 +818,8 @@ namespace TraktPlugin
                 ListItemsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cListItemsHideWatchlisted, false);
                 ListItemsHideCollected = xmlreader.GetValueAsBool(cTrakt, cListItemsHideCollected, false);
                 ListItemsHideRated = xmlreader.GetValueAsBool(cTrakt, cListItemsHideRated, false);
+                ListItemsHideNotCollected = xmlreader.GetValueAsBool(cTrakt, cListItemsHideNotCollected, false);
+                ListItemsHideNotWatched = xmlreader.GetValueAsBool(cTrakt, cListItemsHideNotWatched, false);
                 DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
                 RecentWatchedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedMoviesDefaultLayout, 0);
                 RecentWatchedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedEpisodesDefaultLayout, 0);
@@ -1051,6 +1057,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cListItemsHideWatchlisted, ListItemsHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cListItemsHideCollected, ListItemsHideCollected);
                 xmlwriter.SetValueAsBool(cTrakt, cListItemsHideRated, ListItemsHideRated);
+                xmlwriter.SetValueAsBool(cTrakt, cListItemsHideNotCollected, ListItemsHideNotCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cListItemsHideNotWatched, ListItemsHideNotWatched);
                 xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedMoviesDefaultLayout, RecentWatchedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedEpisodesDefaultLayout, RecentWatchedEpisodesDefaultLayout);

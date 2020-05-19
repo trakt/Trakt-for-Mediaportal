@@ -595,7 +595,9 @@ namespace TraktPlugin.GUI
         public static string HideSpoilers = "Hide Spoilers";
         public static string HideUpdated = "Hide Updated";
         public static string HideWatched = "Hide Watched";
-        public static string HideWatchlisted = "Hide Watchlisted";        
+        public static string HideWatchlisted = "Hide Watchlisted";
+        public static string HideNotWatched = "Hide UnWatched";
+        public static string HideNotCollected = "Hide UnCollected";
         public static string HideHiddenCalendarItems = "Hide Hidden Calendar Items";
         public static string HideHiddenRecommendations = "Hide Hidden Recommendations";
         public static string HideHiddenCollectedProgress = "Hide Hidden Collected Progress";

@@ -223,7 +223,9 @@ namespace TraktPlugin.GUI
         Watched,
         Watchlisted,
         Collected,
-        Rated
+        Rated,
+        NotCollected,
+        NotWatched
     }
 
     public enum Credit
@@ -3399,7 +3401,9 @@ namespace TraktPlugin.GUI
                 { Filters.Watched, TraktSettings.ListItemsHideWatched },
                 { Filters.Watchlisted, TraktSettings.ListItemsHideWatchlisted },
                 { Filters.Collected, TraktSettings.ListItemsHideCollected },
-                { Filters.Rated, TraktSettings.ListItemsHideRated }
+                { Filters.Rated, TraktSettings.ListItemsHideRated },
+                { Filters.NotCollected, TraktSettings.ListItemsHideNotCollected },
+                { Filters.NotWatched, TraktSettings.ListItemsHideNotWatched }
             };
 
             var lSelectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, GetFilterListItems(lFilters));
@@ -3421,6 +3425,12 @@ namespace TraktPlugin.GUI
                         break;
                     case Filters.Rated:
                         TraktSettings.ListItemsHideRated = !TraktSettings.ListItemsHideRated;
+                        break;
+                    case Filters.NotCollected:
+                        TraktSettings.ListItemsHideNotCollected = !TraktSettings.ListItemsHideNotCollected;
+                        break;
+                    case Filters.NotWatched:
+                        TraktSettings.ListItemsHideNotWatched = !TraktSettings.ListItemsHideNotWatched;
                         break;
                 }
             }
@@ -3475,6 +3485,12 @@ namespace TraktPlugin.GUI
 
             if (TraktSettings.ListItemsHideRated)
                 aListItemsToFilter = aListItemsToFilter.Where(t => t.UserRating() == null);
+
+            if (TraktSettings.ListItemsHideNotCollected)
+                aListItemsToFilter = aListItemsToFilter.Where(t => t.IsCollected());
+
+            if (TraktSettings.ListItemsHideNotWatched)
+                aListItemsToFilter = aListItemsToFilter.Where(t => t.IsWatched());
 
             return aListItemsToFilter;
         }
