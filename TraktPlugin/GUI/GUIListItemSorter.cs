@@ -317,6 +317,10 @@ namespace TraktPlugin.GUI
                         lReturn = aItemX.Rank.CompareTo(aItemY.Rank);
                         break;
 
+                    case SortingFields.Added:
+                        lReturn = aItemX.Rank.CompareTo(aItemY.ListedAt);
+                        break;
+
                     // default to the title field
                     case SortingFields.Title:
                     default:

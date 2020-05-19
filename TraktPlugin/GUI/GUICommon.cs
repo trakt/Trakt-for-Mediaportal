@@ -209,7 +209,8 @@ namespace TraktPlugin.GUI
         WatchListInserted,
         Popularity,
         Anticipated,
-        Rank
+        Rank,
+        Added
     }
 
     public enum SortingDirections
@@ -2148,6 +2149,10 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Rank);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)SortingFields.Rank;
+
+                pItem = new GUIListItem(Translation.Inserted);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)SortingFields.Added;
             }
 
             // set the focus to currently used sort method
@@ -2207,6 +2212,11 @@ namespace TraktPlugin.GUI
                     newSortBy.Field = SortingFields.Rank;
                     break;
 
+                case (int)SortingFields.Added:
+                    newSortBy.Direction = SortingDirections.Descending;
+                    newSortBy.Field = SortingFields.Added;
+                    break;
+
                 default:
                     newSortBy.Field = SortingFields.Title;
                     break;
@@ -2259,6 +2269,10 @@ namespace TraktPlugin.GUI
 
                 case SortingFields.Rank:
                     strLine = Translation.Rank;
+                    break;
+
+                case SortingFields.Added:
+                    strLine = Translation.Inserted;
                     break;
 
                 default:
