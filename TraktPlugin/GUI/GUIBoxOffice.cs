@@ -489,9 +489,14 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#itemcount", boxOffice.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", boxOffice.Count().ToString(), boxOffice.Count() > 1 ? Translation.Movies : Translation.Movie));
 
-            int totalRevenue = boxOffice.Sum(b => b.Revenue);
-            GUIUtils.SetProperty("#Trakt.BoxOffice.Total.Revenue", string.Format("{0:C0}", totalRevenue));
-            GUIUtils.SetProperty("#Trakt.BoxOffice.Total.Revenue.Raw", totalRevenue.ToString());
+            uint lTotalRevenue = 0;
+            foreach (var movie in boxOffice)
+            {
+                lTotalRevenue += (uint)movie.Revenue;
+            }            
+
+            GUIUtils.SetProperty("#Trakt.BoxOffice.Total.Revenue", string.Format("{0:C0}", lTotalRevenue));
+            GUIUtils.SetProperty("#Trakt.BoxOffice.Total.Revenue.Raw", lTotalRevenue.ToString());
 
             // Download movie images Async and set to facade
             GUIMovieListItem.GetImages(movieImages);
