@@ -8,6 +8,7 @@
   <define>#header.hover:background.png</define>
   <define>#header.label:#Trakt.Translation.Calendar.Label</define>
   <controls>
+
     <control>
       <description>DEFAULT BACKGROUND</description>
       <type>image</type>
@@ -52,7 +53,7 @@
       <posY>34</posY>
       <width>61</width>
       <height>60</height>
-      <texture>icon_plugin.png</texture>
+      <texture>icon_series.png</texture>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -472,6 +473,50 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
+		
+	<!-- ClearArt -->
+   	<control>
+   		<description>ClearArt</description>
+   		<type>image</type>
+   		<id>159357</id>
+   		<posX>180</posX>
+   		<posY>800</posY>
+   		<width>250</width>
+   		<height>140</height>
+		<texture>#fanarthandler.tvseries.clearart.selected</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+        <animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
+	<!-- ClearLogo -->
+   	<control>
+   		<description>ClearLogo</description>
+   		<type>image</type>
+   		<id>0</id>
+   		<posX>180</posX>
+   		<posY>800</posY>
+   		<width>250</width>
+   		<height>140</height>
+    	<visible>!control.hasthumb(159357)</visible>
+		<texture>#fanarthandler.tvseries.clearlogo.selected</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+        <animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
+	<!-- Network -->
+   	<control>
+   		<description>Network</description>
+   		<type>image</type>
+   		<id>0</id>
+   		<posX>220</posX>
+   		<posY>600</posY>
+   		<width>161</width>
+   		<height>109</height>
+		<texture>Logos\Studios\#(string.trim(#Trakt.Show.Network)).png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+        <animation effect="fade" time="250">WindowClose</animation>
+   	</control>  
+
     <import>common.overlay.xml</import>
   </controls>
 </window>
