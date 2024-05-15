@@ -87,7 +87,7 @@
       <posY>34</posY>
       <width>61</width>
       <height>60</height>
-      <texture>icon_plugin.png</texture>
+      <texture>icon_series.png</texture>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

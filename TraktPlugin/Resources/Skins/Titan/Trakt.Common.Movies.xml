@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
   <controls>
+
+    	<!-- ClearArt -->
+       	<control>
+       		<description>ClearArt</description>
+       		<type>image</type>
+       		<id>159357</id>
+       		<posX>1550</posX>
+       		<posY>150</posY>
+       		<width>250</width>
+       		<height>140</height>
+    		<texture>#fanarthandler.movie.clearart.selected</texture>
+            <animation effect="fade" time="250">WindowOpen</animation>
+            <animation effect="fade" time="250">WindowClose</animation>
+       	</control>  
+
+    	<!-- ClearLogo -->
+       	<control>
+       		<description>ClearLogo</description>
+       		<type>image</type>
+       		<id>0</id>
+       		<posX>1550</posX>
+       		<posY>150</posY>
+       		<width>250</width>
+       		<height>140</height>
+        	<visible>!control.hasthumb(159357)</visible>
+    		<texture>#fanarthandler.movie.clearlogo.selected</texture>
+            <animation effect="fade" time="250">WindowOpen</animation>
+            <animation effect="fade" time="250">WindowClose</animation>
+       	</control>  
+
     <!--            :: LIST / THUMBVIEW ::            -->
     <control Style="smallTitle">
       <description>Selected item Label</description>
@@ -52,6 +82,34 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
+
+	<control>
+		<description>Cover Art Animated</description>
+		<type>image</type>
+		<id>609</id>
+		<posX>123</posX>
+		<posY>360</posY>
+		<width>379</width>
+		<height>563</height>
+		<texture>..\..\..\Thumbs\Skin FanArt\Animated\Movies\Poster\#(string.trim(#Trakt.Movie.ImdbId)).gif</texture>
+		<visible>facadeview.list+Control.IsVisible(50)+system.idletime(10)</visible>
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+	</control>
+	<control>
+		<description>Cover Art Animated Logo</description>
+		<type>image</type>
+		<id>0</id>
+		<posX>485</posX>
+		<posY>905</posY>
+		<width>15</width>
+		<height>15</height>
+		<texture>icon_animated.png</texture>
+		<visible>!control.IsVisible(609)+control.hasthumb(609)+facadeview.list+Control.IsVisible(50)</visible>
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+	</control>
+
     <!--            :: LISTVIEW ::            -->
     <control Style="InfoLabel">
       <description>Released Label</description>
