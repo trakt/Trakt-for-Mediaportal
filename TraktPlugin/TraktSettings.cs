@@ -849,7 +849,6 @@ namespace TraktPlugin
                 MaxPopularShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularShowsRequest, 40, 1, 1000);
                 MaxAnticipatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedMoviesRequest, 40, 1, 1000);
                 MaxAnticipatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedShowsRequest, 40, 1, 1000);
-                UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
                 LastListActivities = xmlreader.GetValueAsString(cTrakt, cLastListActivities, "[]").FromJSONArray<TraktCache.ListActivity>();
                 MaxRelatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesRequest, 10, 1, 100);
                 MaxRelatedMoviesUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 40, 1, 100);
@@ -910,8 +909,6 @@ namespace TraktPlugin
             TraktAPI.TraktAPI.RedirectUri = RedirectUri;
             
             TraktAPI.TraktAPI.UserAgent = UserAgent;
-            TraktAPI.TraktAPI.UseSSL = UseSSL;
-
             TmdbAPI.TmdbAPI.UserAgent = UserAgent;
 
             // initialise the last sync activities 
@@ -1089,7 +1086,6 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxPopularShowsRequest, MaxPopularShowsRequest);
                 xmlwriter.SetValue(cTrakt, cMaxAnticipatedMoviesRequest, MaxAnticipatedMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxAnticipatedShowsRequest, MaxAnticipatedShowsRequest);
-                xmlwriter.SetValueAsBool(cTrakt, cUseSSL, UseSSL);
                 xmlwriter.SetValue(cTrakt, cLastListActivities, LastListActivities.ToJSON());
                 xmlwriter.SetValue(cTrakt, cMaxRelatedMoviesRequest, MaxRelatedMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxRelatedMoviesUnWatchedRequest, MaxRelatedMoviesUnWatchedRequest);

@@ -2113,12 +2113,7 @@ namespace TraktAPI
         static string GetFromTrakt(string address, out WebHeaderCollection headerCollection, string method = "GET", bool serialiseError = false)
         {
             headerCollection = new WebHeaderCollection();
-
-            if (!UseSSL)
-            {
-                address = address.Replace("https://", "http://");
-            }
-
+      
             OnDataSend?.Invoke(address, null);
 
             Stopwatch watch;
@@ -2214,11 +2209,6 @@ namespace TraktAPI
 
         static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST", string contentType = "application/json")
         {
-            if (!UseSSL)
-            {
-                address = address.Replace("https://", "http://");
-            }
-
             if (OnDataSend != null && logRequest)
                 OnDataSend(address, postData);
 

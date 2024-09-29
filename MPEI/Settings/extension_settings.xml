@@ -235,15 +235,6 @@
              description="#Trakt.Translation.SettingMaxTrendingShowsRequestDescription.Label"
              configfile="MediaPortal.xml" />
     <setting entryname="Trakt"
-             name="UseSSL"
-             displayname="#Trakt.Translation.SettingUseSSLName.Label"
-             defaultvalue="no"
-             type="string"
-             listvalues="yes|no"
-             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
-             description="#Trakt.Translation.SettingUseSSLDescription.Label"
-             configfile="MediaPortal.xml" />
-    <setting entryname="Trakt"
              name="MaxRelatedMoviesRequest"
              displayname="#Trakt.Translation.SettingMaxRelatedMoviesRequestName.Label"
              defaultvalue="10"
